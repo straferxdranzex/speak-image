@@ -1,0 +1,92 @@
+.login-heading-container{
+    padding-bottom: 2rem;
+    text-align: center;
+    color: var(--text-color);
+}
+
+.login-heading{
+    font-size: 2.5rem;
+    font-weight: bold;
+    font-family: var(--heading-font);
+    color: var(--text-color);
+}
+
+.login-card-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-color);
+}
+
+.login-card{
+    width: 25rem;
+    height: 100%;
+    background-color: var(--primary-color);
+    border-radius: 20px !important;
+    border: none;
+}
+
+
+.login-forgot-password-text{
+    font-size: 0.8rem;
+    font-weight: normal;
+    color: var(--text-color);
+    font-family: var(--paragraph-font);
+    letter-spacing: 0.5px;
+    cursor: pointer;
+}
+
+.login-btn{
+    width: 100%;
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.login-form-labels{
+    font-size: 1rem;
+    font-weight: normal;
+    color: var(--text-color);
+    font-family: var(--paragraph-font);
+    letter-spacing: 0.5px;
+}
+
+.login-btn:hover{
+    background-color: gray !important;
+    color: var(--bg-color) !important;
+    box-shadow: none !important;
+
+}
+
+.password-input {
+    position: relative;
+  }
+  
+  .password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+
+  .login-last-text-container{
+    text-align: center;
+  }
+
+  .login-signup-text{
+    color: var(--text-color);
+    font-size: 1.2rem;
+    padding-left: 1rem;
+    cursor: pointer;
+  }
+
+  .login-last-text-container{
+    color: var(--text-color);
+    font-size: 1rem;
+    font-weight: normal;
+    font-family: var(--paragraph-font);
+  }
+  
+  

@@ -1,0 +1,43 @@
+.header-container{
+    width: 100%;
+    min-height: 4.2rem;
+    background-color: var(--header-color);
+}
+
+.header-title-container{
+    display: flex;
+    align-items: center;
+    padding-top: 1rem;
+}
+
+.header-title{
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: var(--heading-font);
+    color: var(--text-color);
+    letter-spacing: 2px;
+}
+
+.header-profile-container{
+    display: flex;
+    justify-content: right;
+    padding-top: 1.2rem;
+    padding-right: 1rem;
+}
+
+.avatar{
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+}
+
+.user-menu{
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.header-profile-dropdown{
+    color: var(--text-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+}

@@ -1,0 +1,34 @@
+/* .home-container{
+    width: 100vw;
+    height: 100vh;
+    overflow-y: hidden;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    transition: background-color 0.25s ease-in-out;
+
+}
+
+.home-layout{
+    min-height: 100%;
+}
+
+.menu-toggel-btn{
+    background-color: gray !important;
+}
+
+.home-sidebar-menu{
+    background-color: var(--header-color);
+}
+
+.ant-menu-title-content{
+    color: var(--text-color) !important;
+}
+
+.menu-add-icon{
+    color: var(--text-color) !important;
+}
+
+.ant-menu-submenu-arrow{
+    color: var(--text-color) !important;
+} */
