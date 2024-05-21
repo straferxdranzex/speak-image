@@ -80,7 +80,7 @@ const Main = () => {
     setShowResults(false);
   };
 
-const handleSubmit = async (): Promise<void> => {
+  const handleSubmit = async (): Promise<void> => {
     if (!prompt?.trim()) return;
     
     const newEntry: ChatEntry = {
