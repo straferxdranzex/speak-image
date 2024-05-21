@@ -266,9 +266,9 @@ const Main = () => {
           </li>
           <div className="nav-recent-chats-container">
             {allChats.map(chat => (
-                <div key={chat._id} className="chat-title-tile" onClick={() => loadChatHistory(chat._id)}>
+                <li key={chat._id} className="nav-item" onClick={() => loadChatHistory(chat._id)}>
                   {chat.title}
-                </div>
+                </li>
               ))}
             <li className="nav-item-help">
               <a href="#" className="nav-link">
