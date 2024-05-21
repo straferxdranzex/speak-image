@@ -129,38 +129,75 @@ const Main = () => {
     setShowResults(false);
   };
 
-  const handleSubmit = async () => {
-    if (!prompt.trim()) return;
+const handleSubmit = async (): Promise<void> => {
+    if (!prompt?.trim()) return;
     
     const newEntry: ChatEntry = {
-      prompt,
+      prompt: prompt,
       response: "",
       loading: true,
       image: null,
       imagex: null,
       video: null,
     };
-
-    setChatHistory(prevHistory => [...prevHistory, newEntry]);
+  
+    setChatHistory((prevHistory) => [...prevHistory, newEntry]);
     setShowResults(true);
     setPrompt("");
-
+    setLoadingMessage("Generating response...");
+  
+    const timer = setTimeout(() => {
+      setLoadingMessage("Almost there...");
+    }, 10000);
+  
     try {
-      const response = await axios.post(`https://speak-image-backend.vercel.app/api/generate-answer`, {
-        query: prompt,
-        thread_id: threadId,
-      }, { withCredentials: true });
-
-      setChatHistory(prevHistory =>
+      let response: ApiResponse;
+      const clientId = getCookie("userId");
+      console.log(clientId, "user_id");
+      if (!clientId) {
+        console.error("User ID not found");
+        return;
+      }
+  
+      if (!threadId) {
+        response = await axios.post("https://speak-image-backend.vercel.app/api/init-chat", {
+          query: prompt,
+          user_id: user?.user_id || clientId,
+        });
+        if (response.data.thread_id) {
+          setThreadId(response.data.thread_id);
+        }
+        console.log(response, "gpt response");
+      } else {
+        response = await axios.post(
+          "https://speak-image-backend.vercel.app/api/generate-answer",
+          { query: prompt, thread_id: threadId }, {withCredentials: true}
+        );
+      }
+  
+      clearTimeout(timer);
+      setChatHistory((prevHistory) =>
         prevHistory.map((entry, index) =>
-          index === prevHistory.length - 1 ? { ...entry, ...response.data.response, loading: false } : entry
+          index === prevHistory.length - 1
+            ? {
+                ...entry,
+                response: response.data.response.text,
+                image: response.data.response.dalle_image,
+                imagex: response.data.response.pixabay_img,
+                video: response.data.response.pixabay_video,
+                loading: false,
+              }
+            : entry
         )
       );
     } catch (error) {
-      console.error("Error submitting chat:", error);
-      setChatHistory(prevHistory =>
+      clearTimeout(timer);
+      console.error("Error fetching response:", error);
+      setChatHistory((prevHistory) =>
         prevHistory.map((entry, index) =>
-          index === prevHistory.length - 1 ? { ...entry, response: "Error loading response", loading: false } : entry
+          index === prevHistory.length - 1
+            ? { ...entry, response: "Error loading response", loading: false }
+            : entry
         )
       );
     }
