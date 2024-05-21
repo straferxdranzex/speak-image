@@ -247,6 +247,11 @@ const Main = () => {
             <span className="nav-recent-heading">Recent Chats</span>
           </li>
           <div className="nav-recent-chats-container">
+            {allChats.map(chat => (
+                <div key={chat._id} className="chat-title-tile" onClick={() => loadChatHistory(chat._id)}>
+                  {chat.title}
+                </div>
+              ))}
             <li className="nav-item-help">
               <a href="#" className="nav-link">
                 <svg
