@@ -176,7 +176,7 @@ const Main = () => {
     <Card className="profile-card">
       <Row>
         <Col span={24} style={{ paddingBottom: "1rem" }}>
-          <span className="user">John Smith</span>
+          <span className="user">{user?.full_name}</span>
         </Col>
         <Col
           span={24}
@@ -193,7 +193,7 @@ const Main = () => {
           </div>
         </Col>
         <Col span={24} style={{ paddingBottom: "1rem" }}>
-          <span className="email">johnsmith@example.com</span>
+          <span className="email">{user?.email}</span>
         </Col>
         <Col span={24} style={{ paddingBottom: "1rem" }}>
           <Button className="user-logout-btn" onClick={logout}>
@@ -354,7 +354,7 @@ const Main = () => {
                   <div className="greet-container">
                     <div className="greet">
                       <p>
-                        <span style={{ fontWeight: "bold" }}>Hello, User!</span>
+                        <span style={{ fontWeight: "bold" }}>Hello, {user?.full_name.split(' ')[0]}!</span>
                       </p>
                       <p style={{ fontSize: "1.5rem" }}>
                         How can I help you today?
@@ -449,9 +449,9 @@ const Main = () => {
                             ) : (
                               <>
                                 {/* Dalle Image */}
-                                <Row gutter={[16, 16]} style={{ marginTop: "2rem" }}>
+                                <Row gutter={[16, 16]}>
                                   {chat.image && (
-                                  <Col span={24} lg={12} style={{ paddingBottom: "2rem" }}>
+                                  <Col span={24} lg={12} style={{ paddingBottom: "2rem", paddingTop: "1rem" }}>
                                   <div
                                     style={{
                                       width: "100%",
