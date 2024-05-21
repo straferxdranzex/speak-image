@@ -29,6 +29,23 @@ interface ApiResponse {
   };
 }
 
+interface ChatHistory {
+  _id: string;
+  user_id: string;
+  title: string;
+  conversation: Array<{
+    query: string;
+    response: {
+      text: string;
+      dalle_image: string | null;
+      pixabay_img: string | null;
+      pixabay_video: string | null;
+      timestamp: string;
+    };
+  }>;
+  create_timestamp: string;
+}
+
 interface ChatEntry {
   prompt: string;
   response: string;
@@ -56,6 +73,7 @@ const Main = () => {
   const [chatHistory, setChatHistory] = useState<ChatEntry[]>([]);
   const [threadId, setThreadId] = useState("");
   const [allThreads, setAllThreads] = useState<Thread[]>([]);
+  const [allChats, setAllChats] = useState<ChatHistory[]>([]);
   const [extended, setExtended] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("Generating response...");
   const [user, setUser] = useState<User | null>(null);
@@ -65,13 +83,14 @@ const Main = () => {
       const clientId = getCookie("userId");
       if (clientId) {
         try {
-          const response = await axios.get(
-            `https://speak-image-backend.vercel.app/api/get-user/${clientId}`,
-            { withCredentials: true }
-          );
+          const response = await axios.get(`https://speak-image-backend.vercel.app/api/get-user/${clientId}`, { withCredentials: true });
           setUser(response.data);
+
+          // Fetch chat history for the user
+          const chatsResponse = await axios.get<ChatHistory[]>(`https://speak-image-backend.vercel.app/api/get-user-chats/${clientId}`);
+          setAllChats(chatsResponse.data);
         } catch (error) {
-          console.error("Error fetching user data:", error);
+          console.error("Error fetching user data or chats:", error);
         }
       }
     };
@@ -520,7 +539,7 @@ const Main = () => {
                           {/* Distance between the Chats */}
                           {index !== chatHistory.length - 1 && (
                             <div
-                              style={{ width: "5rem", minHeight: "5rem" }}
+                              style={{ width: "5rem", height: "2rem" }}
                             ></div>
                           )}
                         </React.Fragment>
