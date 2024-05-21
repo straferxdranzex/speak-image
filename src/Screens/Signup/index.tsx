@@ -33,7 +33,8 @@ const SignUp: React.FC = () => {
         email: formData.email,
         password: formData.password,
         full_name: formData.fullName,
-      });
+      },{withCredentials: true
+        });
 
       if (response && response.data && response.data.message) {
         alert(response.data.message);
