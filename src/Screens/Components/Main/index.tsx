@@ -98,6 +98,24 @@ const Main = () => {
     fetchUserData();
   }, []);
 
+  
+  const loadChatHistory = (threadId: string) => {
+    // Function to load chat by threadId
+    setShowResults(true);
+    const selectedChat = allChats.find(chat => chat._id === threadId);
+    if (selectedChat) {
+      const formattedEntries = selectedChat.conversation.map(entry => ({
+        prompt: entry.query,
+        response: entry.response.text,
+        loading: false,
+        image: entry.response.dalle_image,
+        imagex: entry.response.pixabay_img,
+        video: entry.response.pixabay_video
+      }));
+      setChatHistory(formattedEntries);
+    }
+  };
+  
   const handleCardClick = (promptText: string) => {
     setShowResults(true);
     setPrompt(promptText);
