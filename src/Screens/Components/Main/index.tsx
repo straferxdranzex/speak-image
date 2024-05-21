@@ -133,7 +133,7 @@ const Main = () => {
         console.log(response, "gpt response");
       } else {
         response = await axios.post(
-          "https://speak-image-backend.vercel.app/generate-answer",
+          "https://speak-image-backend.vercel.app/api/generate-answer",
           { query: prompt, thread_id: threadId }, {withCredentials: true}
         );
       }
