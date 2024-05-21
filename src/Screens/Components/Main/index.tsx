@@ -17,6 +17,18 @@ const getCookie = (name: string) => {
   if (parts.length === 2) return parts.pop()?.split(';').shift();
 };
 
+interface ApiResponse {
+  data: {
+    response: {
+      text: string;
+      dalle_image: string;
+      pixabay_img: string;
+      pixabay_video: string;
+    };
+    thread_id?: string;
+  };
+}
+
 interface ChatEntry {
   prompt: string;
   response: string;
