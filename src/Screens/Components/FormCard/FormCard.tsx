@@ -9,6 +9,9 @@ interface InputField {
   placeholder: string;
   type?: string;
   forgotPassword?: boolean;
+  name?: string; // Add this line
+  value?: string; // Add this line
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void; // Add this line
 }
 
 interface LoginSignupCardProps {
@@ -48,55 +51,36 @@ const FormCard: React.FC<LoginSignupCardProps> = ({
             <Form layout="vertical">
               {inputFields.map((field, index) => (
                 <Col key={index} span={24}>
-                  {field.type === "password" ? (
-                    <Form.Item
-                      label={
-                        <span className="login-form-labels">{field.label}</span>
-                      }
-                      required
-                    >
+                  <Form.Item
+                    label={
+                      <span className="login-form-labels">{field.label}</span>
+                    }
+                    required
+                  >
+                    {field.type === "password" ? (
                       <Input.Password
+                        name={field.name}
                         size="large"
                         placeholder={field.placeholder}
-                        type={field.type === "password" ? "password" : "text"}
+                        type={field.type}
+                        value={field.value}
+                        onChange={field.onChange}
                         onFocus={() => setIsFocused(true)}
                         onBlur={() => setIsFocused(false)}
                       />
-                      {field.type === "password" && (
-                        <>
-                          {field.forgotPassword && (
-                            <span className="login-forgot-password-text">
-                              Forgot Password?
-                            </span>
-                          )}
-                        </>
-                      )}
-                    </Form.Item>
-                  ) : (
-                    <Form.Item
-                      label={
-                        <span className="login-form-labels">{field.label}</span>
-                      }
-                      required
-                    >
+                    ) : (
                       <Input
+                        name={field.name}
                         size="large"
                         placeholder={field.placeholder}
-                        type={field.type === "password" ? "password" : "text"}
+                        type={field.type}
+                        value={field.value}
+                        onChange={field.onChange}
                         onFocus={() => setIsFocused(true)}
                         onBlur={() => setIsFocused(false)}
                       />
-                      {field.type === "password" && (
-                        <>
-                          {field.forgotPassword && (
-                            <span className="login-forgot-password-text">
-                              Forgot Password?
-                            </span>
-                          )}
-                        </>
-                      )}
-                    </Form.Item>
-                  )}
+                    )}
+                  </Form.Item>
                 </Col>
               ))}
               <Col span={24}>

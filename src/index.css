@@ -1,16 +1,6 @@
-@font-face {
-  font-family: Segoe UI;
-  src: url("./Assets/fonts/Segoe\ UI.woff");
-}
 
-@font-face {
-  font-family: Heading;
-  src: url("./Assets//fonts/Segoe\ UI\ Bold.woff");
-}
 
 :root {
-  --heading-font: Heading;
-  --paragraph-font: Segoe UI;
 
   /* --header-color: #e5f3f3;
   --text-color: gray;
@@ -20,7 +10,7 @@
   --box-shadow: rgba(6, 6, 188, 0.05) 0px 1px 0px,
     rgba(28, 28, 97, 0.1) 0px 0px 8px;
   --input-text-color: black; */
-
+  font-family: 'Segoe UI', 'Outfit', sans-serif;
   --text-color: #585858;
   --bg-color: white;
   --primary-color: #f0f4f9;
@@ -28,8 +18,8 @@
   --new-chat-btn-bg-color: #e6eaf1;
   --chat-history-entry-hover-color: #e2e6eb;
   --btn-bg: #585858;
-
-  min-height: 100vh;
+  --recent-history-bg: none;
+  --transition-speed: 600ms;
   animation: fadeIn 2s;
 }
 
@@ -50,13 +40,17 @@
   --chat-history-entry-hover-color: #e2e6eb;
 }
 
+body{
+  margin: 0;
+  padding: 0;
+}
+
 
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: Outfit;
 }
 
 
