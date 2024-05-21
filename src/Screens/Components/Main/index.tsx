@@ -80,8 +80,9 @@ const Main = () => {
     setShowResults(false);
   };
 
-  const handleSubmit = async () => {
+const handleSubmit = async (): Promise<void> => {
     if (!prompt?.trim()) return;
+    
     const newEntry: ChatEntry = {
       prompt: prompt,
       response: "",
@@ -90,18 +91,6 @@ const Main = () => {
       imagex: null,
       video: null,
     };
-  
-    interface ApiResponse {
-      data: {
-        response: {
-          text: string;
-          dalle_image: string;
-          pixabay_img: string;
-          pixabay_video: string;
-        };
-        thread_id?: string;
-      };
-    }
   
     setChatHistory((prevHistory) => [...prevHistory, newEntry]);
     setShowResults(true);
@@ -114,18 +103,26 @@ const Main = () => {
   
     try {
       let response: ApiResponse;
+      const clientId = getCookie("userId");
+      console.log(clientId, "user_id");
+      if (!clientId) {
+        console.error("User ID not found");
+        return;
+      }
+  
       if (!threadId) {
         response = await axios.post("https://speak-image-backend.vercel.app/api/init-chat", {
           query: prompt,
-          user_id: user?.user_id,
+          user_id: user?.user_id || clientId,
         });
         if (response.data.thread_id) {
           setThreadId(response.data.thread_id);
         }
+        console.log(response, "gpt response");
       } else {
         response = await axios.post(
           "https://speak-image-backend.vercel.app/generate-answer",
-          { query: prompt, thread_id: threadId }
+          { query: prompt, thread_id: threadId }, {withCredentials: true}
         );
       }
   
@@ -156,7 +153,6 @@ const Main = () => {
       );
     }
   };
-  
 
 
   const logout = () => {
