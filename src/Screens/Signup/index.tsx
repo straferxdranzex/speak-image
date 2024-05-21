@@ -40,6 +40,7 @@ const SignUp: React.FC = () => {
         if (response.data.message === "User created successfully") {
           window.location.href = "/login";
         }
+        console.log(response, "signup response")
       } else {
         throw new Error("Unexpected response from server");
       }
