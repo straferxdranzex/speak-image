@@ -80,20 +80,21 @@ const Main = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const clientId = getCookie("userId");
-      if (clientId) {
-        try {
-          const response = await axios.get(`http://3.95.170.229:5000/api/get-user/${clientId}`, { withCredentials: true });
-          setUser(response.data);
+  const clientId = getCookie("userId");
+  if (clientId) {
+    try {
+      const response = await axios.get(`http://3.95.170.229:5000/api/get-user/${clientId}`, { withCredentials: true });
+      setUser(response.data);
 
-          // Fetch chat history for the user
-          const chatsResponse = await axios.get<ChatHistory[]>(`http://3.95.170.229:5000/api/get-user-chats/${clientId}`);
-          setAllChats(chatsResponse.data);
-        } catch (error) {
-          console.error("Error fetching user data or chats:", error);
-        }
-      }
-    };
+      // Fetch chat history for the user
+      const chatsResponse = await axios.get<ChatHistory[]>(`http://3.95.170.229:5000/api/get-user-chats/${clientId}`, { withCredentials: true });
+      setAllChats(chatsResponse.data);
+    } catch (error) {
+      console.error("Error fetching user data or chats:", error);
+    }
+  }
+};
+
 
     fetchUserData();
   }, []);
@@ -130,78 +131,76 @@ const Main = () => {
   };
 
 const handleSubmit = async (): Promise<void> => {
-    if (!prompt?.trim()) return;
-    
-    const newEntry: ChatEntry = {
-      prompt: prompt,
-      response: "",
-      loading: true,
-      image: null,
-      imagex: null,
-      video: null,
-    };
-  
-    setChatHistory((prevHistory) => [...prevHistory, newEntry]);
-    setShowResults(true);
-    setPrompt("");
-    setLoadingMessage("Generating response...");
-  
-    const timer = setTimeout(() => {
-      setLoadingMessage("Almost there...");
-    }, 10000);
-  
-    try {
-      let response: ApiResponse;
-      const clientId = getCookie("userId");
-      console.log(clientId, "user_id");
-      if (!clientId) {
-        console.error("User ID not found");
-        return;
+  if (!prompt?.trim()) return;
+
+  const newEntry: ChatEntry = {
+    prompt: prompt,
+    response: "",
+    loading: true,
+    image: null,
+    imagex: null,
+    video: null,
+  };
+
+  setChatHistory((prevHistory) => [...prevHistory, newEntry]);
+  setShowResults(true);
+  setPrompt("");
+  setLoadingMessage("Generating response...");
+
+  const timer = setTimeout(() => {
+    setLoadingMessage("Almost there...");
+  }, 10000);
+
+  try {
+    let response: ApiResponse;
+    const clientId = getCookie("userId");
+    if (!clientId) {
+      console.error("User ID not found");
+      return;
+    }
+
+    if (!threadId) {
+      response = await axios.post("http://3.95.170.229:5000/api/init-chat", {
+        query: prompt,
+        user_id: user?.user_id || clientId,
+      }, { withCredentials: true });
+      if (response.data.thread_id) {
+        setThreadId(response.data.thread_id);
       }
-  
-      if (!threadId) {
-        response = await axios.post("http://3.95.170.229:5000/api/init-chat", {
-          query: prompt,
-          user_id: user?.user_id || clientId,
-        });
-        if (response.data.thread_id) {
-          setThreadId(response.data.thread_id);
-        }
-        console.log(response, "gpt response");
-      } else {
-        response = await axios.post(
-          "http://3.95.170.229:5000/api/generate-answer",
-          { query: prompt, thread_id: threadId }, {withCredentials: true}
-        );
-      }
-  
-      clearTimeout(timer);
-      setChatHistory((prevHistory) =>
-        prevHistory.map((entry, index) =>
-          index === prevHistory.length - 1
-            ? {
-                ...entry,
-                response: response.data.response.text,
-                image: response.data.response.dalle_image,
-                imagex: response.data.response.pixabay_img,
-                video: response.data.response.pixabay_video,
-                loading: false,
-              }
-            : entry
-        )
-      );
-    } catch (error) {
-      clearTimeout(timer);
-      console.error("Error fetching response:", error);
-      setChatHistory((prevHistory) =>
-        prevHistory.map((entry, index) =>
-          index === prevHistory.length - 1
-            ? { ...entry, response: "Error loading response", loading: false }
-            : entry
-        )
+    } else {
+      response = await axios.post(
+        "http://3.95.170.229:5000/api/generate-answer",
+        { query: prompt, thread_id: threadId }, { withCredentials: true }
       );
     }
-  };
+
+    clearTimeout(timer);
+    setChatHistory((prevHistory) =>
+      prevHistory.map((entry, index) =>
+        index === prevHistory.length - 1
+          ? {
+              ...entry,
+              response: response.data.response.text,
+              image: response.data.response.dalle_image,
+              imagex: response.data.response.pixabay_img,
+              video: response.data.response.pixabay_video,
+              loading: false,
+            }
+          : entry
+      )
+    );
+  } catch (error) {
+    clearTimeout(timer);
+    console.error("Error fetching response:", error);
+    setChatHistory((prevHistory) =>
+      prevHistory.map((entry, index) =>
+        index === prevHistory.length - 1
+          ? { ...entry, response: "Error loading response", loading: false }
+          : entry
+      )
+    );
+  }
+};
 
   const logout = () => {
     document.cookie = "sessionToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
