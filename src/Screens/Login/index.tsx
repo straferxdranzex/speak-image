@@ -26,7 +26,10 @@ const Login: React.FC = () => {
       const response = await axios.post("http://3.95.170.229:5000/login", {
         email: formData.email,
         password: formData.password,
-      });
+      },{withCredentials: 'true'
+      }
+                                       
+                                       );
 
       alert(response.data.message);
       if (response.data.message === "Login successful") {
