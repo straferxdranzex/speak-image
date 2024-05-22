@@ -23,7 +23,7 @@ const Login: React.FC = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://3.95.170.229:5000/login", {
+      const response = await axios.post("https://3.95.170.229:5000/login", {
         email: formData.email,
         password: formData.password,
       },{ withCredentials: true }
