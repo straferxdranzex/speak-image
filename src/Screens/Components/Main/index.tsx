@@ -83,11 +83,11 @@ const Main = () => {
       const clientId = getCookie("userId");
       if (clientId) {
         try {
-          const response = await axios.get(`https://speak-image-backend.vercel.app/api/get-user/${clientId}`, { withCredentials: true });
+          const response = await axios.get(`http://3.95.170.229:5000/api/get-user/${clientId}`, { withCredentials: true });
           setUser(response.data);
 
           // Fetch chat history for the user
-          const chatsResponse = await axios.get<ChatHistory[]>(`https://speak-image-backend.vercel.app/api/get-user-chats/${clientId}`);
+          const chatsResponse = await axios.get<ChatHistory[]>(`http://3.95.170.229:5000/api/get-user-chats/${clientId}`);
           setAllChats(chatsResponse.data);
         } catch (error) {
           console.error("Error fetching user data or chats:", error);
@@ -160,7 +160,7 @@ const handleSubmit = async (): Promise<void> => {
       }
   
       if (!threadId) {
-        response = await axios.post("https://speak-image-backend.vercel.app/api/init-chat", {
+        response = await axios.post("http://3.95.170.229:5000/api/init-chat", {
           query: prompt,
           user_id: user?.user_id || clientId,
         });
@@ -170,7 +170,7 @@ const handleSubmit = async (): Promise<void> => {
         console.log(response, "gpt response");
       } else {
         response = await axios.post(
-          "https://speak-image-backend.vercel.app/api/generate-answer",
+          "http://3.95.170.229:5000/api/generate-answer",
           { query: prompt, thread_id: threadId }, {withCredentials: true}
         );
       }
