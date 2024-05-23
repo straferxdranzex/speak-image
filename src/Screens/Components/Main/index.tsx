@@ -83,11 +83,11 @@ const Main = () => {
   const clientId = getCookie("userId");
   if (clientId) {
     try {
-      const response = await axios.get(`https://3.95.170.229:5000/api/get-user/${clientId}`, { withCredentials: true });
+      const response = await axios.get(`https://api.speakimage.ai/api/get-user/${clientId}`, { withCredentials: true });
       setUser(response.data);
 
       // Fetch chat history for the user
-      const chatsResponse = await axios.get<ChatHistory[]>(`https://3.95.170.229:5000/api/get-user-chats/${clientId}`, { withCredentials: true });
+      const chatsResponse = await axios.get<ChatHistory[]>(`https://api.speakimage.ai/api/get-user-chats/${clientId}`, { withCredentials: true });
       setAllChats(chatsResponse.data);
     } catch (error) {
       console.error("Error fetching user data or chats:", error);
@@ -160,7 +160,7 @@ const handleSubmit = async (): Promise<void> => {
     }
 
     if (!threadId) {
-      response = await axios.post("https://3.95.170.229:5000/api/init-chat", {
+      response = await axios.post("https://api.speakimage.ai/api/init-chat", {
         query: prompt,
         user_id: user?.user_id || clientId,
       }, { withCredentials: true });
@@ -169,7 +169,7 @@ const handleSubmit = async (): Promise<void> => {
       }
     } else {
       response = await axios.post(
-        "https://3.95.170.229:5000/api/generate-answer",
+        "https://api.speakimage.ai/api/generate-answer",
         { query: prompt, thread_id: threadId }, { withCredentials: true }
       );
     }
