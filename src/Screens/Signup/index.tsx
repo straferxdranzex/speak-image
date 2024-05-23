@@ -29,7 +29,7 @@ const SignUp: React.FC = () => {
     }
 
     try {
-      const response = await axios.post("https://3.95.170.229:5000/signup", {
+      const response = await axios.post("https://api.speakimage.ai/signup", {
         email: formData.email,
         password: formData.password,
         full_name: formData.fullName,
