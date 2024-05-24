@@ -4,6 +4,7 @@ import "./index.css";
 import { FaRegUser } from "react-icons/fa";
 import { Button, Card, Col, Popover, Row, Spin } from "antd";
 import { FaUser } from "react-icons/fa6";
+import Cookies from "js-cookie";
 import GradientSendIcon from "../GradientSendIcon";
 import { IoIosAdd } from "react-icons/io";
 import { TfiControlForward } from "react-icons/tfi";
