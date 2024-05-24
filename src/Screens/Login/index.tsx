@@ -32,8 +32,8 @@ const Login: React.FC = () => {
       alert(response.data.message);
       if (response.data.message === "Login successful") {
         console.log(response.data.message);
-        Cookies.set("userId", response.data.user_id, { expires: 1});
-        Cookies.set("userToken", response.data.token || 'dummy-token', { expires: 1 });
+        Cookies.set("userId", response.data.user_id, { expires: 15});
+        Cookies.set("userToken", response.data.token || 'dummy-token', { expires: 15 });
 
         navigate("/");
       }
