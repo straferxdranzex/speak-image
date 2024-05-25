@@ -582,7 +582,7 @@
   align-items: center;
 }
 
-.navbar-clicked .nav-recent-chats .nav-clicked{
+.navbar-clicked .nav-recent-chats .nav-item-clicked .nav-recent-heading{
   display: none;
 }
 
@@ -710,6 +710,7 @@
   position: absolute;
   bottom: 1rem;
   width: 100%;
+  left: 6px;
 }
 
 .nav-item-help{
@@ -717,6 +718,7 @@
   position: absolute;
   width: 100%;
   bottom: 5rem;
+  left: 6px;
 }
 
 .navbar-clicked .logo .nav-link{
