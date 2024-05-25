@@ -244,7 +244,7 @@ const handleSubmit = async (): Promise<void> => {
 
   return (
     <>
-      {/* Nabar */}
+      {/* Navbar */}
       <nav className={extended ? "navbar-clicked" : "navbar"}>
         <ul className="navbar-nav">
           <li className="logo" onClick={() => setExtended(!extended)}>
@@ -266,11 +266,13 @@ const handleSubmit = async (): Promise<void> => {
             <span className="nav-recent-heading">Recent Chats</span>
           </li>
           <div className="nav-recent-chats-container">
+            <div className="nav-recent-chats">
             {allChats.map(chat => (
                 <li key={chat._id} className="nav-item" onClick={() => loadChatHistory(chat._id)}>
-                  {chat.title}
+                  <span className="nav-recent-heading">{chat.title}</span>
                 </li>
               ))}
+            </div>
             <li className="nav-item-help">
               <a href="#" className="nav-link">
                 <svg
