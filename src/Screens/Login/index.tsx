@@ -29,7 +29,7 @@ const Login: React.FC = () => {
       },{ withCredentials: true }
                                        );
 
-      alert(response.data.message);
+      // alert(response.data.message);
       if (response.data.message === "Login successful") {
         console.log(response.data.message);
         Cookies.set("userId", response.data.user_id, { expires: 15});
@@ -39,9 +39,9 @@ const Login: React.FC = () => {
       }
     } catch (error: any) {
       if (error.response && error.response.data) {
-        alert(error.response.data.message);
+        // alert(error.response.data.message);
       } else {
-        alert("An unexpected error occurred. Please try again.");
+        // alert("An unexpected error occurred. Please try again.");
       }
     }
   };
