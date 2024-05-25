@@ -626,6 +626,13 @@
   display: inline;
 }
 
+.navbar .nav-item .nav-btn .nav-btn-icon{
+  color: var(--text-color);
+}
+
+.navbar .nav-item .nav-btn{
+  background-color: var(--primary-color);
+}
 
 .navbar .nav-item .nav-recent-heading{
   display: none;
