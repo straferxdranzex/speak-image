@@ -273,8 +273,8 @@ const handleSubmit = async (): Promise<void> => {
           <div className="nav-recent-chats-container">
             <div className="nav-recent-chats">
             {allChats.map(chat => (
-                <li key={chat._id} className={chatClicked ? "nav-item-clicked" : "nav-item"} onClick={() => loadChatHistory(chat._id)}>
-                  <span className="nav-recent-heading">{chat.title}</span>
+                <li key={chat._id} className="nav-item" onClick={() => loadChatHistory(chat._id)}>
+                  <span className={chatClicked ? "nav-item-clicked" : "nav-recent-heading"}>{chat.title}</span>
                 </li>
               ))}
             </div>
