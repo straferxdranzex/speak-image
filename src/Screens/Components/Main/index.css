@@ -626,7 +626,7 @@
   display: inline;
 }
 
-.navbar .nav-item .nav-btn .nav-btn-icon{
+.navbar .nav-item .nav-btn .nav-btn-icon:hover{
   color: var(--text-color);
 }
 
