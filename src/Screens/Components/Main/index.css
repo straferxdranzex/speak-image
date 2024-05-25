@@ -518,6 +518,67 @@
   height: 100vh !important;
 }
 
+.navbar-clicked .nav-item .nav-recent-heading{
+  margin-left: 1rem;
+  font-size: 1rem;
+  font-weight: normal;
+  color: var(--text-color);
+  display: inline;
+}
+
+/* changed */
+.nav-recent-chats-container .nav-item{
+  cursor: pointer;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+/* changed */
+
+.navbar-clicked .nav-recent-chats{
+  height: 57vh;
+  overflow-y: auto;
+  overflow-x: hidden;  
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--text-color);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+}
+
+/* changed */
+.navbar-clicked .nav-recent-chats-container{
+  min-height: 57vh;
+  background-color: var(--bg-color);
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* changed */
+.nav-recent-chats .nav-item-clicked{
+  background-color: var(--text-color) !important;
+  color: var(--bg-color) !important;
+}
+
 .navbar-clicked .nav-btn{
   width: 9rem;
   height: 3rem;
