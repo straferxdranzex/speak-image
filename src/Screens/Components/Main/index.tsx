@@ -78,6 +78,7 @@ const Main = () => {
   const [extended, setExtended] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("Generating response...");
   const [user, setUser] = useState<User | null>(null);
+  const [chatClicked, setChatClicked] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -103,6 +104,7 @@ const Main = () => {
   
   const loadChatHistory = (chatId: string) => {
     setShowResults(true);
+    setChatClicked(true);
     const selectedChat = allChats.find(chat => chat._id === chatId);
     if (selectedChat) {
       setThreadId(chatId); 
@@ -115,6 +117,9 @@ const Main = () => {
         video: entry.response.pixabay_video
       }));
       setChatHistory(formattedEntries);
+    }
+    else {
+      setChatClicked(false)
     }
   };
   
@@ -268,7 +273,7 @@ const handleSubmit = async (): Promise<void> => {
           <div className="nav-recent-chats-container">
             <div className="nav-recent-chats">
             {allChats.map(chat => (
-                <li key={chat._id} className="nav-item" onClick={() => loadChatHistory(chat._id)}>
+                <li key={chat._id} className={chatClicked ? "nav-item-clicked" : "nav-item"} onClick={() => loadChatHistory(chat._id)}>
                   <span className="nav-recent-heading">{chat.title}</span>
                 </li>
               ))}
