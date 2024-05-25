@@ -549,12 +549,12 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: var(--text-color);
+  background: var(--primary-color);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: var(--primary-color);
+  background: var(--text-color);
 }
 
 /* Handle on hover */
