@@ -582,7 +582,7 @@
   align-items: center;
 }
 
-.navbar-clicked .nav-recent-chats .nav-item-clicked .nav-recent-heading{
+.navbar .nav-recent-chats .nav-item-clicked .nav-recent-heading{
   display: none;
 }
 
