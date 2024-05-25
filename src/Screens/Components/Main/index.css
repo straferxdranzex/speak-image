@@ -627,7 +627,7 @@
 }
 
 .navbar .nav-item .nav-btn .nav-btn-icon:hover{
-  color: var(--text-color);
+  color: #585858;
 }
 
 .navbar .nav-item .nav-btn{
