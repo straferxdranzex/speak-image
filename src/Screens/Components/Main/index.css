@@ -573,8 +573,9 @@
 
 /* changed */
 .nav-recent-chats .nav-item-clicked{
-  background-color: var(--text-color) !important;
+  background-color: var(--primary-color) !important;
   color: var(--bg-color) !important;
+  padding-left: 1rem;
   cursor: pointer;
   height: 4rem;
   display: flex;
