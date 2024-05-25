@@ -524,7 +524,7 @@ const handleSubmit = async (): Promise<void> => {
                                 )}
                                   {/* Pixabay Image */}
                                 {chat.imagex && (
-                                  <Col span={24} lg={12} style={{ paddingBottom: "2rem" }}>
+                                  <Col span={24} lg={12} style={{ paddingBottom: "2rem", paddingTop: "1rem" }}>
                                   <div
                                     style={{
                                       width: "100%",
