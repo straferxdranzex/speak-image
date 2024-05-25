@@ -78,7 +78,7 @@ const Main = () => {
   const [extended, setExtended] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("Generating response...");
   const [user, setUser] = useState<User | null>(null);
-  const [activeChatId, setActiveChatId] = useState(null);
+  const [activeChatId, setActiveChatId] = useState<string>("");
 
   useEffect(() => {
     const fetchUserData = async () => {
