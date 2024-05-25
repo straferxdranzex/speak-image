@@ -24,7 +24,7 @@ const SignUp: React.FC = () => {
 
   const handleSignUp = async () => {
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
+      // alert("Passwords do not match");
       return;
     }
 
@@ -37,7 +37,7 @@ const SignUp: React.FC = () => {
         });
 
       if (response && response.data && response.data.message) {
-        alert(response.data.message);
+        // alert(response.data.message);
         if (response.data.message === "User created successfully") {
           window.location.href = "/login";
         }
@@ -47,9 +47,9 @@ const SignUp: React.FC = () => {
       }
     } catch (error: any) {
       if (error.response && error.response.data) {
-        alert(error.response.data.message);
+        // alert(error.response.data.message);
       } else {
-        alert("An unexpected error occurred. Please try again.");
+        // alert("An unexpected error occurred. Please try again.");
       }
     }
   };
