@@ -574,12 +574,16 @@
 /* changed */
 .nav-recent-chats .nav-item-clicked{
   background-color: var(--primary-color) !important;
-  color: var(--bg-color) !important;
+  color: var(--text-color) !important;
   padding-left: 1rem;
   cursor: pointer;
   height: 4rem;
   display: flex;
   align-items: center;
+}
+
+.navbar-clicked .nav-recent-chats .nav-clicked{
+  display: none;
 }
 
 .navbar-clicked .nav-btn{
@@ -705,7 +709,6 @@
   margin-top: auto;
   position: absolute;
   bottom: 1rem;
-  left: 6px;
   width: 100%;
 }
 
@@ -714,7 +717,6 @@
   position: absolute;
   width: 100%;
   bottom: 5rem;
-  left: 6px;
 }
 
 .navbar-clicked .logo .nav-link{
