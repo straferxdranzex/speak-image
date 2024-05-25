@@ -532,8 +532,6 @@
   height: 4rem;
   display: flex;
   align-items: center;
-  color: var(--text-color);
-  font-weight: 600;
 }
 
 /* changed */
@@ -613,8 +611,8 @@
 
 .navbar-clicked .nav-item .nav-recent-heading{
   margin-left: 1rem;
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: 1rem;
+  font-weight: normal;
   color: var(--text-color);
   display: inline;
 }
