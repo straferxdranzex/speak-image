@@ -10,6 +10,7 @@ import { IoIosAdd } from "react-icons/io";
 import { TfiControlForward } from "react-icons/tfi";
 import Markdown from "react-markdown";
 import Typewriter from "typewriter-effect";
+import { Tooltip } from "antd";
 
 
 const getCookie = (name: string) => {
@@ -275,7 +276,9 @@ const handleSubmit = async (): Promise<void> => {
                 </li>
               ))}
             </div>
-            <li className="nav-item-help">
+            
+            <Tooltip placement="right" title="Coming Soon">
+              <li className="nav-item-help">
               <a href="#" className="nav-link">
                 <svg
                   width="28px"
@@ -320,6 +323,8 @@ const handleSubmit = async (): Promise<void> => {
                 <span className="link-text">Help</span>
               </a>
             </li>
+            </Tooltip>
+            <Tooltip placement="right" title="Coming Soon">
             <li className="nav-item-settings">
               <a href="#" className="nav-link">
                 <svg
@@ -357,6 +362,7 @@ const handleSubmit = async (): Promise<void> => {
                 <span className="link-text">Settings</span>
               </a>
             </li>
+            </Tooltip>
           </div>
         </ul>
       </nav>
