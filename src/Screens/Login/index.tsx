@@ -49,7 +49,7 @@ const Login: React.FC = () => {
   return (
     <div className="login-container">
       <FormCard
-        title="Welcome Back"
+        title="Welcome"
         inputFields={[
           {
             label: "Email",
