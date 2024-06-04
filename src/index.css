@@ -1,0 +1,47 @@
+
+
+:root {
+  font-family: 'Segoe UI', 'Outfit', sans-serif;
+  --text-color: #585858;
+  --bg-color: white;
+  --primary-color: #f0f4f9;
+  --card-hover-color: #dfe4ea;
+  --new-chat-btn-bg-color: #e6eaf1;
+  --chat-history-entry-hover-color: #e2e6eb;
+  --btn-bg: #585858;
+  --recent-history-bg: none;
+  --transition-speed: 600ms;
+  animation: fadeIn 2s;
+}
+
+[data-theme="dark"] {
+  --text-color: white;
+  --bg-color: #131314;
+  --primary-color: #1e1f20;
+  --card-hover-color: #3b3b3b;
+  --new-chat-btn-bg-color: #e6eaf1;
+  --chat-history-entry-hover-color: #e2e6eb;
+}
+
+body{
+  margin: 0;
+  padding: 0;
+}
+
+
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
