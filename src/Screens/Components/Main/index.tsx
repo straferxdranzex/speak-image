@@ -9,9 +9,7 @@ import {
   Dropdown,
   Image,
   Menu,
-  Popover,
   Row,
-  Spin,
 } from "antd";
 import { FaUser } from "react-icons/fa6";
 import Cookies from "js-cookie";
@@ -125,17 +123,15 @@ const Main = () => {
       const clientId = getCookie("userId");
       if (clientId) {
         try {
-          const response = await axios.get(
-            `https://api.speakimage.ai/api/get-user/${clientId}`,
-            { withCredentials: true }
-          );
+          const response = await axios.get(`https://api.speakimage.ai/api/get-user/${clientId}`, { withCredentials: true });
           setUser(response.data);
 
-          const chatsResponse = await axios.get<ChatHistory[]>(
-            `https://api.speakimage.ai/api/get-user-chats/${clientId}`,
-            { withCredentials: true }
-          );
-          setAllChats(chatsResponse.data);
+          const chatsResponse = await axios.get<ChatHistory[]>(`https://api.speakimage.ai/api/get-user-chats/${clientId}`, { withCredentials: true });
+          const sortedChats = chatsResponse.data.sort((a, b) => new Date(b.create_timestamp).getTime() - new Date(a.create_timestamp).getTime());
+          setAllChats(sortedChats);
+          if (sortedChats.length > 0) {
+            setActiveChatId(sortedChats[0]._id);
+          }
         } catch (error) {
           console.error("Error fetching user data or chats:", error);
         }
@@ -144,7 +140,6 @@ const Main = () => {
 
     fetchUserData();
   }, [allChats]);
-
   const loadChatHistory = (chatId: string) => {
     setShowResults(true);
     setActiveChatId(chatId);
@@ -324,6 +319,8 @@ const Main = () => {
                   <span className="nav-recent-heading">{chat.title}</span>
                 </li>
               ))}
+
+              
             </div>
 
             <Tooltip placement="right" title="Coming Soon">
