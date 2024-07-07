@@ -1,0 +1,191 @@
+.login-heading-container {
+  padding-bottom: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-color-new);
+}
+
+.login-heading {
+  font-size: 2.2rem;
+  line-height: 2.5rem;
+  font-weight: 600;
+  font-family: "Poppins";
+  color: var(--text-color-new);
+}
+
+.login-subheading {
+  font-family: "Poppins";
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 30px;
+  color: var(--form-card-subheading-color);
+}
+
+.login-card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--login-bg-color);
+}
+
+.login-card {
+  height: 100%;
+  border: none;
+  background-color: transparent;
+  padding: 1rem;
+}
+
+.login-form-input {
+  width: 25rem;
+  height: 4.5rem;
+  background-color: rgba(255, 255, 255, 1) !important;
+  border: 1px solid rgba(217, 217, 217, 1) !important;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: "Poppins";
+  line-height: 14.5px;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  color: rgba(90, 90, 90, 1) !important;
+}
+
+.login-forgot-password-text {
+  font-size: 0.8rem;
+  font-weight: normal;
+  color: var(--text-color);
+  font-family: var(--paragraph-font);
+  letter-spacing: 0.5px;
+  cursor: pointer;
+}
+
+.login-btn {
+  width: 400px;
+  height: 55px;
+  background-color: transparent;
+  border: 1px solid var(--form-card-button-border);
+  color: var(--form-card-button-text);
+  font-size: 18px;
+  line-height: 14.5px;
+  font-weight: 400;
+  font-family: "Poppins";
+  border-radius: 10px;
+  margin-top: 2rem;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: rgba(51, 51, 51, 1);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px rgba(151, 186, 255, 1);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.login-form-labels {
+  font-size: 1rem;
+  font-weight: normal;
+  color: var(--text-color-new);
+  font-family: "Poppins";
+  letter-spacing: 0.5px;
+}
+
+.login-btn:hover {
+  background-color: var(--text-color-new) !important;
+  color: var(--login-bg-color) !important;
+  box-shadow: none !important;
+}
+
+.password-input {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.login-last-text-container {
+  text-align: center;
+}
+
+.login-signup-text {
+  color: var(--text-color);
+  font-size: 1rem;
+  padding-left: 0.2rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.login-last-text-container {
+  color: var(--text-color);
+  font-size: 1rem;
+  font-weight: normal;
+  font-family: var(--paragraph-font);
+}
+
+.ant-form-item-required {
+  display: none !important;
+}
+
+@media (max-width: 767px) {
+  .login-heading-container {
+    padding-bottom: 0.5rem !important;
+  }
+}
