@@ -80,9 +80,9 @@ const Cover: React.FC = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 2, duration: 3, ease: "easeOut" }}
           >
-            Supercharge your creativity and
+            Supercharge and stimulate your knowledge with
             <br />
-            productivity <span className="cover-title-colored">visually</span>
+            images <span className="cover-title-colored">visually</span>
           </motion.span>
           <button className="cover-button" onClick={handleGetStartedClick}>
             Get Started
