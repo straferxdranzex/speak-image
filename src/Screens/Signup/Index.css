@@ -9,6 +9,16 @@
   background-color: var(--signup-bg-color) !important;
   transition: background-color 0.25s ease-in-out;
   position: relative;
+  animation: fadeIn 2s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .signup-form-container {

@@ -59,13 +59,16 @@ const SignUp: React.FC = () => {
         }
         console.log(response, "signup response");
       } else {
+        setBtnLoading(false);
         message.error("Unexpected response from server.");
         throw new Error("Unexpected response from server");
       }
     } catch (error: any) {
       if (error.response && error.response.data) {
+        setBtnLoading(false);
         message.error("Unexpected response from server.");
       } else {
+        setBtnLoading(false);
         message.error("Unexpected response from server.");
       }
     }

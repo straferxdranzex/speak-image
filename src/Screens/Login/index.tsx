@@ -53,8 +53,10 @@ const Login: React.FC = () => {
       }
     } catch (error: any) {
       if (error.response && error.response.data) {
+        setBtnLoading(false);
         message.error("Unexpected error occurred. Please try again.");
       } else {
+        setBtnLoading(false);
         message.error("Unexpected error occurred. Please try again.");
       }
     }
