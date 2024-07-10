@@ -655,6 +655,7 @@
   height: 57vh;
   overflow-y: auto;
   overflow-x: hidden;
+  background-color: #131313;
 }
 
 /* Navbar Collapsed */
