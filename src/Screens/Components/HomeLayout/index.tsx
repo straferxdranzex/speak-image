@@ -500,10 +500,9 @@ const HomeLayout = () => {
                                     : responseLogo
                                 }
                                 style={{
-                                  width: "4rem",
-                                  height: "4rem",
+                                  width: "3rem",
+                                  height: "3rem",
                                   position: "absolute",
-                                  top: "-2rem",
                                   left: "-4.7rem",
                                 }}
                                 alt=""
