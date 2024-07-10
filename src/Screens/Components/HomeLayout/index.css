@@ -650,6 +650,7 @@
   cursor: pointer;
   padding-left: 0.6rem;
   border-radius: 10px;
+  margin-top: 1rem;
 }
 
 .navbar-clicked .nav-recent-chats-container .nav-chat-inner-container{
