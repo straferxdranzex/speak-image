@@ -656,6 +656,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   background-color: #131313;
+  margin-left: -1rem !important;
 }
 
 /* Navbar Collapsed */
