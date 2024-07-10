@@ -11,7 +11,7 @@
   justify-content: center;
   align-items: center;
   gap: 4rem;
-  padding: 15rem 0rem;
+  padding: 10rem 0rem;
   position: relative;
   height: 100vh !important;
 }
@@ -68,6 +68,7 @@
   align-items: center;
   gap: 4rem;
   margin-top: 2rem;
+  z-index: 1000;
 }
 
 .cover-title {
@@ -138,6 +139,7 @@
   font-size: 20px;
   line-height: 20px;
   text-align: center;
+  margin-top: 4rem;
 }
 
 .cover-about-icon{

@@ -26,8 +26,8 @@ const Cover: React.FC = () => {
       duration: 5,
       ease: "easeInOut",
       repeat: Infinity,
-      repeatType: "mirror" as const
-    }
+      repeatType: "mirror" as const,
+    },
   };
 
   return (
@@ -75,28 +75,31 @@ const Cover: React.FC = () => {
             transition={{ delay: 2, duration: 3, ease: "easeOut" }}
           />
           <div className="cover-bottom">
-          <motion.span
-            className="cover-title"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2, duration: 3, ease: "easeOut" }}
-          >
-            Supercharge your creativity and
-            <br />
-            productivity <span className="cover-title-colored">visually</span>
-          </motion.span>
-          <button className="cover-button" onClick={handleGetStartedClick}>
-            Get Started
-          </button>
+            <motion.span
+              className="cover-title"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 2, duration: 3, ease: "easeOut" }}
+            >
+              Supercharge your creativity and
+              <br />
+              productivity <span className="cover-title-colored">visually</span>
+            </motion.span>
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 2, duration: 3, ease: "easeOut" }}
+              className="cover-button"
+              onClick={handleGetStartedClick}
+            >
+              Get Started
+            </motion.button>
           </div>
         </div>
         <div className="cover-about-container">
           <span className="cover-about">
-            <span className="cover-title-colored">SpeakImage.ai</span> is a GPT
-            tool created for the visually inclined.
-            <br /> There are people who think in text, others in imagery and
-            some
-            <br /> who think in a hybrid of both language and image.
+            There are those who think with words others <br />with imagery and some
+            who use a hybrid of both.
           </span>
           <span className="cover-about">
             <span className="cover-title-colored">SpeakImage.ai</span> gives
