@@ -74,19 +74,21 @@ const Cover: React.FC = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 2, duration: 3, ease: "easeOut" }}
           />
+          <div className="cover-bottom">
           <motion.span
             className="cover-title"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 2, duration: 3, ease: "easeOut" }}
           >
-            Supercharge and stimulate your knowledge with
+            Supercharge your creativity and
             <br />
-            images <span className="cover-title-colored">visually</span>
+            productivity <span className="cover-title-colored">visually</span>
           </motion.span>
           <button className="cover-button" onClick={handleGetStartedClick}>
             Get Started
           </button>
+          </div>
         </div>
         <div className="cover-about-container">
           <span className="cover-about">

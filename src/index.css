@@ -85,6 +85,7 @@ body {
   --nav-icon-color: rgba(73, 69, 79, 1);
   --nav-bg-color: rgba(240, 242, 245, 1);
   --nav-button-bg-color: rgba(236, 230, 240, 1);
+  --nav-botton-bg-hover-color: white;
   --nav-bottom-text-color: rgba(121, 116, 126, 1);
   --nav-collapsed-add-icon-color: rgba(98, 91, 113, 1);
   --nav-collapsed-menu-icon-color: rgba(0, 0, 0, 1);
@@ -109,6 +110,8 @@ body {
   --nav-icon-color: rgba(151, 186, 255, 1);
   --nav-bg-color: rgba(19, 19, 20, 1);
   --nav-button-bg-color: rgba(48, 48, 48, 1);
+  --nav-botton-bg-hover-color: #4d4848;
+
   --nav-bottom-text-color: rgba(140, 140, 140, 1);
   --nav-collapsed-add-icon-color: rgba(255, 255, 255, 1);
   --nav-collapsed-menu-icon-color: rgba(255, 255, 255, 1);

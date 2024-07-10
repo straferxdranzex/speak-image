@@ -20,6 +20,9 @@ import { MdOutlineMenu } from "react-icons/md";
 import { HiMiniExclamationCircle } from "react-icons/hi2";
 import { FaRegClock } from "react-icons/fa6";
 import { MdOutlineSettings } from "react-icons/md";
+import responseLogo from "../../../Assets/Images/chat-loader.png";
+import responseAnimatedLogo from "../../../Assets/Images/response-animation.gif";
+import { IoChatboxOutline } from "react-icons/io5";
 
 const getCookie = (name: string) => {
   const value = `; ${document.cookie}`;
@@ -129,7 +132,6 @@ const HomeLayout = () => {
             { withCredentials: true }
           );
           setUser(response.data);
-
           const chatsResponse = await axios.get<ChatHistory[]>(
             `https://api.speakimage.ai/api/get-user-chats/${clientId}`,
             { withCredentials: true }
@@ -308,6 +310,9 @@ const HomeLayout = () => {
                 }
                 onClick={() => loadChatHistory(chat._id)}
               >
+                <span>
+                  <IoChatboxOutline className="nav-chat-icon" style={{fontSize: "1.2rem"}} />
+                </span>
                 <span>{chat.title}...</span>
               </div>
             ))}
@@ -458,15 +463,15 @@ const HomeLayout = () => {
                               style={{
                                 fontWeight: "normal",
                                 fontSize: "1rem",
-                                marginLeft: "-2rem",
-                                marginBottom: "1rem",
+                                marginLeft: "-3rem",
+                                marginBottom: "2.5rem",
                                 color: "var(--text-color)",
                                 lineHeight: "1.5rem",
                               }}
                             >
                               <FaUser
                                 style={{
-                                  marginRight: "0.5rem",
+                                  marginRight: "1.5rem",
                                   fontWeight: "bold",
                                   fontSize: "1.2rem",
                                 }}
@@ -488,14 +493,20 @@ const HomeLayout = () => {
                                 position: "relative",
                               }}
                             >
-                              <FaUser
+                              <img
+                                src={
+                                  chat.loading
+                                    ? responseAnimatedLogo
+                                    : responseLogo
+                                }
                                 style={{
-                                  fontWeight: "bold",
-                                  fontSize: "1.2rem",
+                                  width: "4rem",
+                                  height: "4rem",
                                   position: "absolute",
-                                  top: "0",
-                                  left: "-2rem",
+                                  top: "-2rem",
+                                  left: "-4.7rem",
                                 }}
+                                alt=""
                               />{" "}
                               {/* Loader */}
                               {chat.loading ? (
