@@ -602,6 +602,7 @@ const HomeLayout = () => {
                                   <div
                                     className="response"
                                     style={{
+                                      fontFamily: "Poppins",
                                       fontWeight: "normal",
                                       fontSize: "1.2rem",
                                       color: "var(--text-color)",
