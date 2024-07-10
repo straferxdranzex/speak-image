@@ -520,6 +520,7 @@
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+  margin-left: -1rem !important;
 }
 
 
@@ -656,7 +657,6 @@
   overflow-y: auto;
   overflow-x: hidden;
   background-color: #131313;
-  margin-left: -1rem !important;
 }
 
 /* Navbar Collapsed */
