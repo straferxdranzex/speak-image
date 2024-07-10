@@ -503,8 +503,8 @@ const HomeLayout = () => {
                                   width: "3rem",
                                   height: "3rem",
                                   position: "absolute",
-                                  top: "-1rem",
-                                  left: "-3.7rem",
+                                  top: "-1.2rem",
+                                  left: "-4rem",
                                 }}
                                 alt=""
                               />{" "}
@@ -607,7 +607,7 @@ const HomeLayout = () => {
                                       fontSize: "1.2rem",
                                       color: "var(--text-color)",
                                       marginBottom: "1.5rem",
-                                      width: "90%",
+                                      width: "100%",
                                       marginTop: "-1rem",
                                     }}
                                   >
