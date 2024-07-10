@@ -503,7 +503,7 @@ const HomeLayout = () => {
                                   width: "3rem",
                                   height: "3rem",
                                   position: "absolute",
-                                  top: "-1.2rem",
+                                  top: "-1rem",
                                   left: "-4rem",
                                 }}
                                 alt=""
