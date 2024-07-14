@@ -1,0 +1,52 @@
+.app{
+    background-color: var(--login-bg-color) !important;
+}
+
+.toggle-container{
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1000;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: var(--primary-color);
+    border: 1px solid var gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.dark-mode-icon{
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+
+}
+
+.toggle-container-dark{
+    background: linear-gradient(to bottom,  #aba3fc, #0a0a0a);
+}
+
+.toggel-style{
+    position: absolute;
+    bottom: 2.3rem;
+    right: 1.5rem;
+    z-index: 1000;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.toggle-container-light{
+    background: linear-gradient(to bottom, #eec47b, #f9574c);
+}
+
+@media (max-width: 600px) and (min-width: 0px) {
+    .toggel-style{
+        right: 0.5rem !important;
+    }
+  }
