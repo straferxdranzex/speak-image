@@ -159,6 +159,10 @@
     justify-content: center !important;
     padding-right: 0rem !important;
   }
+
+  .login-gradient{
+    display: none !important;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {

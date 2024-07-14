@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Col, message, Row } from "antd";
 import catImage from "../../Assets/Images/form-image.png";
 import logo from "../../Assets/svgs/logoLight.svg";
-import logoDark from  "../../Assets/svgs/logoDark.svg";
+import logoDark from "../../Assets/svgs/logoDark.svg";
 import useLocalStorage from "use-local-storage";
 import gradient from "../../Assets/Images/gradient-login.svg";
 
@@ -80,7 +80,7 @@ const SignUp: React.FC = () => {
 
   return (
     <div className="signup-container">
-            <div className="signup-gradient">
+      <div className="signup-gradient">
         <img src={gradient} alt="Gradient" width="100%" height="100%" />
       </div>
       <div className="signup-form-container">
@@ -91,7 +91,12 @@ const SignUp: React.FC = () => {
           <Col span={24} md={12} className="signup-form-header-text-container">
             <span className="signup-form-header-text">
               Have an account already?{" "}
-              <span className="signup-form-header-text-highlight" onClick={() => navigate("/login")}>Login!</span>
+              <span
+                className="signup-form-header-text-highlight"
+                onClick={() => navigate("/login")}
+              >
+                Login!
+              </span>
             </span>
           </Col>
         </Row>
@@ -143,7 +148,7 @@ const SignUp: React.FC = () => {
         </Row>
       </div>
       <div className="signup-image-container">
-         <div className="signup-image-text-card">
+        <div className="signup-image-text-card">
           <button className="signup-image-button">
             Do siamese cats sleep a lot?
           </button>

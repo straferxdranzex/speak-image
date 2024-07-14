@@ -129,13 +129,16 @@
   z-index: 1000;
   opacity: 0.8;
 }
-@media (max-width: 767px) {
+
+@media (max-width: 767px) and (min-width: 0px) {
   .signup-form-container {
     width: 100% !important;
   }
+
   .signup-image-container {
     display: none !important;
   }
+  
   .signup-form-header {
     height: 8rem !important;
     width: 100% !important;
@@ -153,6 +156,10 @@
     height: 4rem !important;
     justify-content: center !important;
     padding-right: 0rem !important;
+  }
+
+  .signup-gradient{
+   display: none !important;
   }
 }
 
