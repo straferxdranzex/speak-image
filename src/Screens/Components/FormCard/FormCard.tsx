@@ -53,7 +53,7 @@ const FormCard: React.FC<LoginSignupCardProps> = ({
           >
             <Form layout="vertical">
               {inputFields.map((field, index) => (
-                <Col key={index} span={24}>
+                <Col key={index} span={24} className="login-form-input-container">
                   <Form.Item
                     label={
                       <span className="login-form-labels">{field.label}</span>

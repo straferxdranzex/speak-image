@@ -885,7 +885,7 @@
 
   .search-box input{
     font-size: 1rem !important;
-    margin-right: 3rem !important;
+    margin-right: 2rem !important;
   }
 
   .main-container .greet {
@@ -896,8 +896,8 @@
   }
 
   .gradient-send-icon{
-    width: 24px;
-    height: 24px;
+    width: 24px !important;
+    height: 24px !important;
   }
 }
 

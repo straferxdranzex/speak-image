@@ -153,8 +153,8 @@
         height: 75px !important;
       }
       .cover-title {
-        font-size: 24px !important;
-        line-height: 32px !important;
+        font-size: 32px !important;
+        line-height: 48px !important;
       }
       .cover-button {
         width: 128px !important;
@@ -163,12 +163,14 @@
         line-height: 16px !important;
       }
       .cover-bottom{
-        width: 90%;
+        width: 70% !important;
       }
 
       .cover-about{
-        font-size: 24px !important;
-        line-height: 32px !important;
+        font-size: 22px !important;
+        line-height: 34.5px !important;
+        width: 300px !important;
+
       }
 }
 
