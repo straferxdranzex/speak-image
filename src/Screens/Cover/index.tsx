@@ -38,31 +38,29 @@ const Cover: React.FC = () => {
             src={frame1}
             alt="Frame"
             className="cover-frame-bg-gradient"
-            initial={{ scale: 1, opacity: 1 }}
-            animate={waveAnimation}
           />
           <motion.img
             src={frame2}
             alt="Frame"
             className="cover-frame-bg-ring"
-            initial={{ y: "-100%", opacity: 0 }} // Starts from above and invisible
-            animate={{ y: "0%", opacity: 1 }} // Ends at normal position and fully visible
+            initial={{ y: "-100%", opacity: 0 }} 
+            animate={{ y: "0%", opacity: 1 }}
             transition={{ duration: 1, ease: "easeInOut" }}
           />
           <motion.img
             src={frame3}
             alt="Frame"
             className="cover-frame-bg-left-circles"
-            initial={{ x: "-100%", opacity: 0 }} // Starts from the left and invisible
-            animate={{ x: "0%", opacity: 1 }} // Ends at normal position and fully visible
+            initial={{ x: "-100%", opacity: 0 }}
+            animate={{ x: "0%", opacity: 1 }}
             transition={{ duration: 1, ease: "easeInOut" }}
           />
           <motion.img
             src={frame4}
             alt="Frame"
             className="cover-frame-bg-right-circles"
-            initial={{ x: "100%", opacity: 0 }} // Starts from the right and invisible
-            animate={{ x: "0%", opacity: 1 }} // Ends at normal position and fully visible
+            initial={{ x: "100%", opacity: 0 }} 
+            animate={{ x: "0%", opacity: 1 }}
             transition={{ duration: 1, ease: "easeInOut" }}
           />
           

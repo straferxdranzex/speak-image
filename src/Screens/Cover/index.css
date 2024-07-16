@@ -147,6 +147,17 @@
   color: rgba(255, 255, 255, 1);
 }
 
+@media (max-width: 1600px) and (min-width: 1440px) {
+  .cover-bottom{
+    position: absolute;
+    top: 55% !important;
+  }
+  .cover-title {
+    font-size: 3rem !important;
+    line-height: 5rem !important;
+  }
+}
+
 @media (max-width: 767px) {
     .cover-logo {
         width: 250px !important;
