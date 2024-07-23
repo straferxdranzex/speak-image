@@ -24,6 +24,7 @@
 .signup-form-container {
   width: 57%;
   height: 100vh;
+  z-index: 2000;
 }
 
 .signup-image {
