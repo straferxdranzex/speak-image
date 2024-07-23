@@ -54,10 +54,10 @@ const Login: React.FC = () => {
     } catch (error: any) {
       if (error.response && error.response.data) {
         setBtnLoading(false);
-        message.error("Unexpected error occurred. Please try again.");
+        message.error("Incorrect username or password. Please try again.");
       } else {
         setBtnLoading(false);
-        message.error("Unexpected error occurred. Please try again.");
+        message.error("Incorrect username or password. Please try again.");
       }
     }
   };
