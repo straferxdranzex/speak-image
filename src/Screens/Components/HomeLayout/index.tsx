@@ -16,13 +16,16 @@ import useLocalStorage from "use-local-storage";
 import avatar from "../../../Assets/Images/avatar.png";
 import logoLight from "../../../Assets/svgs/logoLight.svg";
 import logoDark from "../../../Assets/svgs/logoDark.svg";
-import { MdOutlineMenu } from "react-icons/md";
+import { MdOutlineMenu, MdOutlinePeopleAlt } from "react-icons/md";
 import { HiMiniExclamationCircle } from "react-icons/hi2";
 import { FaRegClock } from "react-icons/fa6";
 import { MdOutlineSettings } from "react-icons/md";
 import responseLogo from "../../../Assets/Images/chat-loader.png";
 import responseAnimatedLogo from "../../../Assets/Images/response-animation.gif";
 import { IoChatboxOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import { GrContactInfo } from "react-icons/gr";
+
 
 const getCookie = (name: string) => {
   const value = `; ${document.cookie}`;
@@ -95,6 +98,8 @@ const HomeLayout = () => {
   const [isDark, setIsDark] = useLocalStorage<boolean>("isDark", false);
   const [extended, setExtended] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  const navigate = useNavigate();
 
   const handleResize = () => {
     setWindowWidth(window.innerWidth);
@@ -296,6 +301,14 @@ const HomeLayout = () => {
     return { firstName, lastName };
   };
 
+  const handleAboutUsClick = () => {
+    navigate("/about-us");
+  }
+
+  const handleContactUsClick = () => {
+    navigate("/contact-us");
+  }
+
   const { firstName, lastName } = getNameParts(user?.full_name || "");
 
   return (
@@ -338,19 +351,19 @@ const HomeLayout = () => {
           </div>
         </div>
         <div className="nav-bottom">
-          <Tooltip placement="right" title="Coming Soon">
-            <div className="nav-bottom-container">
+          <Tooltip placement="right">
+            <div className="nav-bottom-container" onClick={handleAboutUsClick}>
               <Space>
-                <HiMiniExclamationCircle className="nav-bottom-icon" />
-                <span className="nav-bottom-text">Help</span>
+                <MdOutlinePeopleAlt className="nav-bottom-icon" />
+                <span className="nav-bottom-text">About Us</span>
               </Space>
             </div>
           </Tooltip>
-          <Tooltip placement="right" title="Coming Soon">
-            <div className="nav-bottom-container">
+          <Tooltip placement="right">
+            <div className="nav-bottom-container" onClick={handleContactUsClick}>
               <Space>
-                <FaRegClock className="nav-bottom-icon" />
-                <span className="nav-bottom-text">Activity</span>
+                <GrContactInfo className="nav-bottom-icon" />
+                <span className="nav-bottom-text">Contact Us</span>
               </Space>
             </div>
           </Tooltip>

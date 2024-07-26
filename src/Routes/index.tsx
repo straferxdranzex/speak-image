@@ -16,6 +16,8 @@ import Home from "../Screens/Home";
 import Login from "../Screens/Login";
 import SignUp from "../Screens/Signup";
 import Cover from "../Screens/Cover";
+import ContactUs from "../Screens/ContactUs";
+import AboutUs from "../Screens/AboutUs";
 
 const AppRoutes: React.FC = () => {
   const preference = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -54,6 +56,22 @@ const AppRoutes: React.FC = () => {
               element={
                 <ProtectedRoute>
                   <Home />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/about-us"
+              element={
+                <ProtectedRoute>
+                  <AboutUs />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/contact-us"
+              element={
+                <ProtectedRoute>
+                  <ContactUs />
                 </ProtectedRoute>
               }
             />

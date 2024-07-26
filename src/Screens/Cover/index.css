@@ -53,14 +53,14 @@
   width: 415px;
   height: 151px;
   position: absolute;
-  top: 5rem;
+  top: 3rem;
   left: 50%;
   transform: translateX(-50%)
 }
 
 .cover-bottom{
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
@@ -76,8 +76,8 @@
   font-family: "Poppins";
   font-style: normal;
   font-weight: 500;
-  font-size: 60.75px;
-  line-height: 91.13px;
+  font-size: 50.75px;
+  line-height: 81.13px;
   letter-spacing: -1.72px;
   text-align: center;
   color: rgba(255, 255, 255, 1);

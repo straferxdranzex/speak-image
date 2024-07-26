@@ -1,4 +1,4 @@
-.login-container {
+.about-container {
   width: 100%;
   min-height: 100%;
   display: flex;
@@ -6,10 +6,30 @@
   overflow-x: hidden;
   overflow-y: hidden;
   align-items: center;
-  background-color: var(--login-bg-color) !important;
+  background-color: var(--about-bg-color) !important;
   transition: background-color 0.25s ease-in-out;
   position: relative;
   animation: fadeIn 2s;
+}
+
+.about-back-icon-container {
+  position: absolute;
+  top: 2rem;
+  left: 3rem;
+  border-radius: 10px;
+  width: 3rem;
+  height: 2rem;
+  cursor: pointer;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid var(--nav-icon-color);
+}
+
+.about-back-icon {
+  color: var(--nav-icon-color);
+  font-size: 1.5rem;
 }
 
 @keyframes fadeIn {
@@ -21,23 +41,55 @@
   }
 }
 
-.login-form-container {
+.about-form-container {
   width: 57%;
   height: 100vh;
+  display: flex;
+  justify-content: left;
+  padding: 5rem 3rem;
+  flex-direction: column;
+  gap: 2rem;
 }
 
-.login-image {
+.about-logo {
+  margin-left: -1.5rem;
+}
+
+.about-title {
+  font-size: 2.2rem;
+  line-height: 2.5rem;
+  font-weight: 600;
+  font-family: "Poppins";
+  color: var(--text-color-new);
+}
+
+.about-text {
+  font-family: "Poppins";
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 30px;
+  color: var(--text-color-new);
+  width: 100%;
+}
+
+.about-colored-text {
+  color: var(--form-card-subheading-color);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.about-image {
   width: 100%;
   height: auto;
 }
 
-.login-image-container {
+.about-image-container {
   width: 43%;
   height: 100vh;
   position: relative;
 }
 
-.login-image-text-card {
+.about-image-text-card {
   position: absolute;
   bottom: 4rem;
   width: 547px;
@@ -52,7 +104,7 @@
   gap: 1rem;
 }
 
-.login-image-button {
+.about-image-button {
   background-color: rgba(73, 94, 146, 1);
   border: none;
   border-radius: 10px;
@@ -68,7 +120,7 @@
   cursor: pointer;
 }
 
-.login-image-text {
+.about-image-text {
   font-size: 20px;
   line-height: 2rem;
   font-family: "Poppins";
@@ -76,53 +128,7 @@
   font-weight: 400;
 }
 
-.login-form-header {
-  height: 10vh;
-  width: 100%;
-}
-
-.login-form-header-logo {
-  height: 10vh;
-  display: flex;
-  align-items: center;
-  justify-content: left;
-  padding-left: 3rem;
-}
-
-.login-form-header-text-container {
-  height: 10vh;
-  display: flex;
-  align-items: center;
-  justify-content: right;
-  padding-right: 3rem;
-}
-
-.login-form-card {
-  width: 100%;
-  height: 90vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.login-form-header-text {
-  font-size: 14px;
-  font-weight: 300;
-  font-family: "Poppins";
-  line-height: 14.5px;
-  color: var(--text-color-new);
-}
-
-.login-form-header-text-highlight {
-  font-size: 14px;
-  font-weight: 500;
-  font-family: "Poppins";
-  line-height: 14.5px;
-  color: rgba(151, 186, 255, 1);
-  cursor: pointer;
-}
-
-.login-gradient {
+.about-gradient {
   position: absolute;
   right: 15%;
   bottom: 0;
@@ -131,18 +137,22 @@
 }
 
 @media (max-width: 767px) {
-  .login-form-container {
+  .about-form-container {
     width: 100% !important;
   }
-  .login-image-container {
+  .about-back-icon-container {
+    top: 2rem;
+    left: 1rem;
+  }
+  .about-image-container {
     display: none !important;
   }
-  .login-form-header {
+  .about-form-header {
     height: 10rem !important;
     width: 100% !important;
   }
 
-  .login-form-header-logo {
+  .about-form-header-logo {
     padding-top: 2rem !important;
     height: 6rem !important;
     display: flex;
@@ -151,7 +161,7 @@
     padding-left: 0rem !important;
   }
 
-  .login-form-header-text-container {
+  .about-form-header-text-container {
     padding: 0 !important;
     height: 4rem !important;
     display: flex;
@@ -160,57 +170,75 @@
     padding-right: 0rem !important;
   }
 
-  .login-gradient{
+  .about-gradient {
     display: none !important;
+  }
+
+  .about-form-container {
+    padding: 5rem 1rem !important;
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+  }
+
+  .about-text {
+    width: 100% !important;
+    font-size: 16px !important;
+    line-height: 24px;
+  }
+
+  .about-title {
+    font-size: 1.5rem;
+    line-height: 2rem;
   }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
-  .login-form-container {
+  .about-form-container {
     width: 100% !important;
   }
-  .login-image-container {
+  .about-image-container {
     display: none !important;
+  }
+  .about-text {
+    width: 100% !important;
   }
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
-  .login-image-text-card {
+  .about-form-container {
+    padding: 5rem 2rem !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+  .about-image-text-card {
     width: 25rem !important;
     height: 18rem !important;
   }
-  .login-image-button {
+  .about-image-button {
     width: 18rem !important;
     min-height: 3rem !important;
     font-size: 1rem !important;
   }
 
-  .login-image-text {
+  .about-image-text {
     font-size: 1rem !important;
     line-height: 1.5rem !important;
   }
+  .about-text {
+    width: 100% !important;
+  }
+
 }
 
 @media (max-width: 1399px) and (min-width: 990px) {
-  .login-image {
+  .about-image {
     width: auto !important;
     height: 100% !important;
+  }
+  .about-text {
+    width: 100% !important;
   }
 }
 
 @media (min-width: 1200px) and (max-width: 1919px) {
-  .login-image-text-card {
-    width: 25rem !important;
-    height: 18rem !important;
-  }
-  .login-image-button {
-    width: 20rem !important;
-    height: 3rem !important;
-    font-size: 0.9rem !important;
-  }
-
-  .login-image-text {
-    font-size: 1rem !important;
-    line-height: 1.5rem !important;
-  }
 }

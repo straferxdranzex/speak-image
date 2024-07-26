@@ -1,0 +1,207 @@
+.contact-us-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--login-bg-color);
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.contact-back-icon-container{
+  position: absolute;
+  top: 2rem;
+  left: 3rem;
+  border-radius: 10px;
+  width: 3rem;
+  height: 2rem;
+  cursor: pointer;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid var(--nav-icon-color);
+}
+
+.contact-back-icon{
+  color: var(--nav-icon-color);
+  font-size: 1.5rem;
+}
+
+.contact-us-heading {
+  font-size: 2.2rem;
+  line-height: 2.5rem;
+  font-weight: 600;
+  font-family: "Poppins";
+  color: var(--text-color-new);
+  text-align: center;
+}
+
+.contact-us-subheading {
+  font-family: "Poppins";
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 30px;
+  color: var(--form-card-subheading-color);
+  text-align: center;
+  width: 50%;
+}
+
+.form-container {
+  width: 400px;
+  background: linear-gradient(var(--primary-color), var(--primary-color))
+      padding-box,
+    linear-gradient(
+        145deg,
+        transparent 35%,
+        rgb(199, 216, 241),
+        rgba(90, 90, 90, 1)
+      )
+      border-box;
+  border: 2px solid transparent;
+  padding: 32px 24px;
+  font-size: 14px;
+  font-family: "Poppins";
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
+  border-radius: 16px;
+  background-size: 200% 100%;
+  animation: gradient 5s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.form-container button:active {
+  scale: 0.95;
+}
+
+.form-container .form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-container .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.form-container .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--text-color-new);
+  font-weight: 600;
+  font-size: 12px;
+  font-family: "Poppins";
+}
+
+.form-container .form-group input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  color: var(--text-color-new);
+  font-family: "Poppins";
+  background-color: transparent;
+  border: 1px solid #414141;
+}
+
+.form-container .form-group textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  resize: none;
+  color: var(--text-color-new);
+  height: 96px;
+  border: 1px solid #414141;
+  background-color: transparent;
+  font-family: "Poppins";
+}
+
+.form-container .form-group input::placeholder {
+  opacity: 0.5;
+  color: var(--text-color-new);
+}
+
+.form-container .form-group input:focus {
+  outline: none;
+  border-color: var(--text-color-new);
+}
+
+.form-container .form-group textarea:focus {
+  outline: none;
+  border-color: var(--text-color-new);
+}
+
+.form-container .form-submit-btn {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  align-self: flex-start;
+  font-family: "Poppins";
+  color: var(--form-card-button-text);
+  font-weight: 600;
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--form-card-button-border);
+  padding: 12px 16px;
+  font-size: "Poppins";
+  gap: 8px;
+  margin-top: 8px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.form-container .form-submit-btn:hover {
+  background-color: var(--text-color-new) !important;
+  color: var(--login-bg-color) !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 1023px) {
+  .contact-us-subheading {
+    width: 80% !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .contact-us-subheading {
+    width: 80% !important;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 600px) {
+  .contact-us-subheading {
+    width: 90% !important;
+  }
+
+  .form-container {
+    width: 350px !important;
+  }
+
+  .contact-us-heading {
+    font-size: 1.3rem !important;
+    line-height: 1.5rem !important;
+    text-align: center !important;
+  }
+
+  .contact-us-container {
+    gap: 1.5rem !important;
+  }
+}
