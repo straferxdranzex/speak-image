@@ -79,9 +79,9 @@ const Cover: React.FC = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 2, duration: 3, ease: "easeOut" }}
             >
-              Supercharge and stimulate your knowledge with
+              Supercharge your knowledge and productivity with
               <br />
-              images <span className="cover-title-colored">visually</span>
+              images and text. <span className="cover-title-colored">visually</span>
             </motion.span>
             <motion.button
               initial={{ opacity: 0 }}
