@@ -24,11 +24,11 @@ const ContactUs: React.FC = () => {
             <input name="name" id="email" type="text" />
           </div>
           <div className="form-group">
-            <label htmlFor="email">Company Email</label>
+            <label htmlFor="email">Email</label>
             <input name="email" id="email" type="text" />
           </div>
           <div className="form-group">
-            <label htmlFor="textarea">How Can We Help You?</label>
+            <label htmlFor="textarea">Message for Support</label>
             <textarea cols={50} rows={10} id="textarea" name="textarea">
               {" "}
             </textarea>
