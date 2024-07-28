@@ -3,7 +3,7 @@ import axios from "axios";
 import "./index.css";
 import { FaRegUser } from "react-icons/fa";
 import { Button, Card, Col, Dropdown, Image, Menu, Row, Space } from "antd";
-import { FaUser } from "react-icons/fa6";
+import { FaRegCircleStop, FaUser } from "react-icons/fa6";
 import Cookies from "js-cookie";
 import GradientSendIcon from "../GradientSendIcon";
 import { IoIosAdd } from "react-icons/io";
@@ -25,7 +25,6 @@ import responseAnimatedLogo from "../../../Assets/Images/response-animation.gif"
 import { IoChatboxOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { GrContactInfo } from "react-icons/gr";
-
 
 const getCookie = (name: string) => {
   const value = `; ${document.cookie}`;
@@ -98,6 +97,8 @@ const HomeLayout = () => {
   const [isDark, setIsDark] = useLocalStorage<boolean>("isDark", false);
   const [extended, setExtended] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [abortController, setAbortController] =
+    useState<AbortController | null>(null); // State to hold the current controller
 
   const navigate = useNavigate();
 
@@ -223,6 +224,10 @@ const HomeLayout = () => {
     setPrompt("");
     setLoadingMessage("Generating response...");
 
+    // Initialize a new AbortController
+    const controller = new AbortController();
+    setAbortController(controller);
+
     const timer = setTimeout(() => {
       setLoadingMessage("Almost there...");
     }, 10000);
@@ -242,7 +247,7 @@ const HomeLayout = () => {
             query: prompt,
             user_id: user?.user_id || clientId,
           },
-          { withCredentials: true }
+          { withCredentials: true, signal: controller.signal }
         );
         if (response.data.thread_id) {
           setThreadId(response.data.thread_id);
@@ -251,7 +256,7 @@ const HomeLayout = () => {
         response = await axios.post(
           "https://api.speakimage.ai/api/generate-answer",
           { query: prompt, thread_id: threadId },
-          { withCredentials: true }
+          { withCredentials: true, signal: controller.signal }
         );
       }
 
@@ -271,6 +276,11 @@ const HomeLayout = () => {
         )
       );
     } catch (error) {
+      if (axios.isCancel(error)) {
+        console.log("Request canceled:", error.message);
+      } else {
+        console.error("Error fetching response:", error);
+      }
       clearTimeout(timer);
       console.error("Error fetching response:", error);
       setChatHistory((prevHistory) =>
@@ -285,6 +295,15 @@ const HomeLayout = () => {
             : entry
         )
       );
+    } finally {
+      setAbortController(null);
+    }
+  };
+
+  const handleStopClick = () => {
+    if (abortController) {
+      abortController.abort();
+      setAbortController(null);
     }
   };
 
@@ -303,11 +322,11 @@ const HomeLayout = () => {
 
   const handleAboutUsClick = () => {
     navigate("/about-us");
-  }
+  };
 
   const handleContactUsClick = () => {
     navigate("/contact-us");
-  }
+  };
 
   const { firstName, lastName } = getNameParts(user?.full_name || "");
 
@@ -360,7 +379,10 @@ const HomeLayout = () => {
             </div>
           </Tooltip>
           <Tooltip placement="right">
-            <div className="nav-bottom-container" onClick={handleContactUsClick}>
+            <div
+              className="nav-bottom-container"
+              onClick={handleContactUsClick}
+            >
               <Space>
                 <GrContactInfo className="nav-bottom-icon" />
                 <span className="nav-bottom-text">Contact Us</span>
@@ -473,9 +495,7 @@ const HomeLayout = () => {
                           Hello, {user?.full_name.split(" ")[0]}!
                         </span>
                       </p>
-                      <p className="greet-text">
-                        How can I help you today?
-                      </p>
+                      <p className="greet-text">How can I help you today?</p>
                     </div>
                   </div>
                 ) : (
@@ -661,17 +681,36 @@ const HomeLayout = () => {
 
                 {/* Input Field Container */}
                 <div className="main-bottom">
-                  <div className="search-box">
-                    <input
-                      onChange={handleInputChange}
-                      onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-                      value={prompt}
-                      placeholder="Enter the Prompt Here"
-                    />
-                    <div onClick={handleSubmit} className="icon-container">
-                      <GradientSendIcon />
+                  <>
+                    <div className="search-box">
+                      <input
+                        onChange={handleInputChange}
+                        onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+                        value={prompt}
+                        placeholder="Enter the Prompt Here"
+                      />
+                      <div onClick={handleSubmit} className="icon-container">
+                        <GradientSendIcon />
+                      </div>
+                      {chatHistory.map(
+                        (chat, index) =>
+                          chat.loading && (
+                            <button
+                              onClick={handleStopClick}
+                              className="stop-button"
+                            >
+                              <FaRegCircleStop className="stop-icon" />
+                            </button>
+                          )
+                      )}
                     </div>
-                  </div>
+                    <div className="bottom-text-container">
+                      <span className="bottom-text">
+                        Consider checking important information, AI can make
+                        mistakes. Speakimage AI Beta Testing Version.
+                      </span>
+                    </div>
+                  </>
                 </div>
               </div>
             </div>
