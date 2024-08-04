@@ -18,12 +18,13 @@ import SignUp from "../Screens/Signup";
 import Cover from "../Screens/Cover";
 import ContactUs from "../Screens/ContactUs";
 import AboutUs from "../Screens/AboutUs";
+import BetaPage from "../Screens/BetaPage";
 
 const AppRoutes: React.FC = () => {
   const preference = window.matchMedia("(prefers-color-scheme: dark)").matches;
   const [isDark, setIsDark] = useLocalStorage<boolean>("isDark", preference);
   const location = useLocation();
-  const isGetStartedRoute = location.pathname === "/get-started";
+  const isGetStartedRoute = location.pathname === "/get-started" || location.pathname === "/beta-version";
 
   return (
     <React.StrictMode>
@@ -51,7 +52,7 @@ const AppRoutes: React.FC = () => {
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             <Route path="/get-started" element={<Cover />} />
-            <Route
+            {/* <Route
               path="/"
               element={
                 <ProtectedRoute>
@@ -76,7 +77,8 @@ const AppRoutes: React.FC = () => {
               }
             />
             <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signup" element={<SignUp />} /> */}
+            <Route path="/beta-version" element={<BetaPage />} />
           </Routes>
         </Suspense>
       </div>

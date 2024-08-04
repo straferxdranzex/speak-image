@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 const Cover: React.FC = () => {
   const navigate = useNavigate();
   const handleGetStartedClick = () => {
-    navigate("/signup");
+    navigate("/beta-version");
   };
 
   const handleGetInTouchClick = () => {
