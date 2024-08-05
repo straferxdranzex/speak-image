@@ -51,7 +51,7 @@ const AppRoutes: React.FC = () => {
 
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
-            <Route path="/get-started" element={<Cover />} />
+            <Route path="/" element={<Cover />} />
             {/* <Route
               path="/"
               element={
