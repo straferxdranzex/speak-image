@@ -55,8 +55,8 @@ interface ChatHistory {
       dalle_image: string | null;
       pixabay_img: string | null;
       pixabay_video: string | null;
-      timestamp: string;
     };
+    timestamp: string;
   }>;
   create_timestamp: string;
 }
@@ -140,13 +140,6 @@ const HomeLayout = () => {
     scrollToBottom();
   }, [chatHistory]);
 
-  const scrollToBottom = () => {
-    const current = chatContainerRef.current;
-    if (current) {
-      current.scrollTop = current.scrollHeight;
-    }
-  };
-
   useEffect(() => {
     const fetchUserData = async () => {
       const clientId = getCookie("userId");
@@ -154,21 +147,33 @@ const HomeLayout = () => {
         try {
           const response = await axios.get(
             `https://api.speakimage.ai/api/get-user/${clientId}`,
-            { withCredentials: true }
+            {
+              withCredentials: true,
+            }
           );
           setUser(response.data);
-          const chatsResponse = await axios.get<ChatHistory[]>(
+
+          const chatsResponse = await axios.get<{ chats: ChatHistory[] }>(
             `https://api.speakimage.ai/api/get-user-chats/${clientId}`,
-            { withCredentials: true }
+            {
+              withCredentials: true,
+            }
           );
-          const sortedChats = chatsResponse.data.sort(
-            (a, b) =>
-              new Date(b.create_timestamp).getTime() -
-              new Date(a.create_timestamp).getTime()
-          );
-          setAllChats(sortedChats);
-          if (sortedChats.length > 0) {
-            // setActiveChatId(sortedChats[0]._id);
+
+          console.log("Chats Response", chatsResponse);
+
+          // Access the actual array of chats
+          const chats = chatsResponse.data.chats;
+
+          if (chats.length > 0) {
+            // Sort the chats by the create_timestamp
+            const sortedChats = chats.sort(
+              (a, b) =>
+                new Date(b.create_timestamp).getTime() -
+                new Date(a.create_timestamp).getTime()
+            );
+            setAllChats(sortedChats);
+            loadChatHistory(sortedChats[0]._id); // Load the first chat by default
           }
         } catch (error) {
           console.error("Error fetching user data or chats:", error);
@@ -177,7 +182,8 @@ const HomeLayout = () => {
     };
 
     fetchUserData();
-  }, [allChats]);
+    console.log("chat history loaded:", allChats, allChats.length, user);
+  }, []);
 
   const loadChatHistory = (chatId: string) => {
     setShowResults(true);
@@ -194,6 +200,7 @@ const HomeLayout = () => {
         video: entry.response.pixabay_video,
       }));
       setChatHistory(formattedEntries);
+      scrollToBottom();
     }
   };
 
@@ -205,6 +212,7 @@ const HomeLayout = () => {
     setThreadId("");
     setChatHistory([]);
     setShowResults(false);
+    setActiveChatId("");
   };
 
   const handleSubmit = async (): Promise<void> => {
@@ -251,6 +259,28 @@ const HomeLayout = () => {
         );
         if (response.data.thread_id) {
           setThreadId(response.data.thread_id);
+
+          // Create a new chat entry and add it to allChats
+          const newChat: ChatHistory = {
+            _id: response.data.thread_id,
+            user_id: user?.user_id || clientId,
+            title: prompt.split(" ").slice(0, 5).join(" "), // Generate a title from the first few words of the prompt
+            conversation: [
+              {
+                query: prompt,
+                response: {
+                  text: "",
+                  dalle_image: null,
+                  pixabay_img: null,
+                  pixabay_video: null,
+                },
+                timestamp: new Date().toISOString(),
+              },
+            ],
+            create_timestamp: new Date().toISOString(),
+          };
+
+          setAllChats((prevChats) => [newChat, ...prevChats]);
         }
       } else {
         response = await axios.post(
@@ -289,7 +319,7 @@ const HomeLayout = () => {
             ? {
                 ...entry,
                 response:
-                  "Error loading response. Please check your internet connection or try again.",
+                  "Try again...",
                 loading: false,
               }
             : entry
@@ -297,6 +327,13 @@ const HomeLayout = () => {
       );
     } finally {
       setAbortController(null);
+    }
+  };
+
+  const scrollToBottom = () => {
+    const current = chatContainerRef.current;
+    if (current) {
+      current.scrollTop = current.scrollHeight;
     }
   };
 
@@ -515,6 +552,7 @@ const HomeLayout = () => {
                               style={{
                                 fontWeight: "normal",
                                 fontSize: "1rem",
+                                fontFamily: "Poppins",
                                 marginLeft: "-3rem",
                                 marginBottom: "2.5rem",
                                 color: "var(--text-color)",

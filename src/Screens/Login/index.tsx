@@ -5,7 +5,7 @@ import "./index.css";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { Col, message, Row } from "antd";
-import catImage from "../../Assets/Images/form-image.png";
+import catImage from "../../Assets/Images/login-image.jpeg";
 import logo from "../../Assets/svgs/logoLight.svg";
 import logoDark from "../../Assets/svgs/logoDark.svg";
 import useLocalStorage from "use-local-storage";
@@ -27,43 +27,42 @@ const Login: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  
 
   const handleLogin = async () => {
     try {
       setBtnLoading(true);
       const response = await axios.post(
         "https://api.speakimage.ai/login",
-        {
-          email: formData.email,
+        new URLSearchParams({
+          username: formData.email,
           password: formData.password,
-        },
+        }),
         { withCredentials: true }
       );
+
       message.success("Logged-in successfully.");
 
-      if (response.data.message === "Login successful") {
+      const { access_token, user_id } = response.data;
+      if (access_token && user_id) {
         setBtnLoading(false);
-        console.log(response.data.message);
-        Cookies.set("userId", response.data.user_id, { expires: 15 });
-        Cookies.set("userToken", response.data.token || "dummy-token", {
-          expires: 15,
-        });
+        Cookies.set("userId", user_id, { expires: 15 });
+        Cookies.set("userToken", access_token, { expires: 15 });
         navigate("/");
+      } else {
+        throw new Error("Login failed. No token or user ID received.");
       }
     } catch (error: any) {
+      setBtnLoading(false);
       if (error.response && error.response.data) {
-        setBtnLoading(false);
-        message.error("Unexpected error occurred. Please try again.");
+        message.error("Incorrect username or password. Please try again.");
       } else {
-        setBtnLoading(false);
         message.error("Unexpected error occurred. Please try again.");
       }
     }
   };
 
   const handleSwitchChange = () => {};
-  
+
   const currentLogo = isDark ? logo : logoDark;
 
   return (
@@ -79,7 +78,12 @@ const Login: React.FC = () => {
           <Col span={24} md={12} className="login-form-header-text-container">
             <span className="login-form-header-text">
               Don’t have an account?{" "}
-              <span className="login-form-header-text-highlight" onClick={() => navigate("/signup")}>Sign up!</span>
+              <span
+                className="login-form-header-text-highlight"
+                onClick={() => navigate("/signup")}
+              >
+                Sign up!
+              </span>
             </span>
           </Col>
         </Row>
@@ -119,12 +123,13 @@ const Login: React.FC = () => {
       <div className="login-image-container">
         <div className="login-image-text-card">
           <button className="login-image-button">
-            Do siamese cats sleep a lot?
+            What is a fibonacci spiral?
           </button>
           <span className="login-image-text">
-            Yes, Siamese cats, like most domestic cats,
-            <br /> tend to sleep a lot. On average, cats can
-            <br /> sleep anywher...
+            A Fibonacci spiral is a geometric pattern that
+            <br /> approximates the shape of a logarithmic spiral,
+            <br /> and it’s created by drawing quarter-circle <br />
+            arcs inside squares of Fibonacci number sizes.
           </span>
         </div>
         <img src={catImage} alt="Image" className="login-image" />

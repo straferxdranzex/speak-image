@@ -43,9 +43,9 @@
   width: 547px;
   transform: translateX(-50%);
   left: 50%;
-  background-color: rgba(255, 242, 242, 0.13);
+  background-color: rgba(0, 0, 0, 0.711);
   border-radius: 10px;
-  height: 250px;
+  height: 270px;
   padding: 3rem;
   display: flex;
   flex-direction: column;
@@ -69,7 +69,7 @@
 }
 
 .login-image-text {
-  font-size: 20px;
+  font-size: 16px;
   line-height: 2rem;
   font-family: "Poppins";
   color: rgba(255, 255, 255, 1);
@@ -177,7 +177,7 @@
 @media (min-width: 992px) and (max-width: 1199px) {
   .login-image-text-card {
     width: 25rem !important;
-    height: 18rem !important;
+    height: 19rem !important;
   }
   .login-image-button {
     width: 18rem !important;
@@ -186,7 +186,7 @@
   }
 
   .login-image-text {
-    font-size: 1rem !important;
+    font-size: 14px !important;
     line-height: 1.5rem !important;
   }
 }
@@ -201,7 +201,7 @@
 @media (min-width: 1200px) and (max-width: 1919px) {
   .login-image-text-card {
     width: 25rem !important;
-    height: 18rem !important;
+    height: 19rem !important;
   }
   .login-image-button {
     width: 20rem !important;

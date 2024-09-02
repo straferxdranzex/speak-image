@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 const Cover: React.FC = () => {
   const navigate = useNavigate();
   const handleGetStartedClick = () => {
-    navigate("/beta-version");
+    navigate("/signup");
   };
 
   const handleGetInTouchClick = () => {
@@ -43,7 +43,7 @@ const Cover: React.FC = () => {
             src={frame2}
             alt="Frame"
             className="cover-frame-bg-ring"
-            initial={{ y: "-100%", opacity: 0 }} 
+            initial={{ y: "-100%", opacity: 0 }}
             animate={{ y: "0%", opacity: 1 }}
             transition={{ duration: 1, ease: "easeInOut" }}
           />
@@ -59,11 +59,11 @@ const Cover: React.FC = () => {
             src={frame4}
             alt="Frame"
             className="cover-frame-bg-right-circles"
-            initial={{ x: "100%", opacity: 0 }} 
+            initial={{ x: "100%", opacity: 0 }}
             animate={{ x: "0%", opacity: 1 }}
             transition={{ duration: 1, ease: "easeInOut" }}
           />
-          
+
           <motion.img
             src={logo}
             className="cover-logo"
@@ -79,9 +79,9 @@ const Cover: React.FC = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 2, duration: 3, ease: "easeOut" }}
             >
-              Supercharge your knowledge and productivity with
-              <br />
-              images and text. <span className="cover-title-colored">visually</span>
+              Supercharge your knowledge and <br /> productivity with{" "}
+              <span className="cover-title-colored"><strong>images</strong></span>
+              <br /> <i>and</i> text.
             </motion.span>
             <motion.button
               initial={{ opacity: 0 }}
@@ -96,8 +96,8 @@ const Cover: React.FC = () => {
         </div>
         <div className="cover-about-container">
           <span className="cover-about">
-            There are those who think with words others <br />with imagery and some
-            who use a hybrid of both.
+            There are those who think with words others <br />
+            with imagery and some who use a hybrid of both.
           </span>
           <span className="cover-about">
             <span className="cover-title-colored">SpeakImage.ai</span> gives

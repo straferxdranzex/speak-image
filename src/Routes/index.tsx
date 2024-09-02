@@ -19,6 +19,8 @@ import Cover from "../Screens/Cover";
 import ContactUs from "../Screens/ContactUs";
 import AboutUs from "../Screens/AboutUs";
 import BetaPage from "../Screens/BetaPage";
+import ForgotPassword from "../Screens/ForgotPassword";
+import UpdatePassword from "../Screens/UpdatePassword";
 
 const AppRoutes: React.FC = () => {
   const preference = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -51,8 +53,8 @@ const AppRoutes: React.FC = () => {
 
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
-            <Route path="/" element={<Cover />} />
-            {/* <Route
+            <Route path="/get-started" element={<Cover />} />
+            <Route
               path="/"
               element={
                 <ProtectedRoute>
@@ -77,7 +79,9 @@ const AppRoutes: React.FC = () => {
               }
             />
             <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} /> */}
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/update-password" element={<UpdatePassword />} />
             <Route path="/beta-version" element={<BetaPage />} />
           </Routes>
         </Suspense>

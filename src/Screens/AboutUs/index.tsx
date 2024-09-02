@@ -1,6 +1,6 @@
 import React from "react";
 import "./index.css";
-import catImage from "../../Assets/Images/about.jpg";
+import catImage from "../../Assets/Images/about-us.jpeg";
 import logo from "../../Assets/svgs/logoLight.svg";
 import logoDark from "../../Assets/svgs/logoDark.svg";
 import useLocalStorage from "use-local-storage";

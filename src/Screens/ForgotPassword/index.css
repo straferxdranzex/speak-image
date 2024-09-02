@@ -1,0 +1,217 @@
+.forgot-password-container {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    justify-content: center;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    align-items: center;
+    background-color: var(--login-bg-color) !important;
+    transition: background-color 0.25s ease-in-out;
+    position: relative;
+    animation: fadeIn 2s;
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  .forgot-password-form-container {
+    width: 57%;
+    height: 100vh;
+  }
+  
+  .forgot-password-image {
+    width: 100%;
+    height: auto;
+  }
+  
+  .forgot-password-image-container {
+    width: 43%;
+    height: 100vh;
+    position: relative;
+  }
+  
+  .forgot-password-image-text-card {
+    position: absolute;
+    bottom: 4rem;
+    width: 547px;
+    transform: translateX(-50%);
+    left: 50%;
+    background-color: rgba(255, 242, 242, 0.13);
+    border-radius: 10px;
+    height: 250px;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .forgot-password-image-button {
+    background-color: rgba(73, 94, 146, 1);
+    border: none;
+    border-radius: 10px;
+    width: 321px;
+    min-height: 3rem;
+    display: flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 1);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    padding-left: 2rem;
+    cursor: pointer;
+  }
+  
+  .forgot-password-image-text {
+    font-size: 20px;
+    line-height: 2rem;
+    font-family: "Poppins";
+    color: rgba(255, 255, 255, 1);
+    font-weight: 400;
+  }
+  
+  .forgot-password-form-header {
+    height: 10vh;
+    width: 100%;
+  }
+  
+  .forgot-password-form-header-logo {
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    padding-left: 3rem;
+  }
+  
+  .forgot-password-form-header-text-container {
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    padding-right: 3rem;
+  }
+  
+  .forgot-password-form-card {
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .forgot-password-form-header-text {
+    font-size: 14px;
+    font-weight: 300;
+    font-family: "Poppins";
+    line-height: 14.5px;
+    color: var(--text-color-new);
+  }
+  
+  .forgot-password-form-header-text-highlight {
+    font-size: 14px;
+    font-weight: 500;
+    font-family: "Poppins";
+    line-height: 14.5px;
+    color: rgba(151, 186, 255, 1);
+    cursor: pointer;
+  }
+  
+  .forgot-password-gradient {
+    position: absolute;
+    right: 15%;
+    bottom: 0;
+    z-index: 1000;
+    opacity: 0.8;
+  }
+  
+  @media (max-width: 767px) {
+    .forgot-password-form-container {
+      width: 100% !important;
+    }
+    .forgot-password-image-container {
+      display: none !important;
+    }
+    .forgot-password-form-header {
+      height: 10rem !important;
+      width: 100% !important;
+    }
+  
+    .forgot-password-form-header-logo {
+      padding-top: 2rem !important;
+      height: 6rem !important;
+      display: flex;
+      align-items: center;
+      justify-content: center !important;
+      padding-left: 0rem !important;
+    }
+  
+    .forgot-password-form-header-text-container {
+      padding: 0 !important;
+      height: 4rem !important;
+      display: flex;
+      align-items: center;
+      justify-content: center !important;
+      padding-right: 0rem !important;
+    }
+  
+    .forgot-password-gradient{
+      display: none !important;
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 991px) {
+    .forgot-password-form-container {
+      width: 100% !important;
+    }
+    .forgot-password-image-container {
+      display: none !important;
+    }
+  }
+  
+  @media (min-width: 992px) and (max-width: 1199px) {
+    .forgot-password-image-text-card {
+      width: 25rem !important;
+      height: 18rem !important;
+    }
+    .forgot-password-image-button {
+      width: 18rem !important;
+      min-height: 3rem !important;
+      font-size: 1rem !important;
+    }
+  
+    .forgot-password-image-text {
+      font-size: 1rem !important;
+      line-height: 1.5rem !important;
+    }
+  }
+  
+  @media (max-width: 1399px) and (min-width: 990px) {
+    .forgot-password-image {
+      width: auto !important;
+      height: 100% !important;
+    }
+  }
+  
+  @media (min-width: 1200px) and (max-width: 1919px) {
+    .forgot-password-image-text-card {
+      width: 25rem !important;
+      height: 18rem !important;
+    }
+    .forgot-password-image-button {
+      width: 20rem !important;
+      height: 3rem !important;
+      font-size: 0.9rem !important;
+    }
+  
+    .forgot-password-image-text {
+      font-size: 1rem !important;
+      line-height: 1.5rem !important;
+    }
+  }
+  

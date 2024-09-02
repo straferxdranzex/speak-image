@@ -184,6 +184,20 @@ input:checked + .slider:before {
   display: none !important;
 }
 
+.form-card-forgot-password-row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.form-card-forgot-password-text{
+  cursor: pointer;
+  font-size: 12;
+  color: var(--text-color);
+  font-family: var(--paragraph-font);
+}
+
 @media (max-width: 767px) {
   .login-heading-container {
     padding-bottom: 0.5rem !important;
@@ -213,5 +227,10 @@ input:checked + .slider:before {
     height: 3rem !important;
     font-size: 18px;
     margin-top: 1rem;
+  }
+
+  .login-subheading {
+    margin-top: 10px;
+    width: 80% !important;
   }
 }

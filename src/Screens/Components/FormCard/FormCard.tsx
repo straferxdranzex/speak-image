@@ -34,7 +34,6 @@ const FormCard: React.FC<LoginSignupCardProps> = ({
   btnLoading,
   showSwitch = false,
 }) => {
-
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [isFocused, setIsFocused] = useState<boolean>(false);
 
@@ -53,7 +52,11 @@ const FormCard: React.FC<LoginSignupCardProps> = ({
           >
             <Form layout="vertical">
               {inputFields.map((field, index) => (
-                <Col key={index} span={24} className="login-form-input-container">
+                <Col
+                  key={index}
+                  span={24}
+                  className="login-form-input-container"
+                >
                   <Form.Item
                     label={
                       <span className="login-form-labels">{field.label}</span>
@@ -87,8 +90,13 @@ const FormCard: React.FC<LoginSignupCardProps> = ({
                 </Col>
               ))}
               {showSwitch && (
-                <Col span={24}>
+                <Col span={24} className="form-card-forgot-password-row">
                   <Switch defaultChecked onChange={handleSwitchChange} />
+                  <Link to="/forgot-password">
+                    <span className="form-card-forgot-password-text">
+                      Forgot password?
+                    </span>
+                  </Link>
                 </Col>
               )}
               <Col span={24}>

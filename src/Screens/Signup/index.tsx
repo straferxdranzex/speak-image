@@ -4,7 +4,7 @@ import FormCard from "../Components/FormCard/FormCard";
 import "./Index.css";
 import { useNavigate } from "react-router-dom";
 import { Col, message, Row } from "antd";
-import catImage from "../../Assets/Images/form-image.png";
+import catImage from "../../Assets/Images/signup-image.jpeg";
 import logo from "../../Assets/svgs/logoLight.svg";
 import logoDark from "../../Assets/svgs/logoDark.svg";
 import useLocalStorage from "use-local-storage";
@@ -35,7 +35,7 @@ const SignUp: React.FC = () => {
 
   const handleSignUp = async () => {
     if (formData.password !== formData.confirmPassword) {
-      // alert("Passwords do not match");
+      alert("Passwords do not match");
       return;
     }
 
@@ -150,12 +150,14 @@ const SignUp: React.FC = () => {
       <div className="signup-image-container">
         <div className="signup-image-text-card">
           <button className="signup-image-button">
-            Do siamese cats sleep a lot?
+            What does the yin-yang symbol mean?
           </button>
           <span className="signup-image-text">
-            Yes, Siamese cats, like most domestic cats,
-            <br /> tend to sleep a lot. On average, cats can
-            <br /> sleep anywher...
+            The Yin-Yang symbol, also known as “Taijitu,” is a fundamental
+            concept in Chinese philosophy, particularly within Taoism. It
+            represents the idea that opposites are interconnected and
+            interdependent in the natural world, and that these opposites give
+            rise to each other as they interrelate.
           </span>
         </div>
         <img src={catImage} alt="Image" className="signup-image" />

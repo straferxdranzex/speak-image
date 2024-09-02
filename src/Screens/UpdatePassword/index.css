@@ -1,0 +1,195 @@
+.update-password-container {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    justify-content: center;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    align-items: center;
+    background-color: var(--update-password-bg-color) !important;
+    transition: background-color 0.25s ease-in-out;
+    position: relative;
+    animation: fadeIn 2s;
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  .update-password-form-container {
+    width: 57%;
+    height: 100vh;
+  }
+  
+  .update-password-image {
+    width: 100%;
+    height: auto;
+  }
+  
+  .update-password-image-container {
+    width: 43%;
+    height: 100vh;
+    position: relative;
+  }
+
+  
+  .update-password-image-button {
+    background-color: rgba(73, 94, 146, 1);
+    border: none;
+    border-radius: 10px;
+    width: 321px;
+    min-height: 3rem;
+    display: flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 1);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    padding-left: 2rem;
+    cursor: pointer;
+  }
+  
+  .update-password-form-header {
+    height: 10vh;
+    width: 100%;
+  }
+  
+  .update-password-form-header-logo {
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    padding-left: 3rem;
+  }
+  
+  .update-password-form-header-text-container {
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    padding-right: 3rem;
+  }
+  
+  .update-password-form-card {
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .update-password-form-header-text {
+    font-size: 14px;
+    font-weight: 300;
+    font-family: "Poppins";
+    line-height: 14.5px;
+    color: var(--text-color-new);
+  }
+  
+  .update-password-form-header-text-highlight {
+    font-size: 14px;
+    font-weight: 500;
+    font-family: "Poppins";
+    line-height: 14.5px;
+    color: rgba(151, 186, 255, 1);
+    cursor: pointer;
+  }
+  
+  .update-password-gradient {
+    position: absolute;
+    right: 15%;
+    bottom: 0;
+    z-index: 1000;
+    opacity: 0.8;
+  }
+  
+  @media (max-width: 767px) {
+    .update-password-form-container {
+      width: 100% !important;
+    }
+    .update-password-image-container {
+      display: none !important;
+    }
+    .update-password-form-header {
+      height: 10rem !important;
+      width: 100% !important;
+    }
+  
+    .update-password-form-header-logo {
+      padding-top: 2rem !important;
+      height: 6rem !important;
+      display: flex;
+      align-items: center;
+      justify-content: center !important;
+      padding-left: 0rem !important;
+    }
+  
+    .update-password-form-header-text-container {
+      padding: 0 !important;
+      height: 4rem !important;
+      display: flex;
+      align-items: center;
+      justify-content: center !important;
+      padding-right: 0rem !important;
+    }
+  
+    .update-password-gradient{
+      display: none !important;
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 991px) {
+    .update-password-form-container {
+      width: 100% !important;
+    }
+    .update-password-image-container {
+      display: none !important;
+    }
+  }
+  
+  @media (min-width: 992px) and (max-width: 1199px) {
+    .update-password-image-text-card {
+      width: 25rem !important;
+      height: 18rem !important;
+    }
+    .update-password-image-button {
+      width: 18rem !important;
+      min-height: 3rem !important;
+      font-size: 1rem !important;
+    }
+  
+    .update-password-image-text {
+      font-size: 1rem !important;
+      line-height: 1.5rem !important;
+    }
+  }
+  
+  @media (max-width: 1399px) and (min-width: 990px) {
+    .update-password-image {
+      width: auto !important;
+      height: 100% !important;
+    }
+  }
+  
+  @media (min-width: 1200px) and (max-width: 1919px) {
+    .update-password-image-text-card {
+      width: 25rem !important;
+      height: 18rem !important;
+    }
+    .update-password-image-button {
+      width: 20rem !important;
+      height: 3rem !important;
+      font-size: 0.9rem !important;
+    }
+  
+    .update-password-image-text {
+      font-size: 1rem !important;
+      line-height: 1.5rem !important;
+    }
+  }
+  
