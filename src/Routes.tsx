@@ -106,18 +106,28 @@ const AppRoutes: React.FC = () => {
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = React.useState(true);
 
   useEffect(() => {
     const checkSession = () => {
       const sessionToken = getCookie("userToken");
       console.log(sessionToken, "session token routes");
+
+      // Check if the token is invalid or expired
       if (!sessionToken || isSessionExpired(sessionToken)) {
         navigate("/get-started");
+      } else {
+        setIsLoading(false); // Allow rendering only if session is valid
       }
     };
 
     checkSession();
   }, [navigate]);
+
+  // Display a loading indicator or nothing while checking the session
+  if (isLoading) {
+    return <div></div>; // You can customize the loading state
+  }
 
   return <>{children}</>;
 };
