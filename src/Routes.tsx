@@ -69,14 +69,14 @@ const AppRoutes: React.FC = () => {
         <Routes>
           <Route path="/get-started" element={<Cover />} />
           <Route
-            path="/demo"
+            path="/"
             element={
               <ProtectedRoute>
                 <Home />
               </ProtectedRoute>
             }
           />
-          {/*
+
           <Route
             path="/about-us"
             element={
@@ -92,10 +92,7 @@ const AppRoutes: React.FC = () => {
                 <ContactUs />
               </ProtectedRoute>
             }
-          /> */}
-          <Route path="/" element={<Home />} />
-          <Route path="/contact-us" element={<ContactUs />} />
-          <Route path="/about-us" element={<AboutUs />} />
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
