@@ -3,15 +3,16 @@ import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import "./index.css";
 import { getCookie, isSessionExpired } from "./lib/utils";
 
+import Home from "./pages/Home";
+import Cover from "./pages/Cover";
+
 const Login = lazy(() => import("./pages/Login"));
-const Cover = lazy(() => import("./pages/Cover"));
 const SignUp = lazy(() => import("./pages/SignUp"));
 const UpdatePassword = lazy(() => import("./pages/UpdatePassword"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 const BetaPage = lazy(() => import("./pages/BetaPage"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const ContactUs = lazy(() => import("./pages/ContactUs"));
-const Home = lazy(() => import("./pages/Home"));
 
 import {
   Tooltip,
