@@ -1,6 +1,6 @@
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import logo from "../Assets/svgs/logoLight.svg";
 import frame1 from "../Assets/Images/Frame-1.webp";
 import frame2 from "../Assets/Images/Frame-2.webp";
@@ -11,10 +11,10 @@ import Button from "../components/ui/Button";
 import { useEffect } from "react";
 
 const Cover: React.FC = () => {
-  // const navigate = useNavigate();
-  // const handleGetStartedClick = () => {
-  //   navigate("/signup");
-  // };
+  const navigate = useNavigate();
+  const handleGetStartedClick = () => {
+    navigate("/signup");
+  };
 
   const handleGetInTouchClick = () => {
     window.open("mailto:contact@speakimage.ai", "_blank");
@@ -85,14 +85,14 @@ const Cover: React.FC = () => {
           </span>{" "}
           text.
         </motion.h1>
-        {/* <motion.div
+        <motion.div
           aria-label="get started"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2, duration: 3, ease: "easeOut" }}
         >
           <Button onClick={handleGetStartedClick}>Get Started</Button>
-        </motion.div> */}
+        </motion.div>
         <div className="mt-auto"></div>
       </section>
       <section className="min-h-screen max-sm:bg-gradient-to-b from-transparent to-black to-50% relative z-10 w-full flex flex-col justify-center items-center gap-12 py-6 px-10">

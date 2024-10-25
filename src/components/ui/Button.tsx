@@ -17,7 +17,7 @@ const Button: FC<ButtonProps> = ({
 }) => {
   const sizeStyles =
     size === "large"
-      ? "h-12 sm:h-14 text-base sm:text-lg px-6 sm:px-10"
+      ? "h-12 sm:h-14 text-base sm:text-xl px-6 sm:px-10"
       : "h-11 text-sm px-6";
   const variantStyles =
     variant === "filled"
