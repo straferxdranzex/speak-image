@@ -94,7 +94,7 @@ const HomeLayout = () => {
   const [allChats, setAllChats] = useState<ChatHistory[]>([]);
   const [user, setUser] = useState<User | null>(null);
   const [activeChatId, setActiveChatId] = useState<string>("");
-  const [showScrollButton, setShowScrollButton] = useState(false);
+  const showScrollButton = useRef(false);
   const [extended, setExtended] = useState(false);
   const [modalImage, setModalImage] = useState<string | null>(null);
   const [isAtBottom, setIsAtBottom] = useState(true);
@@ -128,7 +128,7 @@ const HomeLayout = () => {
       if (!current) return;
       const isAtBottom =
         current.scrollHeight - current.scrollTop === current.clientHeight;
-      setShowScrollButton(!isAtBottom);
+      showScrollButton.current = !isAtBottom ;
     };
 
     current?.addEventListener("scroll", handleScroll);
@@ -638,7 +638,7 @@ const HomeLayout = () => {
                   </React.Fragment>
                 ))}
               </div>
-              {showScrollButton && !isAtBottom && (
+              {showScrollButton.current && !isAtBottom && (
                 <div
                   tabIndex={0}
                   role="button"
