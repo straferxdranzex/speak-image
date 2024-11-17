@@ -210,7 +210,6 @@ const HomeLayout = () => {
         loadChatHistory(chatIdToLoad);
       } else {
         console.error("Chat not found for ID:", chatIdToLoad);
-        setLoadingMessage("Chat not found.");
       }
     }
   }, [urlThreadId, allChats]);
