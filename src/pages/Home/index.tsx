@@ -151,10 +151,11 @@ const HomeLayout = () => {
       const clientId = getCookie("userId");
       if (clientId) {
         try {
-          // Clear current chat data and show loading state
+          // Clear state and show loading
           setChatHistory([]);
           setShowResults(false);
           setLoadingMessage("Loading data...");
+          setThreadId(""); // Reset thread ID until new data is loaded
   
           // Fetch user information
           const userResponse = await axios.get(
@@ -163,7 +164,7 @@ const HomeLayout = () => {
           );
           setUser(userResponse.data);
   
-          // Fetch chat history
+          // Fetch chats
           const chatsResponse = await axios.get<{ chats: ChatHistory[] }>(
             `https://api.speakimage.ai/api/get-user-chats/${clientId}`,
             { withCredentials: true }
@@ -179,14 +180,10 @@ const HomeLayout = () => {
             );
             setAllChats(sortedChats);
   
-            // Determine thread ID to load: use URL thread ID or default to the first chat
+            // Set initial thread ID (from URL or default to the first chat)
             const initialThreadId = urlThreadId || sortedChats[0]._id;
             setThreadId(initialThreadId);
   
-            // Load chat history for the selected thread
-            loadChatHistory(initialThreadId);
-  
-            // Navigate to the thread URL if directly accessing a thread
             if (!urlThreadId) {
               navigate(`/thread/${initialThreadId}`, { replace: true });
             }
@@ -195,13 +192,29 @@ const HomeLayout = () => {
           }
         } catch (error) {
           console.error("Error fetching user data or chats:", error);
-          setLoadingMessage("Error loading data. Please try again.");
+          setLoadingMessage("Error loading data.");
         }
       }
     };
   
     fetchUserData();
   }, [urlThreadId]);
+
+  
+  useEffect(() => {
+    if (allChats.length > 0 && threadId) {
+      const chatIdToLoad = urlThreadId || threadId;
+      const selectedChat = allChats.find((chat) => chat._id === chatIdToLoad);
+  
+      if (selectedChat) {
+        loadChatHistory(chatIdToLoad);
+      } else {
+        console.error("Chat not found for ID:", chatIdToLoad);
+        setLoadingMessage("Chat not found.");
+      }
+    }
+  }, [urlThreadId, allChats]);
+
   
   // const initializeChatHistory = (
   //   chatId: string,
