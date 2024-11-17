@@ -226,11 +226,17 @@ const HomeLayout = () => {
   // };
 
   const loadChatHistory = (chatId: string) => {
-    setShowResults(true);
-    setActiveChatId(chatId);
-    setThreadId(chatId);
+    // Clear chat history and temporarily disable results to show loading state
+    setChatHistory([]);
+    setShowResults(false);
+    setLoadingMessage("Loading new thread...");
+    setActiveChatId(""); // Clear active chat ID while loading
+  
     const selectedChat = allChats.find((chat) => chat._id === chatId);
     if (selectedChat) {
+      setThreadId(chatId);
+  
+      // Format the new chat entries for the selected thread
       const formattedEntries = selectedChat.conversation.map((entry) => ({
         prompt: entry.query,
         response: entry.response.text,
@@ -239,10 +245,19 @@ const HomeLayout = () => {
         imagex: entry.response.pixabay_img,
         video: entry.response.pixabay_video,
       }));
+  
+      // Update state after loading is complete
       setChatHistory(formattedEntries);
+      setShowResults(true);
+      setActiveChatId(chatId); // Set active chat ID after data is loaded
+      setLoadingMessage(""); // Clear the loading message
       scrollToBottom();
+    } else {
+      console.error("Chat not found for ID:", chatId);
+      setLoadingMessage("Unable to load the thread.");
     }
   };
+  
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPrompt(e.target.value);
