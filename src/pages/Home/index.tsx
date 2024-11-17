@@ -151,6 +151,11 @@ const HomeLayout = () => {
       const clientId = getCookie("userId");
       if (clientId) {
         try {
+          setChatHistory([]);
+          setShowResults(false);
+          setLoadingMessage("Loading new thread...");
+          setThreadId(""); // Clear current thread ID until new data is fetched
+
           const response = await axios.get(
             `https://api.speakimage.ai/api/get-user/${clientId}`,
             {
@@ -193,9 +198,12 @@ const HomeLayout = () => {
             //   (chat) => chat._id === sortedChats[0]._id
             // );
             // initializeChatHistory(sortedChats[0]._id, selectedChat); // Load the first chat by default
+          } else {
+            setLoadingMessage("No chats found.");
           }
         } catch (error) {
           console.error("Error fetching user data or chats:", error);
+          setLoadingMessage("Error loading data. Please try again.");
         }
       }
     };
@@ -231,11 +239,11 @@ const HomeLayout = () => {
     setShowResults(false);
     setLoadingMessage("Loading new thread...");
     setActiveChatId(""); // Clear active chat ID while loading
-  
+
     const selectedChat = allChats.find((chat) => chat._id === chatId);
     if (selectedChat) {
       setThreadId(chatId);
-  
+
       // Format the new chat entries for the selected thread
       const formattedEntries = selectedChat.conversation.map((entry) => ({
         prompt: entry.query,
@@ -245,7 +253,7 @@ const HomeLayout = () => {
         imagex: entry.response.pixabay_img,
         video: entry.response.pixabay_video,
       }));
-  
+
       // Update state after loading is complete
       setChatHistory(formattedEntries);
       setShowResults(true);
@@ -257,7 +265,6 @@ const HomeLayout = () => {
       setLoadingMessage("Unable to load the thread.");
     }
   };
-  
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPrompt(e.target.value);
