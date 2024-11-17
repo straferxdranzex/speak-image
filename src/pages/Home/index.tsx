@@ -151,55 +151,47 @@ const HomeLayout = () => {
       const clientId = getCookie("userId");
       if (clientId) {
         try {
+          // Clear current chat data and show loading state
           setChatHistory([]);
           setShowResults(false);
-          setLoadingMessage("Loading new thread...");
-          setThreadId(""); // Clear current thread ID until new data is fetched
-
-          const response = await axios.get(
+          setLoadingMessage("Loading data...");
+  
+          // Fetch user information
+          const userResponse = await axios.get(
             `https://api.speakimage.ai/api/get-user/${clientId}`,
-            {
-              withCredentials: true,
-            }
+            { withCredentials: true }
           );
-          setUser(response.data);
-
+          setUser(userResponse.data);
+  
+          // Fetch chat history
           const chatsResponse = await axios.get<{ chats: ChatHistory[] }>(
             `https://api.speakimage.ai/api/get-user-chats/${clientId}`,
-            {
-              withCredentials: true,
-            }
+            { withCredentials: true }
           );
-
-          console.log("Chats Response", chatsResponse);
-
-          // Access the actual array of chats
           const chats = chatsResponse.data.chats;
-
+  
           if (chats.length > 0) {
-            // Sort the chats by the create_timestamp
+            // Sort chats by timestamp (most recent first)
             const sortedChats = chats.sort(
               (a, b) =>
                 new Date(b.create_timestamp).getTime() -
                 new Date(a.create_timestamp).getTime()
             );
             setAllChats(sortedChats);
-
+  
+            // Determine thread ID to load: use URL thread ID or default to the first chat
             const initialThreadId = urlThreadId || sortedChats[0]._id;
             setThreadId(initialThreadId);
+  
+            // Load chat history for the selected thread
             loadChatHistory(initialThreadId);
-
-            // Redirect to the first thread if no thread is in the URL
+  
+            // Navigate to the thread URL if directly accessing a thread
             if (!urlThreadId) {
               navigate(`/thread/${initialThreadId}`, { replace: true });
             }
-
-            // const selectedChat = sortedChats.find(
-            //   (chat) => chat._id === sortedChats[0]._id
-            // );
-            // initializeChatHistory(sortedChats[0]._id, selectedChat); // Load the first chat by default
           } else {
-            setLoadingMessage("No chats found.");
+            setLoadingMessage("No chats available.");
           }
         } catch (error) {
           console.error("Error fetching user data or chats:", error);
@@ -207,11 +199,10 @@ const HomeLayout = () => {
         }
       }
     };
-
+  
     fetchUserData();
-    console.log("chat history loaded:", allChats, allChats.length, user);
   }, [urlThreadId]);
-
+  
   // const initializeChatHistory = (
   //   chatId: string,
   //   selectedChat: ChatHistory | undefined
