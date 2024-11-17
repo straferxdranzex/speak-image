@@ -35,6 +35,7 @@ import {
 } from "../../components/ui/DroppDown";
 
 import ImageModal from "./ImageModal";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const getCookie = (name: string) => {
   const value = `; ${document.cookie}`;
@@ -108,6 +109,9 @@ const HomeLayout = () => {
   const { theme } = useTheme();
   const isDark = theme != "light";
 
+  const { threadId: urlThreadId } = useParams<{ threadId: string }>();
+  const navigate = useNavigate();
+
   const toggleNavbar = () => {
     setExtended(!extended);
   };
@@ -128,7 +132,7 @@ const HomeLayout = () => {
       if (!current) return;
       const isAtBottom =
         current.scrollHeight - current.scrollTop === current.clientHeight;
-      showScrollButton.current = !isAtBottom ;
+      showScrollButton.current = !isAtBottom;
     };
 
     current?.addEventListener("scroll", handleScroll);
@@ -175,10 +179,20 @@ const HomeLayout = () => {
                 new Date(a.create_timestamp).getTime()
             );
             setAllChats(sortedChats);
-            const selectedChat = sortedChats.find(
-              (chat) => chat._id === sortedChats[0]._id
-            );
-            initializeChatHistory(sortedChats[0]._id, selectedChat); // Load the first chat by default
+
+            const initialThreadId = urlThreadId || sortedChats[0]._id;
+            setThreadId(initialThreadId);
+            loadChatHistory(initialThreadId);
+
+            // Redirect to the first thread if no thread is in the URL
+            if (!urlThreadId) {
+              navigate(`/thread/${initialThreadId}`, { replace: true });
+            }
+
+            // const selectedChat = sortedChats.find(
+            //   (chat) => chat._id === sortedChats[0]._id
+            // );
+            // initializeChatHistory(sortedChats[0]._id, selectedChat); // Load the first chat by default
           }
         } catch (error) {
           console.error("Error fetching user data or chats:", error);
@@ -188,35 +202,35 @@ const HomeLayout = () => {
 
     fetchUserData();
     console.log("chat history loaded:", allChats, allChats.length, user);
-  }, []);
+  }, [urlThreadId]);
 
-  const initializeChatHistory = (
-    chatId: string,
-    selectedChat: ChatHistory | undefined
-  ) => {
-    setShowResults(true);
-    setActiveChatId(chatId);
-    if (selectedChat) {
-      setThreadId(chatId);
-      const formattedEntries = selectedChat.conversation.map((entry) => ({
-        prompt: entry.query,
-        response: entry.response.text,
-        loading: false,
-        image: entry.response.dalle_image,
-        imagex: entry.response.pixabay_img,
-        video: entry.response.pixabay_video,
-      }));
-      setChatHistory(formattedEntries);
-      scrollToBottom();
-    }
-  };
+  // const initializeChatHistory = (
+  //   chatId: string,
+  //   selectedChat: ChatHistory | undefined
+  // ) => {
+  //   setShowResults(true);
+  //   setActiveChatId(chatId);
+  //   if (selectedChat) {
+  //     setThreadId(chatId);
+  //     const formattedEntries = selectedChat.conversation.map((entry) => ({
+  //       prompt: entry.query,
+  //       response: entry.response.text,
+  //       loading: false,
+  //       image: entry.response.dalle_image,
+  //       imagex: entry.response.pixabay_img,
+  //       video: entry.response.pixabay_video,
+  //     }));
+  //     setChatHistory(formattedEntries);
+  //     scrollToBottom();
+  //   }
+  // };
 
   const loadChatHistory = (chatId: string) => {
     setShowResults(true);
     setActiveChatId(chatId);
+    setThreadId(chatId);
     const selectedChat = allChats.find((chat) => chat._id === chatId);
     if (selectedChat) {
-      setThreadId(chatId);
       const formattedEntries = selectedChat.conversation.map((entry) => ({
         prompt: entry.query,
         response: entry.response.text,
@@ -239,6 +253,7 @@ const HomeLayout = () => {
     setChatHistory([]);
     setShowResults(false);
     setActiveChatId("");
+    navigate("/thread/new", { replace: true });
   };
 
   const handleSubmit = async (): Promise<void> => {
@@ -284,11 +299,15 @@ const HomeLayout = () => {
           { withCredentials: true, signal: controller.signal }
         );
         if (response.data.thread_id) {
-          setThreadId(response.data.thread_id);
+          const newThreadId = response.data.thread_id;
+          setThreadId(newThreadId);
+
+          // Update URL to reflect the new thread
+          navigate(`/thread/${newThreadId}`, { replace: true });
 
           // Create a new chat entry and add it to allChats
           const newChat: ChatHistory = {
-            _id: response.data.thread_id,
+            _id: newThreadId,
             user_id: user?.user_id || clientId,
             title: prompt.split(" ").slice(0, 5).join(" "), // Generate a title from the first few words of the prompt
             conversation: [
@@ -431,17 +450,14 @@ const HomeLayout = () => {
         <div className="muteScroll overflow-y-auto overflow-x-hidden flex-grow rounded-xl flex flex-col gap-1 w-full">
           {allChats.map((chat) => {
             return (
-              <div
+              <Link
                 key={chat._id}
                 className={`${
                   chat._id === activeChatId ? "text-foreground" : ""
                 } text-text-light relative px-2 py-1.5 flex w-full items-center rounded-md transition-colors text-sm  hover:text-foreground`}
-                onClick={() => loadChatHistory(chat._id)}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) =>
-                  e.key === "Enter" && loadChatHistory(chat._id)
-                }
+                to={`/thread/${chat._id}`}
                 aria-label={`Load chat titled ${chat.title}`}
               >
                 <IoChatboxOutline />
@@ -451,7 +467,7 @@ const HomeLayout = () => {
                 >
                   {chat.title}
                 </span>
-              </div>
+              </Link>
             );
           })}
         </div>

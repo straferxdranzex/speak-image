@@ -69,6 +69,15 @@ const AppRoutes: React.FC = () => {
         </a>
         <Routes>
           <Route path="/get-started" element={<Cover />} />
+
+          <Route
+            path="/thread/:threadId"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/"
             element={
