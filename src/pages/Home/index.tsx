@@ -274,17 +274,18 @@ const HomeLayout = () => {
     setPrompt(e.target.value);
   };
 
-  const initiateNewChat = async () => {
+  const initiateNewChat = () => {
     setThreadId("");
     setChatHistory([]);
     setShowResults(false);
     setActiveChatId("");
-    navigate("/thread/new", { replace: true });
+    navigate("/thread/new", { replace: true }); // Navigate to a "new chat" route
   };
+  
 
   const handleSubmit = async (): Promise<void> => {
     if (!prompt?.trim()) return;
-
+  
     const newEntry: ChatEntry = {
       prompt: prompt,
       response: "",
@@ -293,29 +294,30 @@ const HomeLayout = () => {
       imagex: null,
       video: null,
     };
-
+  
     setChatHistory((prevHistory) => [...prevHistory, newEntry]);
     setShowResults(true);
     setPrompt("");
     setLoadingMessage("Generating response...");
-
-    // Initialize a new AbortController
+  
     const controller = new AbortController();
     setAbortController(controller);
-
+  
     const timer = setTimeout(() => {
       setLoadingMessage("Almost there...");
     }, 10000);
-
+  
     try {
-      let response: ApiResponse;
       const clientId = getCookie("userId");
       if (!clientId) {
         console.error("User ID not found");
         return;
       }
-
+  
+      let response: ApiResponse;
+  
       if (!threadId) {
+        // Create a new thread
         response = await axios.post(
           "https://api.speakimage.ai/api/init-chat",
           {
@@ -324,18 +326,17 @@ const HomeLayout = () => {
           },
           { withCredentials: true, signal: controller.signal }
         );
+  
         if (response.data.thread_id) {
           const newThreadId = response.data.thread_id;
           setThreadId(newThreadId);
-
-          // Update URL to reflect the new thread
-          navigate(`/thread/${newThreadId}`, { replace: true });
-
-          // Create a new chat entry and add it to allChats
+          navigate(`/thread/${newThreadId}`, { replace: true }); // Redirect to the new thread URL
+  
+          // Add the new chat to the list of chats
           const newChat: ChatHistory = {
             _id: newThreadId,
             user_id: user?.user_id || clientId,
-            title: prompt.split(" ").slice(0, 5).join(" "), // Generate a title from the first few words of the prompt
+            title: prompt.split(" ").slice(0, 5).join(" "),
             conversation: [
               {
                 query: prompt,
@@ -350,18 +351,21 @@ const HomeLayout = () => {
             ],
             create_timestamp: new Date().toISOString(),
           };
-
+  
           setAllChats((prevChats) => [newChat, ...prevChats]);
         }
       } else {
+        // Continue in an existing thread
         response = await axios.post(
           "https://api.speakimage.ai/api/generate-answer",
           { query: prompt, thread_id: threadId },
           { withCredentials: true, signal: controller.signal }
         );
       }
-
+  
       clearTimeout(timer);
+  
+      // Update the chat history
       setChatHistory((prevHistory) =>
         prevHistory.map((entry, index) =>
           index === prevHistory.length - 1
@@ -383,7 +387,7 @@ const HomeLayout = () => {
         console.error("Error fetching response:", error);
       }
       clearTimeout(timer);
-      console.error("Error fetching response:", error);
+  
       setChatHistory((prevHistory) =>
         prevHistory.map((entry, index) =>
           index === prevHistory.length - 1
@@ -399,6 +403,7 @@ const HomeLayout = () => {
       setAbortController(null);
     }
   };
+  
 
   useEffect(() => {
     const chatContainer = chatContainerRef.current;
