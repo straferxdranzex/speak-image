@@ -76,9 +76,9 @@ interface ChatEntry {
   prompt: string;
   response: string;
   loading: boolean;
-  image: string | null;
-  imagex: string | null;
-  video: string | null;
+  flux_image: string | null;
+  google_img: string | null;
+  youtube_video: string | null;
 }
 
 interface User {
@@ -227,9 +227,9 @@ const HomeLayout = () => {
   //       prompt: entry.query,
   //       response: entry.response.text,
   //       loading: false,
-  //       image: entry.response.dalle_image,
-  //       imagex: entry.response.pixabay_img,
-  //       video: entry.response.pixabay_video,
+  //       flux_image: entry.response.dalle_image,
+  //       google_img: entry.response.pixabay_img,
+  //       youtube_video: entry.response.pixabay_video,
   //     }));
   //     setChatHistory(formattedEntries);
   //     scrollToBottom();
@@ -244,6 +244,8 @@ const HomeLayout = () => {
     setActiveChatId(""); // Clear active chat ID while loading
 
     const selectedChat = allChats.find((chat) => chat._id === chatId);
+    console.log(allChats);
+
     if (selectedChat) {
       setThreadId(chatId);
 
@@ -252,9 +254,9 @@ const HomeLayout = () => {
         prompt: entry.query,
         response: entry.response.text,
         loading: false,
-        image: entry.response.dalle_image,
-        imagex: entry.response.pixabay_img,
-        video: entry.response.pixabay_video,
+        flux_image: entry.response.dalle_image,
+        google_img: entry.response.pixabay_img,
+        youtube_video: entry.response.pixabay_video,
       }));
 
       // Update state after loading is complete
@@ -289,9 +291,9 @@ const HomeLayout = () => {
       prompt: prompt,
       response: "",
       loading: true,
-      image: null,
-      imagex: null,
-      video: null,
+      flux_image: null,
+      google_img: null,
+      youtube_video: null,
     };
   
     setChatHistory((prevHistory) => [...prevHistory, newEntry]);
@@ -371,9 +373,9 @@ const HomeLayout = () => {
             ? {
                 ...entry,
                 response: response.data.response.text,
-                image: response.data.response.dalle_image,
-                imagex: response.data.response.pixabay_img,
-                video: response.data.response.pixabay_video,
+                flux_image: response.data.response.dalle_image,
+                google_img: response.data.response.pixabay_img,
+                youtube_video: response.data.response.pixabay_video,
                 loading: false,
               }
             : entry
@@ -386,6 +388,7 @@ const HomeLayout = () => {
         console.error("Error fetching response:", error);
       }
       clearTimeout(timer);
+
   
       setChatHistory((prevHistory) =>
         prevHistory.map((entry, index) =>
@@ -625,15 +628,15 @@ const HomeLayout = () => {
                           </div>
                         ) : (
                           <>
-                            {(chat.image || chat.imagex) && (
+                            {(chat.flux_image || chat.google_img) && (
                               <div className="flex max-sm:flex-col gap-4">
-                                {/* Dalle Image */}
-                                {chat.image && (
+                                {/* flux_image */}
+                                {chat.flux_image && (
                                   <div className="sm:w-1/2 aspect-[1.1] overflow-hidden rounded-sm">
                                     <img
-                                      src={chat.image}
+                                      src={chat.flux_image}
                                       onClick={() =>
-                                        handleImageClick(chat.image)
+                                        handleImageClick(chat.flux_image)
                                       }
                                       alt="Dalle Response Visual"
                                       className="cursor-pointer bg-card-2 text-xs w-full h-full object-cover block"
@@ -641,12 +644,12 @@ const HomeLayout = () => {
                                   </div>
                                 )}
                                 {/* Pixabay Image */}
-                                {chat.imagex && (
+                                {chat.google_img && (
                                   <div className="sm:w-1/2 aspect-[1.1] overflow-hidden rounded-sm">
                                     <img
-                                      src={chat.imagex}
+                                      src={chat.google_img}
                                       onClick={() =>
-                                        handleImageClick(chat.imagex)
+                                        handleImageClick(chat.google_img)
                                       }
                                       alt="Pixabay Response Visual"
                                       className="cursor-pointer bg-card-2 text-xs w-full h-full object-cover block"
@@ -655,14 +658,14 @@ const HomeLayout = () => {
                                 )}
                               </div>
                             )}
-                            {/* Pixabay Video */}
-                            {chat.video && (
+                            {/* youtube video */}
+                            {chat.youtube_video && (
                               <div className="w-full">
                                 <video
-                                  src={chat.video}
+                                  src={chat.youtube_video}
                                   controls
                                   className="bg-card-2 w-full h-auto"
-                                  aria-label="Pixabay Response Video"
+                                  aria-label="youtube video"
                                 />
                               </div>
                             )}
