@@ -331,7 +331,6 @@ const HomeLayout = () => {
           setThreadId(newThreadId);
           navigate(`/thread/${newThreadId}`, { replace: true }); // Redirect to the new thread URL
 
-          console.log(response.data);
           // Add the new chat to the list of chats
           const newChat: ChatHistory = {
             _id: newThreadId,
@@ -358,7 +357,7 @@ const HomeLayout = () => {
         // Continue in an existing thread
         response = await axios.post(
           "https://api.speakimage.ai/api/generate-answer",
-          { query: prompt, thread_id: threadId },
+          { query: prompt, thread_id: threadId, user_id: user?.user_id || clientId, },
           { withCredentials: true, signal: controller.signal }
         );
       }
