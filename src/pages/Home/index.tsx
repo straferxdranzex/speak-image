@@ -156,21 +156,21 @@ const HomeLayout = () => {
           setShowResults(false);
           setLoadingMessage("Loading data...");
           setThreadId(""); // Reset thread ID until new data is loaded
-  
+
           // Fetch user information
           const userResponse = await axios.get(
             `https://api.speakimage.ai/api/get-user/${clientId}`,
             { withCredentials: true }
           );
           setUser(userResponse.data);
-  
+
           // Fetch chats
           const chatsResponse = await axios.get<{ chats: ChatHistory[] }>(
             `https://api.speakimage.ai/api/get-user-chats/${clientId}`,
             { withCredentials: true }
           );
           const chats = chatsResponse.data.chats;
-  
+
           if (chats.length > 0) {
             // Sort chats by timestamp (most recent first)
             const sortedChats = chats.sort(
@@ -179,11 +179,11 @@ const HomeLayout = () => {
                 new Date(a.create_timestamp).getTime()
             );
             setAllChats(sortedChats);
-  
+
             // Set initial thread ID (from URL or default to the first chat)
             const initialThreadId = urlThreadId || sortedChats[0]._id;
             setThreadId(initialThreadId);
-  
+
             if (!urlThreadId) {
               navigate(`/thread/${initialThreadId}`, { replace: true });
             }
@@ -196,25 +196,25 @@ const HomeLayout = () => {
         }
       }
     };
-  
+
     fetchUserData();
   }, [urlThreadId]);
 
-  
   useEffect(() => {
     if (allChats.length > 0 && threadId) {
       const chatIdToLoad = urlThreadId || threadId;
       const selectedChat = allChats.find((chat) => chat._id === chatIdToLoad);
-  
+
       if (selectedChat) {
         loadChatHistory(chatIdToLoad);
+      } else if (chatIdToLoad === "new") {
+        console.log("new chat");
       } else {
         console.error("Chat not found for ID:", chatIdToLoad);
       }
     }
   }, [urlThreadId, allChats]);
 
-  
   // const initializeChatHistory = (
   //   chatId: string,
   //   selectedChat: ChatHistory | undefined
@@ -281,11 +281,10 @@ const HomeLayout = () => {
     setActiveChatId("");
     navigate("/thread/new", { replace: true }); // Navigate to a "new chat" route
   };
-  
 
   const handleSubmit = async (): Promise<void> => {
     if (!prompt?.trim()) return;
-  
+
     const newEntry: ChatEntry = {
       prompt: prompt,
       response: "",
@@ -294,29 +293,29 @@ const HomeLayout = () => {
       google_img: null,
       youtube_video: null,
     };
-  
+
     setChatHistory((prevHistory) => [...prevHistory, newEntry]);
     setShowResults(true);
     setPrompt("");
     setLoadingMessage("Generating response...");
-  
+
     const controller = new AbortController();
     setAbortController(controller);
-  
+
     const timer = setTimeout(() => {
       setLoadingMessage("Almost there...");
     }, 10000);
-  
+
     try {
       const clientId = getCookie("userId");
       if (!clientId) {
         console.error("User ID not found");
         return;
       }
-  
+
       let response: ApiResponse;
-  
-      if (!threadId) {
+
+      if (!threadId || threadId === "new") {
         // Create a new thread
         response = await axios.post(
           "https://api.speakimage.ai/api/init-chat",
@@ -326,12 +325,12 @@ const HomeLayout = () => {
           },
           { withCredentials: true, signal: controller.signal }
         );
-  
+
         if (response.data.thread_id) {
           const newThreadId = response.data.thread_id;
           setThreadId(newThreadId);
           navigate(`/thread/${newThreadId}`, { replace: true }); // Redirect to the new thread URL
-  
+
           // Add the new chat to the list of chats
           const newChat: ChatHistory = {
             _id: newThreadId,
@@ -351,7 +350,7 @@ const HomeLayout = () => {
             ],
             create_timestamp: new Date().toISOString(),
           };
-  
+
           setAllChats((prevChats) => [newChat, ...prevChats]);
         }
       } else {
@@ -362,9 +361,9 @@ const HomeLayout = () => {
           { withCredentials: true, signal: controller.signal }
         );
       }
-  
+
       clearTimeout(timer);
-  
+
       // Update the chat history
       setChatHistory((prevHistory) =>
         prevHistory.map((entry, index) =>
@@ -388,7 +387,6 @@ const HomeLayout = () => {
       }
       clearTimeout(timer);
 
-  
       setChatHistory((prevHistory) =>
         prevHistory.map((entry, index) =>
           index === prevHistory.length - 1
@@ -404,7 +402,6 @@ const HomeLayout = () => {
       setAbortController(null);
     }
   };
-  
 
   useEffect(() => {
     const chatContainer = chatContainerRef.current;
