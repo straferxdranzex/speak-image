@@ -655,7 +655,6 @@ const HomeLayout = () => {
                                 )}
                               </div>
                             )}
-                            {chat.youtube_video}
                             {/* youtube video */}
                             {chat.youtube_video && (
                               <div className="w-full">
