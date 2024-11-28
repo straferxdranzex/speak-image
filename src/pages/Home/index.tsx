@@ -244,7 +244,6 @@ const HomeLayout = () => {
     setActiveChatId(""); // Clear active chat ID while loading
 
     const selectedChat = allChats.find((chat) => chat._id === chatId);
-    console.log(allChats);
 
     if (selectedChat) {
       setThreadId(chatId);
@@ -638,7 +637,7 @@ const HomeLayout = () => {
                                       onClick={() =>
                                         handleImageClick(chat.flux_image)
                                       }
-                                      alt="Dalle Response Visual"
+                                      alt="Flux Response Visual"
                                       className="cursor-pointer bg-card-2 text-xs w-full h-full object-cover block"
                                     />
                                   </div>
@@ -651,7 +650,7 @@ const HomeLayout = () => {
                                       onClick={() =>
                                         handleImageClick(chat.google_img)
                                       }
-                                      alt="Pixabay Response Visual"
+                                      alt="Google Response Visual"
                                       className="cursor-pointer bg-card-2 text-xs w-full h-full object-cover block"
                                     />
                                   </div>
