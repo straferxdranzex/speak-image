@@ -47,9 +47,9 @@ interface ApiResponse {
   data: {
     response: {
       text: string;
-      dalle_image: string;
-      pixabay_img: string;
-      pixabay_video: string;
+      flux_image: string;
+      google_img: string;
+      youtube_video: string;
     };
     thread_id?: string;
   };
@@ -63,9 +63,9 @@ interface ChatHistory {
     query: string;
     response: {
       text: string;
-      dalle_image: string | null;
-      pixabay_img: string | null;
-      pixabay_video: string | null;
+      flux_image: string | null;
+      google_img: string | null;
+      youtube_video: string | null;
     };
     timestamp: string;
   }>;
@@ -227,9 +227,9 @@ const HomeLayout = () => {
   //       prompt: entry.query,
   //       response: entry.response.text,
   //       loading: false,
-  //       flux_image: entry.response.dalle_image,
-  //       google_img: entry.response.pixabay_img,
-  //       youtube_video: entry.response.pixabay_video,
+  //       flux_image: entry.response.flux_image,
+  //       google_img: entry.response.google_img,
+  //       youtube_video: entry.response.youtube_video,
   //     }));
   //     setChatHistory(formattedEntries);
   //     scrollToBottom();
@@ -253,9 +253,9 @@ const HomeLayout = () => {
         prompt: entry.query,
         response: entry.response.text,
         loading: false,
-        flux_image: entry.response.dalle_image,
-        google_img: entry.response.pixabay_img,
-        youtube_video: entry.response.pixabay_video,
+        flux_image: entry.response.flux_image,
+        google_img: entry.response.google_img,
+        youtube_video: entry.response.youtube_video,
       }));
 
       // Update state after loading is complete
@@ -331,6 +331,7 @@ const HomeLayout = () => {
           setThreadId(newThreadId);
           navigate(`/thread/${newThreadId}`, { replace: true }); // Redirect to the new thread URL
 
+          console.log(response.data);
           // Add the new chat to the list of chats
           const newChat: ChatHistory = {
             _id: newThreadId,
@@ -341,9 +342,9 @@ const HomeLayout = () => {
                 query: prompt,
                 response: {
                   text: "",
-                  dalle_image: null,
-                  pixabay_img: null,
-                  pixabay_video: null,
+                  flux_image: null,
+                  google_img: null,
+                  youtube_video: null,
                 },
                 timestamp: new Date().toISOString(),
               },
@@ -371,9 +372,9 @@ const HomeLayout = () => {
             ? {
                 ...entry,
                 response: response.data.response.text,
-                flux_image: response.data.response.dalle_image,
-                google_img: response.data.response.pixabay_img,
-                youtube_video: response.data.response.pixabay_video,
+                flux_image: response.data.response.flux_image,
+                google_img: response.data.response.google_img,
+                youtube_video: response.data.response.youtube_video,
                 loading: false,
               }
             : entry
