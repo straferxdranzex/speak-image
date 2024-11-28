@@ -208,7 +208,7 @@ const HomeLayout = () => {
       if (selectedChat) {
         loadChatHistory(chatIdToLoad);
       } else if (chatIdToLoad === "new") {
-        console.log("new chat");
+        // console.log("new chat");
       } else {
         console.error("Chat not found for ID:", chatIdToLoad);
       }
@@ -655,15 +655,25 @@ const HomeLayout = () => {
                                 )}
                               </div>
                             )}
+                            {chat.youtube_video}
                             {/* youtube video */}
                             {chat.youtube_video && (
                               <div className="w-full">
-                                <video
+                                <iframe
+                                  src={`https://www.youtube.com/embed/${chat.youtube_video.split('v=')[1]?.split('&')[0]}`}
+                                  title="YouTube video player"
+                                  frameBorder="0"
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                  allowFullScreen
+                                  className="bg-card-2 w-full h-auto aspect-video"
+                                  aria-label="YouTube video"
+                                ></iframe>
+                                {/* <video
                                   src={chat.youtube_video}
                                   controls
                                   className="bg-card-2 w-full h-auto"
                                   aria-label="youtube video"
-                                />
+                                /> */}
                               </div>
                             )}
                             {/* Response */}
