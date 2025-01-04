@@ -54,29 +54,45 @@ const AboutUs: React.FC = () => {
               height="77px"
               className="-ml-6 h-20 w-auto block"
             />
-            <h1 id="about-us-title" className="text-2xl sm:text-4xl leading-tight font-semibold">About Us</h1>
+            <h1
+              id="about-us-title"
+              className="text-2xl sm:text-4xl leading-tight font-semibold"
+            >
+              About Us
+            </h1>
             <p className="text-base sm:text-lg leading-relaxed">
-              The use of AI apps, particularly generative pre-trained
-              transformers (GPTs) have increased productivity and given
-              individuals instant access to valuable information with the click
-              of a button. Almost every GPT on the market, however, is solely
-              text-based. A user types in a prompt and receives a lengthy,
-              text-only response. Some individuals are text-only thinkers, so
-              this output is suitable. Other individuals are image-only
-              thinkers, making this output incompatible with their mode of
-              thinking. Most people are a combination of both.
+              <b>Speakimage.ai</b> was created by See Computing founder, Karmel
+              Graham, after she noticed that informational GPT tools on the
+              market followed a “text-only” output format. Karmel saw the need
+              for a GPT tool that considered image-based thinkers, as well as
+              text-based thinkers; especially since most individuals are a
+              combination of both. With speakimage.ai, a user enters in a prompt
+              and will receive a text response in addition to accompanying
+              images and video.
             </p>
             <p className="text-base sm:text-lg leading-relaxed">
-              <span className="dark:text-primary-100 font-semibold">Speakimage.ai</span> was
-              created by See Computing founder, Karmel Graham, after she noticed
-              this gap in the GPT output format. She wanted a GPT tool that was
-              thoughtful toward all ways of thinking, and took into
-              consideration individuals with disabilities.
+              <span className="dark:text-primary-100 font-semibold">
+                How to use speakimage.ai
+              </span>
+              <br />
+              Simply enter in a prompt such as:
+              <br />
+              ”Explain the causes of climate change in simple terms for a
+              10-year-old child to understand.”
+              <br />
+              “What are the top 10 global cities for population?” <br />
+              “What type of math requires the use of the Pythagorean theorem?”{" "}
+              <br />
+              “Suggest some marketing ideas for a local coffee shop.”
             </p>
             <p className="text-base sm:text-lg leading-relaxed">
-              <span className="dark:text-primary-100 font-semibold">Speakimage.ai</span> was
-              developed and trained to add images to appropriate output
-              responses and, thus, cover a greater range of thought processes.
+              <span className="dark:text-primary-100 font-semibold">
+                Disclaimer:
+              </span>{" "}
+              Speakimage.ai is not an image generator. Asking speakimag.ai to
+              create an image will generate an error response. Speakimage.ai
+              will output informational images and video that correlate to the
+              user prompt when available.
             </p>
           </main>
         </div>
