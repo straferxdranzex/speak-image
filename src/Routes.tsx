@@ -90,9 +90,9 @@ const AppRoutes: React.FC = () => {
           <Route
             path="/about-us"
             element={
-              <ProtectedRoute>
-                <AboutUs />
-              </ProtectedRoute>
+              <AboutUs />
+              // <ProtectedRoute>
+              // </ProtectedRoute>
             }
           />
           <Route

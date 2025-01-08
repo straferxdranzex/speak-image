@@ -15,18 +15,16 @@ const AboutUs: React.FC = () => {
   useEffect(() => {
     document.title = "About Us | Speakimage";
   }, []);
-  
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1, ease: "easeOut" }}
-      className="w-full min-h-screen lg:h-screen flex relative lg:overflow-hidden bg-card"
+      className="w-full min-h-screen flex relative bg-card"
       role="main"
     >
-      <section
-        className="w-full lg:w-[57%] flex-shrink-0 relative overflow-hidden"
-      >
+      <section className="w-full lg:w-[57%] flex-shrink-0 relative overflow-hidden">
         <img
           src={gradient}
           alt="Gradient background"
@@ -37,14 +35,14 @@ const AboutUs: React.FC = () => {
         <div className="w-full h-full flex flex-col relative z-[1000]">
           <Link
             to={"/"}
-             aria-label="Go back to the homepage"
+            aria-label="Go back to the homepage"
             className="absolute top-8 left-4 sm:left-12 rounded-lg w-12 h-8 cursor-pointer grid place-content-center border-b border-neutral-700 dark:border-primary-100 text-neutral-700 dark:text-primary-100 text-2xl"
           >
             <IoArrowBackOutline />
           </Link>
           <main
             id="main-content"
-            className="h-full flex flex-col gap-2 sm:gap-7 items-start p-[5rem_1rem] sm:p-[5rem_3rem]"
+            className="h-full  flex flex-col gap-2 sm:gap-7 items-start p-[5rem_1rem] sm:p-[5rem_3rem]"
             aria-labelledby="about-us-title"
           >
             <img
@@ -98,9 +96,7 @@ const AboutUs: React.FC = () => {
         </div>
       </section>
 
-      <section
-        className="max-lg:hidden flex-grow relative"
-      >
+      <section className="max-lg:hidden flex-grow sticky top-0 h-screen">
         <img
           src={catImage}
           alt="Decorative image related to media types"
