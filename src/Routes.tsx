@@ -13,6 +13,7 @@ const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 const BetaPage = lazy(() => import("./pages/BetaPage"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const ContactUs = lazy(() => import("./pages/ContactUs"));
+const Pricing = lazy(() => import("./pages/Pricing"));
 
 import {
   Tooltip,
@@ -104,6 +105,7 @@ const AppRoutes: React.FC = () => {
             }
           />
           <Route path="/login" element={<Login />} />
+          <Route path="/pricing" element={<Pricing />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/update-password" element={<UpdatePassword />} />
