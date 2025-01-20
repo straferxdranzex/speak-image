@@ -3,6 +3,7 @@ import { IoArrowBackOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
+import Cookies from "js-cookie"; 
 
 interface PricingPlan {
   tier: string;
@@ -124,16 +125,87 @@ const PricingTable: React.FC = () => {
   ];
 
   const handleSelectPlan = (planId: string) => {
+    const token = Cookies.get("userToken"); 
+
+    if (!token) {
+      alert("You must log in to subscribe to a plan.");
+      return;
+    }
+
     axios
-      .post("https://api.speakimage.ai/stripe/create-checkout-session", {
-        plan_id: planId,
-      })
+      .post(
+        "https://api.speakimage.ai/stripe/create-checkout-session",
+        { plan_id: planId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+          },
+          withCredentials: true, 
+        }
+      )
       .then((response) => {
-        window.location.href = response.data.url; // Redirect to Stripe Checkout
+        // Redirect to the Stripe Checkout page
+        window.location.href = response.data.url;
       })
       .catch((error) => {
         console.error("Error creating checkout session:", error);
-        alert("Something went wrong. Please try again.");
+        alert("Failed to initiate checkout. Please try again.");
+      });
+  };
+
+  const handleCancelSubscription = () => {
+    const token = Cookies.get("userToken");
+
+    if (!token) {
+      alert("You must log in to cancel your subscription.");
+      return;
+    }
+
+    axios
+      .post(
+        "https://api.speakimage.ai/stripe/cancel-subscription",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+          withCredentials: true, 
+        }
+      )
+      .then((response) => {
+        alert(response.data.message || "Subscription canceled successfully.");
+      })
+      .catch((error) => {
+        console.error("Error canceling subscription:", error);
+        alert("Failed to cancel subscription. Please try again.");
+      });
+  };
+
+  const handleUpdateSubscription = (newPlanId: string) => {
+    const token = Cookies.get("userToken");
+
+    if (!token) {
+      alert("You must log in to update your subscription.");
+      return;
+    }
+
+    axios
+      .post(
+        "https://api.speakimage.ai/stripe/update-subscription",
+        { new_plan_id: newPlanId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+          withCredentials: true, 
+        }
+      )
+      .then((response) => {
+        alert(response.data.message || "Subscription updated successfully.");
+      })
+      .catch((error) => {
+        console.error("Error updating subscription:", error);
+        alert("Failed to update subscription. Please try again.");
       });
   };
 
@@ -173,6 +245,20 @@ const PricingTable: React.FC = () => {
               />
             ))}
           </div>
+        </div>
+        <div className="flex justify-center gap-4 mt-8">
+          <button
+            onClick={handleCancelSubscription}
+            className="py-2 px-4 bg-red-500 text-white rounded-md"
+          >
+            Cancel Subscription
+          </button>
+          <button
+            onClick={() => handleUpdateSubscription("basic")}
+            className="py-2 px-4 bg-blue-500 text-white rounded-md"
+          >
+            Upgrade to BASIC
+          </button>
         </div>
       </main>
     </motion.section>
