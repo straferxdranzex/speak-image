@@ -14,6 +14,7 @@ const BetaPage = lazy(() => import("./pages/BetaPage"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const ContactUs = lazy(() => import("./pages/ContactUs"));
 const Pricing = lazy(() => import("./pages/Pricing"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
 
 import {
   Tooltip,
@@ -74,17 +75,17 @@ const AppRoutes: React.FC = () => {
           <Route
             path="/thread/:threadId"
             element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
+              <Home />
+              // <ProtectedRoute>
+              // </ProtectedRoute>
             }
           />
           <Route
             path="/"
             element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
+              <Home />
+              // <ProtectedRoute>
+              // </ProtectedRoute>
             }
           />
 
@@ -110,6 +111,7 @@ const AppRoutes: React.FC = () => {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/update-password" element={<UpdatePassword />} />
           <Route path="/beta-version" element={<BetaPage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </Suspense>
     </>

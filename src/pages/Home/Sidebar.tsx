@@ -6,6 +6,7 @@ import { TbBrightnessDown } from "react-icons/tb";
 import { PiMoon } from "react-icons/pi";
 import { Option, ToggleClose } from "./SidebarOptions";
 import { motion, AnimatePresence } from "framer-motion";
+import { FaDollarSign } from "react-icons/fa6";
 
 import { useTheme } from "../../lib/ThemeProvider";
 
@@ -37,7 +38,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   return (
     <>
       <motion.nav
-        className={`max-sm:absolute left-0 z-[500] h-full shrink-0 bg-card-2 text-foreground flex flex-col justify-between p-1 sm:px-3.5 py-4 gap-2 overflow-hidden`}
+        className={`max-sm:absolute left-0 z-[500] h-full shrink-0 bg-card-2 text-foreground flex flex-col justify-between p-1 sm:px-3.5 py-4 overflow-hidden`}
         initial={extended ? "open" : "closed"}
         animate={extended ? "open" : "closed"}
         variants={
@@ -47,11 +48,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
         aria-label="Sidebar Navigation"
       >
         {/* Toggle Button for Opening and Closing Sidebar */}
-        <ToggleClose
-          open={extended}
-          setOpen={toggle}
-        />
-
+        <ToggleClose open={extended} setOpen={toggle} />
+        <div className="h-2" />
         {/* Option: New Chat */}
         <Option
           highlight
@@ -61,7 +59,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           onClick={initiateNewChat}
           aria-label="Start a New Chat"
         />
-
+        <div className="h-2" />
         <AnimatePresence>
           <div className="flex-grow flex overflow-hidden" id="sidebar-content">
             {extended && (
@@ -82,6 +80,36 @@ export const Sidebar: React.FC<SidebarProps> = ({
             )}
           </div>
         </AnimatePresence>
+
+        <div className="flex flex-col px-2 pb-4 gap-2">
+          <AnimatePresence>
+            {extended && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="whitespace-nowrap w-full flex"
+              >
+                <p className="text-light text-xs font-medium relative">
+                  Credits: 3/5{" "}
+                  <span className="opacity-70 pl-1">(Free Plan)</span>
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <div className="h-1 flex bg-black/20 rounded-sm">
+            <div className="w-[40%] bg-black rounded-sm"></div>
+          </div>
+        </div>
+
+        {/* Option: About Us */}
+        <Option
+          Icon={FaDollarSign}
+          title="Pricing"
+          open={extended}
+          href="/pricing"
+          aria-label="Learn more about our team and history"
+        />
 
         {/* Option: About Us */}
         <Option
@@ -105,7 +133,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <Option
           Icon={MdOutlineSettings}
           title="Dashboard"
-          label="Coming Soon"
+          label="Dashboard"
+          href="/dashboard"
           open={extended}
           aria-label="Dashboard Settings"
         />

@@ -2,6 +2,7 @@ import React from "react";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import gradient from "../Assets/Images/gradient-login.svg";
 
 interface PricingPlan {
   tier: string;
@@ -24,14 +25,14 @@ const PricingCard: React.FC<PricingCardProps> = ({
     <div
       className={`flex flex-col p-6 border ${
         isHighlighted
-          ? "border-primary-200 border-4 outline-primary-300 outline-4 outline-offset-8 outline"
-          : "border-primary-100 border-4"
-      } bg-white dark:bg-card-hover`}
+          ? "border-primary-200 border-2"
+          : "border-primary-100 border-2 my-4"
+      } bg-white dark:bg-card-hover rounded-xl`}
     >
       <h2 className="text-center text-3xl font-semibold text-gray-700 dark:text-white mb-2">
         {tier}
       </h2>
-      <div className="bg-gray-700 dark:bg-white h-1 w-full my-2"></div>
+      <div className="bg-gray-700 dark:bg-white h-0.5 opacity-30 w-full mt-2 mb-4"></div>
       <div className="text-center text-4xl font-bold text-gray-700 dark:text-white mb-6">
         ${price} <span>/MO</span>
       </div>
@@ -125,29 +126,37 @@ const PricingTable: React.FC = () => {
       <Link
         to={"/"}
         aria-label="Go back to the homepage"
-        className="absolute top-8 left-4 sm:left-12 rounded-lg w-12 h-8 cursor-pointer grid place-content-center border-b border-neutral-700 dark:border-primary-100 text-dark dark:text-primary-100 text-2xl"
+        className="absolute z-[50] top-8 left-4 sm:left-12 rounded-lg w-12 h-8 cursor-pointer grid place-content-center border-b border-neutral-700 dark:border-primary-100 text-dark dark:text-primary-100 text-2xl"
       >
         <IoArrowBackOutline />
       </Link>
       <main
         id="main-content"
-        className="flex-1 min-h-screen h-full flex flex-col gap-2 sm:gap-7 p-[5rem_1rem] sm:p-[5rem_3rem] max-sm:pb-4 w-full"
+        className="flex-1 min-h-screen h-full flex flex-col gap-2 sm:gap-7 p-[5rem_1rem] sm:p-[5rem_3rem] max-sm:pb-4 w-full relative z-10"
         aria-labelledby="about-us-title"
       >
         <h1
           id="about-us-title"
-          className="pt-10 text-xl sm:text-4xl leading-tight font-semibold"
+          className="pt-10 text-xl sm:text-5xl leading-tight font-semibold text-center"
         >
           SpeakImage.ai Pricing Plan
         </h1>
         <div className="max-w-7xl w-full mx-auto px-4 py-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {plans.map((plan) => (
               <PricingCard key={plan.tier} {...plan} />
             ))}
           </div>
         </div>
       </main>
+      <img
+        src={gradient}
+        alt="Gradient background decoration"
+        width="100%"
+        height="100%"
+        className="absolute right-[50%] translate-x-1/2 translate-y-[60%] bottom-[50%] lg:bottom-0 z-50 opacity-80 pointer-events-none"
+        aria-hidden="true"
+      />
     </motion.section>
   );
 };
