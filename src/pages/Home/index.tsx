@@ -104,6 +104,12 @@ const HomeLayout = () => {
   );
   const [abortController, setAbortController] =
     useState<AbortController | null>(null); // State to hold the current controller
+  const [selectedPlan, setSelectedPlan] = useState({
+    user_id: "",
+    plan: "free",
+    prompt_credits: 0,
+    credit_refresh_period: "",
+  }); // Default plan is "free"
 
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const { theme } = useTheme();
@@ -125,6 +131,41 @@ const HomeLayout = () => {
   const closeModal = () => {
     setModalImage(null);
   };
+
+  useEffect(() => {
+    const handleSelectedPlan = () => {
+      const token = Cookies.get("userToken");
+      const id = Cookies.get("userId");
+
+      if (!token || !id) {
+        alert("You must log in to subscribe to a plan.");
+        return;
+      }
+
+      axios
+        .get(`https://api.speakimage.ai/api/user-credits/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+          },
+          withCredentials: true,
+        })
+        .then((response) => {
+          setSelectedPlan(
+            response.data || {
+              user_id: "",
+              plan: "free",
+              prompt_credits: 0,
+              credit_refresh_period: "",
+            }
+          );
+        })
+        .catch((error) => {
+          console.error("Error fetching user plan:", error);
+        });
+    };
+
+    handleSelectedPlan();
+  }, []);
 
   useEffect(() => {
     const current = chatContainerRef.current;
@@ -214,27 +255,6 @@ const HomeLayout = () => {
       }
     }
   }, [urlThreadId, allChats]);
-
-  // const initializeChatHistory = (
-  //   chatId: string,
-  //   selectedChat: ChatHistory | undefined
-  // ) => {
-  //   setShowResults(true);
-  //   setActiveChatId(chatId);
-  //   if (selectedChat) {
-  //     setThreadId(chatId);
-  //     const formattedEntries = selectedChat.conversation.map((entry) => ({
-  //       prompt: entry.query,
-  //       response: entry.response.text,
-  //       loading: false,
-  //       flux_image: entry.response.flux_image,
-  //       google_img: entry.response.google_img,
-  //       youtube_video: entry.response.youtube_video,
-  //     }));
-  //     setChatHistory(formattedEntries);
-  //     scrollToBottom();
-  //   }
-  // };
 
   const loadChatHistory = (chatId: string) => {
     // Clear chat history and temporarily disable results to show loading state
@@ -357,7 +377,11 @@ const HomeLayout = () => {
         // Continue in an existing thread
         response = await axios.post(
           "https://api.speakimage.ai/api/generate-answer",
-          { query: prompt, thread_id: threadId, user_id: user?.user_id || clientId, },
+          {
+            query: prompt,
+            thread_id: threadId,
+            user_id: user?.user_id || clientId,
+          },
           { withCredentials: true, signal: controller.signal }
         );
       }
@@ -474,6 +498,7 @@ const HomeLayout = () => {
         extended={extended}
         toggle={toggleNavbar}
         initiateNewChat={initiateNewChat}
+        selectedPlan={selectedPlan}
         aria-label="Sidebar navigation"
       >
         <div className="muteScroll overflow-y-auto overflow-x-hidden flex-grow rounded-xl flex flex-col gap-1 w-full">
@@ -658,7 +683,11 @@ const HomeLayout = () => {
                             {chat.youtube_video && (
                               <div className="w-full">
                                 <iframe
-                                  src={`https://www.youtube.com/embed/${chat.youtube_video.split('v=')[1]?.split('&')[0]}`}
+                                  src={`https://www.youtube.com/embed/${
+                                    chat.youtube_video
+                                      .split("v=")[1]
+                                      ?.split("&")[0]
+                                  }`}
                                   title="YouTube video player"
                                   frameBorder="0"
                                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

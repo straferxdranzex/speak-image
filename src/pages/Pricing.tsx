@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
 import Cookies from "js-cookie";
 import gradient from "../Assets/Images/gradient-login.svg";
+import Button from "../components/ui/Button";
 
 interface PricingPlan {
   tier: string;
@@ -157,87 +158,38 @@ const PricingTable: React.FC = () => {
       });
   };
 
-  const getSelectedPlan = () => {
-    const token = Cookies.get("userToken");
-    const id = Cookies.get("userId");
+  useEffect(() => {
+    const handleSelectedPlan = () => {
+      const token = Cookies.get("userToken");
+      const id = Cookies.get("userId");
 
-    if (!token || !id) {
-      alert("You must log in to subscribe to a plan.");
-      return;
-    }
+      if (!token || !id) {
+        alert("You must log in to subscribe to a plan.");
+        return;
+      }
 
-    axios
-      .get(`https://api.speakimage.ai/api/user-credits/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
-        },
-        withCredentials: true,
-      })
-      .then((response) => {
-        setSelectedPlan(response.data.plan || "free");
-      })
-      .catch((error) => {
-        console.error("Error fetching user plan:", error);
-      });
-  };
-
-  const handleCancelSubscription = () => {
-    const token = Cookies.get("userToken");
-
-    if (!token) {
-      alert("You must log in to cancel your subscription.");
-      return;
-    }
-
-    axios
-      .post(
-        "https://api.speakimage.ai/stripe/cancel-subscription",
-        {},
-        {
+      axios
+        .get(`https://api.speakimage.ai/api/user-credits/${id}`, {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
           },
           withCredentials: true,
-        }
-      )
-      .then((response) => {
-        alert(response.data.message || "Subscription canceled successfully.");
-      })
-      .catch((error) => {
-        console.error("Error canceling subscription:", error);
-        alert("Failed to cancel subscription. Please try again.");
-      });
+        })
+        .then((response) => {
+          setSelectedPlan(response.data.plan || "free");
+        })
+        .catch((error) => {
+          console.error("Error fetching user plan:", error);
+        });
+    };
+
+    handleSelectedPlan();
+  }, []);
+
+  const handleReachUsClick = () => {
+    window.open("mailto:sales@speakimage.ai", "_blank");
   };
 
-  const handleUpdateSubscription = (newPlanId: string) => {
-    const token = Cookies.get("userToken");
-
-    if (!token) {
-      alert("You must log in to update your subscription.");
-      return;
-    }
-
-    axios
-      .post(
-        "https://api.speakimage.ai/stripe/update-subscription",
-        { new_plan_id: newPlanId },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        alert(response.data.message || "Subscription updated successfully.");
-      })
-      .catch((error) => {
-        console.error("Error updating subscription:", error);
-        alert("Failed to update subscription. Please try again.");
-      });
-  };
-
-  getSelectedPlan();
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -276,19 +228,20 @@ const PricingTable: React.FC = () => {
             ))}
           </div>
         </div>
-        <div className="flex justify-center gap-4 mt-8">
-          <button
-            onClick={handleCancelSubscription}
-            className={`py-2 px-4 rounded-md transition-opacity disabled:opacity-100 hover:opacity-80 bg-red-500 text-white`}
+        <div className="flex gap-4 mt-8 flex-col justify-center items-center">
+          <p className="font-medium text-base sm:text-lg lg:text-xl !leading-relaxed tracking-tight text-center">
+            For Enterprise plans, please reach out to us
+          </p>
+          <motion.div
+            aria-label="get started"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2, duration: 3, ease: "easeOut" }}
           >
-            Cancel Subscription
-          </button>
-          <button
-            onClick={() => handleUpdateSubscription("basic")}
-            className={`py-2 px-4 rounded-md transition-opacity disabled:opacity-100 hover:opacity-80 bg-primary-200 text-white`}
-          >
-            Upgrade to BASIC
-          </button>
+            <Button size="small" onClick={handleReachUsClick}>
+              Reach Us
+            </Button>
+          </motion.div>
         </div>
       </main>
       <img

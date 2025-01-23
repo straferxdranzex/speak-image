@@ -25,6 +25,7 @@ interface SidebarProps {
   toggle?: () => void;
   initiateNewChat?: () => void;
   children?: React.ReactNode;
+  selectedPlan?: any;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -32,6 +33,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   toggle,
   initiateNewChat,
   children,
+  selectedPlan,
 }: any) => {
   const { theme, toggleTheme } = useTheme();
 
@@ -91,15 +93,38 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 className="whitespace-nowrap w-full flex"
               >
                 <p className="text-light text-xs font-medium relative">
-                  Credits: 3/5{" "}
-                  <span className="opacity-70 pl-1">(Free Plan)</span>
+                  {(() => {
+                    switch (selectedPlan?.plan?.toLowerCase()) {
+                      case "basic":
+                        return `Credits: ${
+                          selectedPlan?.prompt_credits || 0
+                        }/40`;
+                      case "premium":
+                        return `Credits: Unlimited`;
+                      case "pro":
+                        return `Credits: Unlimited`;
+                      default:
+                        return `Credits: ${
+                          selectedPlan?.prompt_credits || 0
+                        }/5`;
+                    }
+                  })()}
+                  <span className="opacity-70 pl-1 capitalize">
+                    ({selectedPlan?.plan?.toLowerCase()} Plan)
+                  </span>
                 </p>
               </motion.div>
             )}
           </AnimatePresence>
-          <div className="h-1 flex bg-black/20 rounded-sm">
-            <div className="w-[40%] bg-black rounded-sm"></div>
-          </div>
+          {(selectedPlan?.plan === "free" ||
+            selectedPlan?.plan === "basic") && (
+            <div className="h-1 flex dark:bg-white/20 bg-black/20 rounded-sm">
+              <div
+                style={{ width: `${selectedPlan?.prompt_credits || 0}%` }}
+                className="dark:bg-white/80 bg-black rounded-sm"
+              ></div>
+            </div>
+          )}
         </div>
 
         {/* Option: About Us */}
