@@ -109,6 +109,7 @@ const UserDashboard = () => {
           },
         }
       );
+      console.log(response);
 
       setUser({
         ...user,
@@ -218,6 +219,7 @@ const UserDashboard = () => {
     }
   };
 
+  console.log(error);
   return (
     <motion.section
       initial={{ opacity: 0 }}

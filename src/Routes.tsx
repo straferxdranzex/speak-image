@@ -75,26 +75,26 @@ const AppRoutes: React.FC = () => {
           <Route
             path="/thread/:threadId"
             element={
-              <Home />
-              // <ProtectedRoute>
-              // </ProtectedRoute>
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
             }
           />
           <Route
             path="/"
             element={
-              <Home />
-              // <ProtectedRoute>
-              // </ProtectedRoute>
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
             }
           />
 
           <Route
             path="/about-us"
             element={
-              <AboutUs />
-              // <ProtectedRoute>
-              // </ProtectedRoute>
+              <ProtectedRoute>
+                <AboutUs />
+              </ProtectedRoute>
             }
           />
           <Route
