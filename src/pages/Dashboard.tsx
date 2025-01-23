@@ -223,7 +223,7 @@ const UserDashboard = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1, ease: "easeOut" }}
-      className="w-full flex relative lg:overflow-hidden bg-card px-0"
+      className="w-full flex relative overflow-hidden bg-card px-0"
       role="main"
     >
       <Link
@@ -236,17 +236,17 @@ const UserDashboard = () => {
 
       <main
         id="main-content"
-        className="flex-1 min-h-screen h-full flex flex-col gap-2 sm:gap-7 p-[5rem_1rem] sm:p-[5rem_3rem] max-sm:pb-4 w-full relative z-10"
+        className="flex-1 min-h-screen h-full flex flex-col gap-2 sm:gap-7 p-[5.5rem_0rem] sm:p-[5rem_3rem] w-full relative z-10"
         aria-labelledby="about-us-title"
       >
         <div className="w-full max-w-7xl mx-auto px-4">
-          <div className="flex bg-card-2 text-foreground rounded-lg shadow-md overflow-hidden">
+          <div className="flex max-sm:flex-col bg-card-2 text-foreground rounded-lg shadow-md overflow-hidden">
             {/* Header */}
-            <div className="border-r border-card-hover">
-              <div className="flex flex-col">
+            <div className="border-b sm:border-r border-card-hover">
+              <div className="flex sm:flex-col max-sm:flex-wrap *:flex-shrink-0">
                 <button
                   onClick={() => setActiveTab("profile")}
-                  className={`transition-colors px-6 py-4 text-sm font-medium ${
+                  className={`transition-colors px-3 sm:px-6 py-3 sm:py-4 text-sm font-medium ${
                     activeTab === "profile"
                       ? "bg-card-hover text-black dark:text-white"
                       : "text-text-light hover:text-black dark:hover:text-white"
@@ -256,7 +256,7 @@ const UserDashboard = () => {
                 </button>
                 <button
                   onClick={() => setActiveTab("subscription")}
-                  className={`transition-colors px-6 py-4 text-sm font-medium ${
+                  className={`transition-colors px-3 sm:px-6 py-3 sm:py-4 text-sm font-medium ${
                     activeTab === "subscription"
                       ? "bg-card-hover text-black dark:text-white"
                       : "text-text-light hover:text-black dark:hover:text-white"
@@ -268,7 +268,7 @@ const UserDashboard = () => {
             </div>
 
             {/* Content */}
-            <div className="p-6 flex-grow">
+            <div className="p-4 sm:p-6 flex-grow">
               {activeTab === "profile" && (
                 <div className="space-y-6">
                   {/* Profile Section */}
@@ -332,7 +332,7 @@ const UserDashboard = () => {
                     ) : (
                       <div className="flex gap-6">
                         <div className="flex-shrink-0">
-                          <div className="size-32 bg-card rounded-full flex justify-center items-center text-3xl">
+                          <div className="size-16 sm:size-32 bg-card rounded-full flex justify-center items-center text-lg sm:text-3xl">
                             {user.name
                               ? user.name
                                   .split(" ") // Split the name into words
@@ -473,7 +473,7 @@ const UserDashboard = () => {
                       Subscription Management
                     </h3>
                     <div className="space-y-4">
-                      <div className="flex space-x-3">
+                      <div className="flex flex-wrap gap-3 justify-start">
                         <Button
                           onClick={handleCancelSubscription}
                           size="small"
@@ -487,7 +487,7 @@ const UserDashboard = () => {
                           </Button>
                         </Link>
                       </div>
-                      <p className="text-sm text-text-light">
+                      <p className="text-xs sm:text-sm text-text-light">
                         Your subscription will remain active until the end of
                         your current billing period.
                       </p>
@@ -504,7 +504,7 @@ const UserDashboard = () => {
         alt="Gradient background decoration"
         width="100%"
         height="100%"
-        className="absolute right-[50%] translate-x-1/2 translate-y-[60%] bottom-[50%] lg:bottom-0 z-50 opacity-80 pointer-events-none"
+        className="absolute right-[50%] translate-x-1/2 translate-y-[60%] bottom-0 z-50 opacity-80 pointer-events-none"
         aria-hidden="true"
       />
     </motion.section>

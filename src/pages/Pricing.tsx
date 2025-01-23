@@ -205,7 +205,7 @@ const PricingTable: React.FC = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1, ease: "easeOut" }}
-      className="w-full flex relative lg:overflow-hidden bg-card px-0"
+      className="w-full flex relative overflow-hidden bg-card px-0"
       role="main"
     >
       <Link
@@ -241,16 +241,10 @@ const PricingTable: React.FC = () => {
           <p className="font-medium text-base sm:text-lg lg:text-xl !leading-relaxed tracking-tight text-center">
             For Enterprise plans, please reach out to us
           </p>
-          <motion.div
-            aria-label="get started"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2, duration: 3, ease: "easeOut" }}
-          >
-            <Button size="small" onClick={handleReachUsClick}>
-              Reach Us
-            </Button>
-          </motion.div>
+
+          <Button size="small" onClick={handleReachUsClick}>
+            Reach Us
+          </Button>
         </div>
       </main>
       <img
@@ -258,7 +252,7 @@ const PricingTable: React.FC = () => {
         alt="Gradient background decoration"
         width="100%"
         height="100%"
-        className="absolute right-[50%] translate-x-1/2 translate-y-[60%] bottom-[50%] lg:bottom-0 z-50 opacity-80 pointer-events-none"
+        className="absolute right-[50%] translate-x-1/2 translate-y-[60%] bottom-0 z-50 opacity-80 pointer-events-none"
         aria-hidden="true"
       />
     </motion.section>
