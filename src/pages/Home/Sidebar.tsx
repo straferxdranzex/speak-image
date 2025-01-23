@@ -120,7 +120,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
             selectedPlan?.plan === "basic") && (
             <div className="h-1 flex dark:bg-white/20 bg-black/20 rounded-sm">
               <div
-                style={{ width: `${selectedPlan?.prompt_credits || 0}%` }}
+                style={{
+                  width: `${
+                    selectedPlan?.plan?.toLowerCase() === "basic"
+                      ? ((selectedPlan?.prompt_credits || 0) / 40) * 100
+                      : ((selectedPlan?.prompt_credits || 0) / 5) * 100
+                  }%`,
+                }}
                 className="dark:bg-white/80 bg-black rounded-sm"
               ></div>
             </div>

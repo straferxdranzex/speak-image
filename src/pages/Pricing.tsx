@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import Cookies from "js-cookie";
 import gradient from "../Assets/Images/gradient-login.svg";
+import loader from "../Assets/loader.gif";
 import Button from "../components/ui/Button";
 
 interface PricingPlan {
@@ -15,19 +16,47 @@ interface PricingPlan {
   planId: string; // Maps directly to Stripe's price IDs
 }
 
-interface PricingCardProps extends PricingPlan {
-  onSelectPlan: (planId: string) => void; // Callback for plan selection
-}
-
-const PricingCard: React.FC<PricingCardProps> = ({
+const PricingCard: React.FC<PricingPlan> = ({
   tier,
   price,
   features,
   selectedPlan,
-  onSelectPlan,
   planId,
 }) => {
   const isHighlighted = selectedPlan === tier.toLowerCase();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleButtonClick = () => {
+    setIsLoading(true);
+    const token = Cookies.get("userToken");
+
+    if (!token) {
+      alert("You must log in to subscribe to a plan.");
+      return;
+    }
+
+    axios
+      .post(
+        "https://api.speakimage.ai/stripe/create-checkout-session",
+        { plan_id: planId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+          },
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        // Redirect to the Stripe Checkout page
+        window.location.href = response.data.url;
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error creating checkout session:", error);
+        alert("Failed to initiate checkout. Please try again.");
+        setIsLoading(false);
+      });
+  };
   return (
     <div
       className={`flex flex-col p-6 border ${
@@ -65,9 +94,9 @@ const PricingCard: React.FC<PricingCardProps> = ({
         ))}
       </ul>
       <button
-        disabled={isHighlighted}
-        onClick={() => onSelectPlan(planId)}
-        className={`w-full py-2 px-4 rounded-md font-medium transition-opacity disabled:opacity-100 hover:opacity-80
+        disabled={isHighlighted || isLoading}
+        onClick={handleButtonClick}
+        className={`w-full h-10 py-2 px-4 flex justify-center items-center rounded-md font-medium transition-opacity disabled:opacity-100 hover:opacity-80
           ${
             isHighlighted
               ? "bg-primary-200 text-white"
@@ -75,7 +104,17 @@ const PricingCard: React.FC<PricingCardProps> = ({
           }`}
         type="button"
       >
-        {!isHighlighted ? "SELECT" : "SELECTED"}
+        {isLoading ? (
+          <img
+            src={loader}
+            alt="loader"
+            className="size-6 mix-blend-multiply"
+          />
+        ) : isHighlighted ? (
+          "SELECTED"
+        ) : (
+          "SELECT"
+        )}
       </button>
     </div>
   );
@@ -128,35 +167,6 @@ const PricingTable: React.FC = () => {
       planId: "pro",
     },
   ];
-
-  const handleSelectPlan = (planId: string) => {
-    const token = Cookies.get("userToken");
-
-    if (!token) {
-      alert("You must log in to subscribe to a plan.");
-      return;
-    }
-
-    axios
-      .post(
-        "https://api.speakimage.ai/stripe/create-checkout-session",
-        { plan_id: planId },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
-          },
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        // Redirect to the Stripe Checkout page
-        window.location.href = response.data.url;
-      })
-      .catch((error) => {
-        console.error("Error creating checkout session:", error);
-        alert("Failed to initiate checkout. Please try again.");
-      });
-  };
 
   useEffect(() => {
     const handleSelectedPlan = () => {
@@ -223,7 +233,6 @@ const PricingTable: React.FC = () => {
                 key={plan.tier}
                 {...plan}
                 selectedPlan={selectedPlan}
-                onSelectPlan={handleSelectPlan}
               />
             ))}
           </div>
