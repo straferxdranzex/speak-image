@@ -456,7 +456,7 @@ const HomeLayout = () => {
   const { firstName, lastName } = getNameParts(user?.full_name || "My Account");
 
   useEffect(() => {
-    document.title = "Dashboard | Speakimage";
+    document.title = "Chat | Speakimage";
   }, []);
 
   return (

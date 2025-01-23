@@ -2,17 +2,19 @@ import React from "react";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import gradient from "../Assets/Images/gradient-login.svg";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 interface PricingPlan {
   tier: string;
   price: string;
   features: string[];
   isHighlighted?: boolean;
+  planId: string; // Maps directly to Stripe's price IDs
 }
 
 interface PricingCardProps extends PricingPlan {
-  isHighlighted?: boolean;
+  onSelectPlan: (planId: string) => void; // Callback for plan selection
 }
 
 const PricingCard: React.FC<PricingCardProps> = ({
@@ -20,6 +22,8 @@ const PricingCard: React.FC<PricingCardProps> = ({
   price,
   features,
   isHighlighted = false,
+  onSelectPlan,
+  planId,
 }) => {
   return (
     <div
@@ -58,6 +62,7 @@ const PricingCard: React.FC<PricingCardProps> = ({
         ))}
       </ul>
       <button
+        onClick={() => onSelectPlan(planId)}
         className={`w-full py-2 px-4 rounded-md font-medium transition-opacity hover:opacity-80
           ${
             isHighlighted
@@ -82,6 +87,7 @@ const PricingTable: React.FC = () => {
         "5 weekly prompt credits",
         "5 new prompt credits every 7 days",
       ],
+      planId: "free",
     },
     {
       tier: "BASIC",
@@ -91,6 +97,7 @@ const PricingTable: React.FC = () => {
         "40 monthly prompt credits",
         "1mo saved search history",
       ],
+      planId: "basic",
     },
     {
       tier: "PREMIUM",
@@ -102,6 +109,7 @@ const PricingTable: React.FC = () => {
         "3mo saved search history",
       ],
       isHighlighted: true,
+      planId: "premium",
     },
     {
       tier: "PRO",
@@ -112,8 +120,94 @@ const PricingTable: React.FC = () => {
         "Verbal prompting (coming soon)",
         "Unlimited saved search history",
       ],
+      planId: "pro",
     },
   ];
+
+  const handleSelectPlan = (planId: string) => {
+    const token = Cookies.get("userToken");
+
+    if (!token) {
+      alert("You must log in to subscribe to a plan.");
+      return;
+    }
+
+    axios
+      .post(
+        "https://api.speakimage.ai/stripe/create-checkout-session",
+        { plan_id: planId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+          },
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        // Redirect to the Stripe Checkout page
+        window.location.href = response.data.url;
+      })
+      .catch((error) => {
+        console.error("Error creating checkout session:", error);
+        alert("Failed to initiate checkout. Please try again.");
+      });
+  };
+
+  const handleCancelSubscription = () => {
+    const token = Cookies.get("userToken");
+
+    if (!token) {
+      alert("You must log in to cancel your subscription.");
+      return;
+    }
+
+    axios
+      .post(
+        "https://api.speakimage.ai/stripe/cancel-subscription",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        alert(response.data.message || "Subscription canceled successfully.");
+      })
+      .catch((error) => {
+        console.error("Error canceling subscription:", error);
+        alert("Failed to cancel subscription. Please try again.");
+      });
+  };
+
+  const handleUpdateSubscription = (newPlanId: string) => {
+    const token = Cookies.get("userToken");
+
+    if (!token) {
+      alert("You must log in to update your subscription.");
+      return;
+    }
+
+    axios
+      .post(
+        "https://api.speakimage.ai/stripe/update-subscription",
+        { new_plan_id: newPlanId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        alert(response.data.message || "Subscription updated successfully.");
+      })
+      .catch((error) => {
+        console.error("Error updating subscription:", error);
+        alert("Failed to update subscription. Please try again.");
+      });
+  };
 
   return (
     <motion.section
@@ -144,9 +238,27 @@ const PricingTable: React.FC = () => {
         <div className="max-w-7xl w-full mx-auto px-4 py-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {plans.map((plan) => (
-              <PricingCard key={plan.tier} {...plan} />
+              <PricingCard
+                key={plan.tier}
+                {...plan}
+                onSelectPlan={handleSelectPlan}
+              />
             ))}
           </div>
+        </div>
+        <div className="flex justify-center gap-4 mt-8">
+          <button
+            onClick={handleCancelSubscription}
+            className="py-2 px-4 bg-red-500 text-white rounded-md"
+          >
+            Cancel Subscription
+          </button>
+          <button
+            onClick={() => handleUpdateSubscription("basic")}
+            className="py-2 px-4 bg-blue-500 text-white rounded-md"
+          >
+            Upgrade to BASIC
+          </button>
         </div>
       </main>
       <img
