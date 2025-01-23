@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
 import Cookies from "js-cookie";
+import gradient from "../Assets/Images/gradient-login.svg";
 
 interface PricingPlan {
   tier: string;
