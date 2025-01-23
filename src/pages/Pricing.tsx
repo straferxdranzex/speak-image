@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -10,7 +10,7 @@ interface PricingPlan {
   tier: string;
   price: string;
   features: string[];
-  isHighlighted?: boolean;
+  selectedPlan?: string;
   planId: string; // Maps directly to Stripe's price IDs
 }
 
@@ -22,10 +22,11 @@ const PricingCard: React.FC<PricingCardProps> = ({
   tier,
   price,
   features,
-  isHighlighted = false,
+  selectedPlan,
   onSelectPlan,
   planId,
 }) => {
+  const isHighlighted = selectedPlan === tier.toLowerCase();
   return (
     <div
       className={`flex flex-col p-6 border ${
@@ -63,8 +64,9 @@ const PricingCard: React.FC<PricingCardProps> = ({
         ))}
       </ul>
       <button
+        disabled={isHighlighted}
         onClick={() => onSelectPlan(planId)}
-        className={`w-full py-2 px-4 rounded-md font-medium transition-opacity hover:opacity-80
+        className={`w-full py-2 px-4 rounded-md font-medium transition-opacity disabled:opacity-100 hover:opacity-80
           ${
             isHighlighted
               ? "bg-primary-200 text-white"
@@ -72,13 +74,15 @@ const PricingCard: React.FC<PricingCardProps> = ({
           }`}
         type="button"
       >
-        SELECT
+        {!isHighlighted ? "SELECT" : "SELECTED"}
       </button>
     </div>
   );
 };
 
 const PricingTable: React.FC = () => {
+  const [selectedPlan, setSelectedPlan] = useState("free"); // Default plan is "free"
+
   const plans: PricingPlan[] = [
     {
       tier: "FREE",
@@ -109,7 +113,6 @@ const PricingTable: React.FC = () => {
         "Verbal prompting (coming soon)",
         "3mo saved search history",
       ],
-      isHighlighted: true,
       planId: "premium",
     },
     {
@@ -151,6 +154,30 @@ const PricingTable: React.FC = () => {
       .catch((error) => {
         console.error("Error creating checkout session:", error);
         alert("Failed to initiate checkout. Please try again.");
+      });
+  };
+
+  const getSelectedPlan = () => {
+    const token = Cookies.get("userToken");
+    const id = Cookies.get("userId");
+
+    if (!token || !id) {
+      alert("You must log in to subscribe to a plan.");
+      return;
+    }
+
+    axios
+      .get(`https://api.speakimage.ai/api/user-credits/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+        },
+        withCredentials: true,
+      })
+      .then((response) => {
+        setSelectedPlan(response.data.plan || "free");
+      })
+      .catch((error) => {
+        console.error("Error fetching user plan:", error);
       });
   };
 
@@ -210,6 +237,7 @@ const PricingTable: React.FC = () => {
       });
   };
 
+  getSelectedPlan();
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -242,6 +270,7 @@ const PricingTable: React.FC = () => {
               <PricingCard
                 key={plan.tier}
                 {...plan}
+                selectedPlan={selectedPlan}
                 onSelectPlan={handleSelectPlan}
               />
             ))}
@@ -250,13 +279,13 @@ const PricingTable: React.FC = () => {
         <div className="flex justify-center gap-4 mt-8">
           <button
             onClick={handleCancelSubscription}
-            className="py-2 px-4 bg-red-500 text-white rounded-md"
+            className={`py-2 px-4 rounded-md transition-opacity disabled:opacity-100 hover:opacity-80 bg-red-500 text-white`}
           >
             Cancel Subscription
           </button>
           <button
             onClick={() => handleUpdateSubscription("basic")}
-            className="py-2 px-4 bg-blue-500 text-white rounded-md"
+            className={`py-2 px-4 rounded-md transition-opacity disabled:opacity-100 hover:opacity-80 bg-primary-200 text-white`}
           >
             Upgrade to BASIC
           </button>
