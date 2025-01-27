@@ -36,7 +36,7 @@ const ContactUs: React.FC = () => {
         templateParams,
         "hY8VJ7KswAGlL-uem" // Your EmailJS User ID
       );
-      console.log("Email successfully sent!", response.status, response.text);
+      console.log("Email successfully sent!", response);
       toast.success("Message sent successfully!");
       setFormData({ name: "", email: "", textarea: "" });
     } catch (error) {

@@ -107,15 +107,43 @@ const AppRoutes: React.FC = () => {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/pricing"
+            element={
+              <ProtectedRoute>
+                <Pricing />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/success"
+            element={
+              <ProtectedRoute>
+                <SuccessPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/cancel"
+            element={
+              <ProtectedRoute>
+                <CancelPage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/login" element={<Login />} />
-          <Route path="/pricing" element={<Pricing />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/update-password" element={<UpdatePassword />} />
           <Route path="/beta-version" element={<BetaPage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/success" element={<SuccessPage />} />
-          <Route path="/cancel" element={<CancelPage />} />
         </Routes>
       </Suspense>
     </>
