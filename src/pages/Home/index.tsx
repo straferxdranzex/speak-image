@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Markdown from "react-markdown";
 import Typewriter from "typewriter-effect";
-import avatarImg from "../../Assets/Images/avatar.png";
 
 import Cookies from "js-cookie";
 import logoLight from "../../Assets/svgs/logoLight.svg";
@@ -11,17 +10,13 @@ import responseLogo from "../../Assets/Images/chat-loader.png";
 import responseAnimatedLogo from "../../Assets/Images/response-animation.gif";
 
 import GradientSendIcon from "./GradientSendIcon";
-import { FaRegCircleStop, FaUser } from "react-icons/fa6";
+import { FaRegCircleStop } from "react-icons/fa6";
 import { FaLongArrowAltDown } from "react-icons/fa";
 import { IoChatboxOutline } from "react-icons/io5";
 import { useTheme } from "../../lib/ThemeProvider";
 import Sidebar from "./Sidebar";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "../../components/ui/Avatar";
+import { Avatar, AvatarFallback } from "../../components/ui/Avatar";
 
 import { LogOut, User } from "lucide-react";
 
@@ -29,7 +24,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../components/ui/DroppDown";
@@ -477,7 +471,7 @@ const HomeLayout = () => {
     return { firstName, lastName };
   };
 
-  const { firstName, lastName } = getNameParts(user?.full_name || "My Account");
+  const { firstName, lastName } = getNameParts(user?.full_name || "N A");
 
   useEffect(() => {
     document.title = "Chat | Speakimage";
@@ -543,16 +537,12 @@ const HomeLayout = () => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Avatar
-                    className="cursor-pointer m-4"
+                    className="m-4 uppercase cursor-pointer"
                     aria-label="User Avatar"
                     tabIndex={0} // Make Avatar focusable with keyboard
                     role="button" // Optional: Define role for better accessibility
                   >
-                    <AvatarImage
-                      src={avatarImg}
-                      alt={`User profile picture of ${firstName}`}
-                    />
-                    <AvatarFallback>
+                    <AvatarFallback className="pointer-events-none">
                       {firstName?.slice(0, 1)}
                       {lastName?.slice(0, 1)}
                     </AvatarFallback>
@@ -562,29 +552,55 @@ const HomeLayout = () => {
                   align="end"
                   className="w-56 shadow-lg bg-card-2 border-card-hover"
                 >
-                  <DropdownMenuLabel>
-                    <div className="h-48 flex flex-col justify-center items-center text-center gap-4">
-                      <Avatar className="size-20">
-                        <AvatarImage
-                          src={avatarImg}
-                          alt={`User profile picture of ${firstName}`}
-                        />
+                  <DropdownMenuItem
+                    className="rounded-md cursor-pointer"
+                    role="button"
+                    aria-label="Log out"
+                  >
+                    <Link
+                      to={"/dashboard"}
+                      className="w-full py-3 rounded-md h-48 flex flex-col justify-center items-center text-center gap-4"
+                    >
+                      <Avatar className="size-20 text-lg font-normal uppercase pointer-events-none">
                         <AvatarFallback>
                           {firstName?.slice(0, 1)}
                           {lastName?.slice(0, 1)}
                         </AvatarFallback>
                       </Avatar>
                       <p
-                        className="leading-none"
+                        className="leading-snug flex flex-col items-center justify-center text-center"
                         aria-label={`${firstName} ${lastName}`}
                       >
-                        {firstName} {lastName}
+                        <span>
+                          {firstName} {lastName}
+                        </span>
+                        <span className="leading-snug text-text-light">
+                          {(() => {
+                            switch (selectedPlan?.plan?.toLowerCase()) {
+                              case "basic":
+                                return `Credits: ${
+                                  selectedPlan?.prompt_credits || 0
+                                }/40`;
+                              case "premium":
+                                return `Credits: Unlimited`;
+                              case "pro":
+                                return `Credits: Unlimited`;
+                              default:
+                                return `Credits: ${
+                                  selectedPlan?.prompt_credits || 0
+                                }/5`;
+                            }
+                          })()}
+                        </span>
+                        <span className="leading-snug text-text-light">
+                          ({selectedPlan?.plan?.toLowerCase()} Plan)
+                        </span>
                       </p>
-                    </div>
-                  </DropdownMenuLabel>
+                    </Link>
+                  </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
-                    className="py-3 rounded-md"
+                    className="py-3 rounded-md cursor-pointer"
                     role="button"
                     aria-label="Log out"
                     onClick={logout}
@@ -618,9 +634,12 @@ const HomeLayout = () => {
                     <div className="chat-entry">
                       {/* Prompt */}
                       <div className="flex items-start gap-2 font-normal -ml-9 sm:-ml-14 sm:mb-8 mb-5 text-text leading-normal">
-                        <div className="size-[1.6rem] sm:size-8 -ml-px sm:ml-px rounded-full opacity-70 bg-black/30 dark:bg-white/30 grid place-content-center text-text">
-                          <FaUser className="text-xs" aria-hidden="true" />
-                        </div>
+                        <Avatar className="size-[1.6rem] sm:size-8 -ml-px sm:ml-px">
+                          <AvatarFallback className="text-xs uppercase">
+                            {firstName?.slice(0, 1)}
+                            {lastName?.slice(0, 1)}
+                          </AvatarFallback>
+                        </Avatar>
                         <span className="opacity-90 pl-0.5 sm:pl-3.5 pt-0.5 text-sm text-text leading-[1.8]">
                           {chat.prompt}
                         </span>

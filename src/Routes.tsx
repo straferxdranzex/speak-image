@@ -15,6 +15,8 @@ const AboutUs = lazy(() => import("./pages/AboutUs"));
 const ContactUs = lazy(() => import("./pages/ContactUs"));
 const Pricing = lazy(() => import("./pages/Pricing"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
+const SuccessPage = lazy(() => import("./pages/SuccessPage"));
+const CancelPage = lazy(() => import("./pages/CancelPage"));
 
 import {
   Tooltip,
@@ -112,6 +114,8 @@ const AppRoutes: React.FC = () => {
           <Route path="/update-password" element={<UpdatePassword />} />
           <Route path="/beta-version" element={<BetaPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/success" element={<SuccessPage />} />
+          <Route path="/cancel" element={<CancelPage />} />
         </Routes>
       </Suspense>
     </>

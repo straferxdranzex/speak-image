@@ -6,13 +6,14 @@ import gradient from "../Assets/Images/gradient-login.svg";
 import Button from "../components/ui/Button";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { Loader2 } from "lucide-react";
+import { toast } from "react-toastify";
 
 interface User {
   name: string;
   email: string;
   subscription: {
     plan: string;
-    status: string;
     nextBilling: string;
   };
 }
@@ -27,12 +28,14 @@ const UserDashboard = () => {
     email: "",
     subscription: {
       plan: "free",
-      status: "Active",
       nextBilling: "",
     },
   });
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
+  const [profileLoading, setProfileLoading] = useState(false);
+  const [passLoading, setPassLoading] = useState(false);
+  const [cancelLoading, setCancelLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: user.name,
     email: user.email,
@@ -58,6 +61,7 @@ const UserDashboard = () => {
           {
             headers: {
               Authorization: `Bearer ${token}`,
+              AccessControlAllowOrigin: "*",
             },
           }
         );
@@ -66,9 +70,8 @@ const UserDashboard = () => {
           name: response.data.full_name,
           email: response.data.email,
           subscription: {
-            plan: response.data.subscription?.plan || "free",
-            status: response.data.subscription?.status || "Inactive",
-            nextBilling: response.data.subscription?.nextBilling || "N/A",
+            plan: response.data.plan || "free",
+            nextBilling: response.data.next_billing_date || "null",
           },
         });
       } catch (err) {
@@ -87,6 +90,7 @@ const UserDashboard = () => {
 
   const handleProfileSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     const token = Cookies.get("userToken");
     const id = Cookies.get("userId");
 
@@ -95,12 +99,24 @@ const UserDashboard = () => {
       return;
     }
 
+    // Validate inputs: keep previous values if fields are empty
+    const updatedName = formData.name.trim() || user.name;
+    const updatedEmail = formData.email.trim() || user.email;
+
+    // Prevent API call if no changes were made
+    if (updatedName === user.name && updatedEmail === user.email) {
+      setError("No changes detected to update.");
+      return;
+    }
+
+    setProfileLoading(true); // Start loading
+
     try {
       const response = await axios.put(
         `https://api.speakimage.ai/api/update-user/${id}`,
         {
-          full_name: formData.name,
-          email: formData.email,
+          full_name: updatedName,
+          email: updatedEmail,
         },
         {
           headers: {
@@ -109,27 +125,32 @@ const UserDashboard = () => {
           },
         }
       );
+
       console.log(response);
 
+      // Update user state and stop editing mode
       setUser({
         ...user,
-        name: formData.name,
-        email: formData.email,
+        name: updatedName,
+        email: updatedEmail,
       });
       setIsEditingProfile(false);
+      setError(""); // Clear any previous errors
     } catch (err: any) {
       console.error("Error updating profile:", err);
       setError(
         err.response?.data?.message ||
           "Failed to update profile. Please try again."
       );
+    } finally {
+      setProfileLoading(false); // End loading
     }
   };
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validate password
+    // Check if new passwords match
     if (formData.newPassword !== formData.confirmPassword) {
       setError("New passwords do not match");
       return;
@@ -138,16 +159,32 @@ const UserDashboard = () => {
     const token = Cookies.get("userToken");
     const id = Cookies.get("userId");
 
-    if (!token || !id) {
-      setError("You must be logged in to change password");
+    // Prevent API call if password is empty
+    if (formData.currentPassword.trim() === "") {
+      setError("Current Password Field is empty!");
+      return;
+    }
+    if (formData.newPassword.trim() === "") {
+      setError("New Password Field is empty!");
+      return;
+    }
+    if (formData.confirmPassword.trim() === "") {
+      setError("Confirm Password Field is empty!");
       return;
     }
 
+    if (!token || !id) {
+      setError("You must be logged in to change the password");
+      return;
+    }
+
+    setPassLoading(true); // Set loading to true before API call
+
     try {
-      await axios.put(
-        `https://api.speakimage.ai/api/update-user/${id}`,
+      await axios.post(
+        `https://api.speakimage.ai/api/update-password`,
         {
-          current_password: formData.currentPassword,
+          email: user.email, // Ensure the user object has the correct email
           new_password: formData.newPassword,
         },
         {
@@ -158,6 +195,7 @@ const UserDashboard = () => {
         }
       );
 
+      // Reset password form and provide feedback
       setIsChangingPassword(false);
       setFormData({
         ...formData,
@@ -165,6 +203,7 @@ const UserDashboard = () => {
         newPassword: "",
         confirmPassword: "",
       });
+      setError(""); // Clear the error state
       alert("Password updated successfully");
     } catch (err: any) {
       console.error("Error changing password:", err);
@@ -172,6 +211,8 @@ const UserDashboard = () => {
         err.response?.data?.message ||
           "Failed to change password. Please try again."
       );
+    } finally {
+      setPassLoading(false); // Ensure loading is reset in any case
     }
   };
 
@@ -188,6 +229,8 @@ const UserDashboard = () => {
         return;
       }
 
+      setCancelLoading(true); // Start loading
+
       try {
         const response = await axios.post(
           "https://api.speakimage.ai/stripe/cancel-subscription",
@@ -199,12 +242,11 @@ const UserDashboard = () => {
           }
         );
 
-        // Update local state to reflect cancelled subscription
+        // Update local state to reflect canceled subscription
         setUser({
           ...user,
           subscription: {
             ...user.subscription,
-            status: "Cancelled",
           },
         });
 
@@ -215,11 +257,31 @@ const UserDashboard = () => {
           err.response?.data?.message ||
             "Failed to cancel subscription. Please try again."
         );
+      } finally {
+        setCancelLoading(false); // End loading
       }
     }
   };
 
-  console.log(error);
+  const getNameParts = (fullName: string) => {
+    const parts = fullName.trim().split(" ");
+    const firstName = parts.shift();
+    const lastName = parts.join(" ");
+    return { firstName, lastName };
+  };
+
+  const { firstName, lastName } = getNameParts(user?.name || "N A");
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
+
+  //   <div className="text-red-500 text-sm w-full text-center h-6">
+  //   {error}
+  // </div>
+
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -238,7 +300,7 @@ const UserDashboard = () => {
 
       <main
         id="main-content"
-        className="flex-1 min-h-screen h-full flex flex-col gap-2 sm:gap-7 p-[5.5rem_0rem] sm:p-[5rem_3rem] w-full relative z-10"
+        className="flex-1 min-h-screen h-full flex flex-col gap-2 sm:gap-7 p-[5rem_0rem] sm:p-[4.5rem_3rem] w-full relative z-10"
         aria-labelledby="about-us-title"
       >
         <div className="w-full max-w-7xl mx-auto px-4">
@@ -320,7 +382,11 @@ const UserDashboard = () => {
                         </div>
                         <div className="flex space-x-3 pt-5">
                           <Button type="submit" size="small">
-                            Save Changes
+                            {profileLoading ? (
+                              <Loader2 className="origin-center size-5 animate-spin" />
+                            ) : (
+                              "Save Changes"
+                            )}
                           </Button>
                           <Button
                             onClick={() => setIsEditingProfile(false)}
@@ -334,15 +400,9 @@ const UserDashboard = () => {
                     ) : (
                       <div className="flex gap-6">
                         <div className="flex-shrink-0">
-                          <div className="size-16 sm:size-32 bg-card rounded-full flex justify-center items-center text-lg sm:text-3xl">
-                            {user.name
-                              ? user.name
-                                  .split(" ") // Split the name into words
-                                  .map((word) => word[0]) // Get the first letter of each word
-                                  .join("") // Join the initials
-                                  .toUpperCase() // Convert to uppercase
-                              : "N/A"}{" "}
-                            {/* Fallback if the name is unavailable */}{" "}
+                          <div className="size-16 sm:size-32 bg-card rounded-full flex justify-center items-center text-lg sm:text-3xl uppercase">
+                            {firstName?.slice(0, 1)}
+                            {lastName?.slice(0, 1)}
                           </div>
                         </div>
                         <div className="flex-grow space-y-3">
@@ -422,7 +482,11 @@ const UserDashboard = () => {
                         </div>
                         <div className="flex space-x-3 pt-5">
                           <Button type="submit" size="small">
-                            Save Password
+                            {passLoading ? (
+                              <Loader2 className="origin-center size-5 animate-spin" />
+                            ) : (
+                              "Save Password"
+                            )}
                           </Button>
                           <Button
                             onClick={() => setIsChangingPassword(false)}
@@ -454,12 +518,6 @@ const UserDashboard = () => {
                         </p>
                       </div>
                       <div>
-                        <span className="text-sm text-text-light">Status</span>
-                        <p className="mt-1 text-sm font-medium">
-                          {user.subscription.status}
-                        </p>
-                      </div>
-                      <div>
                         <span className="text-sm text-text-light">
                           Next Billing Date
                         </span>
@@ -481,7 +539,11 @@ const UserDashboard = () => {
                           size="small"
                           className="bg-red-600 hover:bg-red-500"
                         >
-                          Cancel Subscription
+                          {cancelLoading ? (
+                            <Loader2 className="origin-center size-5 animate-spin" />
+                          ) : (
+                            "Cancel Subscription"
+                          )}
                         </Button>
                         <Link to={"/pricing"}>
                           <Button size="small" variant="ghost">
