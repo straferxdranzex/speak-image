@@ -12,7 +12,6 @@ export default function AdminDashboard() {
 
   const correctPassword = "openuse1!"; 
 
-  // ✅ Check localStorage on mount & re-render when state updates
   useEffect(() => {
     const storedAuth = localStorage.getItem("adminAccess");
     if (storedAuth === "granted") {
@@ -25,26 +24,22 @@ export default function AdminDashboard() {
     e.preventDefault();
     if (enteredPassword === correctPassword) {
       localStorage.setItem("adminAccess", "granted");
-      setIsAuthenticated(true);
-      window.location.reload(); // ✅ FORCE RELOAD TO ENSURE REQUESTS ARE SENT
+      setIsAuthenticated(true); // ✅ Just update state, no reload needed
     } else {
       alert("Incorrect password! Try again.");
-      setEnteredPassword(""); // Clear input
+      setEnteredPassword("");
     }
   };
 
   const handleLogout = () => {
     localStorage.removeItem("adminAccess");
     setIsAuthenticated(false);
-    window.location.reload(); // ✅ FORCE RELOAD TO LOG OUT COMPLETELY
   };
 
-  // ✅ Prevent blank screen on first load
   if (loading) {
     return <div className="h-screen flex items-center justify-center">Loading...</div>;
   }
 
-  // ✅ Show password form if not authenticated
   if (!isAuthenticated) {
     return (
       <div className="h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
@@ -68,7 +63,7 @@ export default function AdminDashboard() {
     );
   }
 
-  // ✅ Fetch dashboard data when authenticated
+  // Dashboard state
   const [activeTab, setActiveTab] = useState("overview");
   const [users, setUsers] = useState<User[]>([]);
   const [stats, setStats] = useState<UserStats | null>(null);
@@ -79,12 +74,12 @@ export default function AdminDashboard() {
     const loadData = async () => {
       try {
         const [usersData, statsData, tiersData, changesData] = await Promise.all([
-          fetchUsers(),
-          fetchUserStats(),
-          fetchSubscriberTiers(),
-          fetchUserChanges(),
+          fetchUsers(`?_=${Date.now()}`),
+          fetchUserStats(`?_=${Date.now()}`),
+          fetchSubscriberTiers(`?_=${Date.now()}`),
+          fetchUserChanges(`?_=${Date.now()}`),
         ]);
-        
+
         setUsers(usersData);
         setStats(statsData);
         setTiers(tiersData);
