@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Users, BarChart3, Users2, UserPlus } from "lucide-react";
 import { StatsCard } from "./Components/StatsCard";
 import { UsersTable } from "./Components/UsersTable";
@@ -6,6 +6,47 @@ import { fetchUsers, fetchUserStats, fetchSubscriberTiers, fetchUserChanges } fr
 import type { User, UserStats, SubscriberTiers, UserChanges } from "../../types/api";
 
 export default function AdminDashboard() {
+  const [enteredPassword, setEnteredPassword] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    localStorage.getItem("adminAccess") === "granted"
+  );
+
+  const correctPassword = "KaRMeL@12345!"; 
+
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (enteredPassword === correctPassword) {
+      localStorage.setItem("adminAccess", "granted");
+      setIsAuthenticated(true);
+    } else {
+      alert("Incorrect password! Try again.");
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
+        <form onSubmit={handlePasswordSubmit} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+          <h2 className="text-xl font-bold mb-4">Enter Admin Password</h2>
+          <input
+            type="password"
+            value={enteredPassword}
+            onChange={(e) => setEnteredPassword(e.target.value)}
+            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md mb-4"
+            placeholder="Enter password"
+          />
+          <button
+            type="submit"
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+    );
+  }
+
+  // 🔹 Continue with the dashboard if password is correct
   const [activeTab, setActiveTab] = useState("overview");
   const [users, setUsers] = useState<User[]>([]);
   const [stats, setStats] = useState<UserStats | null>(null);
@@ -21,7 +62,7 @@ export default function AdminDashboard() {
           fetchSubscriberTiers(),
           fetchUserChanges(),
         ]);
-
+        
         setUsers(usersData);
         setStats(statsData);
         setTiers(tiersData);
@@ -41,12 +82,10 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-card text-gray-900 dark:text-white">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Admin Dashboard
-          </h1>
+          <h1 className="text-3xl font-bold">Admin Dashboard</h1>
         </div>
 
         {/* Tabs */}
@@ -58,10 +97,9 @@ export default function AdminDashboard() {
                 onClick={() => setActiveTab(id)}
                 className={`
                   py-4 px-1 border-b-2 font-medium text-sm flex items-center space-x-2
-                  ${
-                    activeTab === id
-                      ? "border-blue-500 text-blue-600 dark:border-primary-100 dark:text-primary-100"
-                      : "border-transparent text-gray-500 dark:text-gray-300 hover:text-gray-700 hover:border-gray-300 dark:hover:text-gray-400"
+                  ${activeTab === id
+                    ? "border-blue-500 text-blue-600 dark:text-blue-400"
+                    : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 hover:border-gray-300"
                   }
                 `}
               >
@@ -104,11 +142,9 @@ export default function AdminDashboard() {
           )}
 
           {activeTab === "users" && (
-            <div className="bg-card-2 dark:bg-gray-800 rounded-lg shadow">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
               <div className="p-6">
-                <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
-                  User List
-                </h2>
+                <h2 className="text-lg font-medium mb-4">User List</h2>
                 <UsersTable users={users} />
               </div>
             </div>
