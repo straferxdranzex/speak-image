@@ -7,17 +7,18 @@ import type { User, UserStats, SubscriberTiers, UserChanges } from "../../types/
 
 export default function AdminDashboard() {
   const [enteredPassword, setEnteredPassword] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    localStorage.getItem("adminAccess") === "granted"
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [hasCheckedAuth, setHasCheckedAuth] = useState(false); 
 
-  const correctPassword = "openuse1!"; // Change this to your actual password
+  const correctPassword = "openuse1!"; 
 
   useEffect(() => {
     // Check if user is authenticated on mount
-    if (localStorage.getItem("adminAccess") === "granted") {
+    const storedAuth = localStorage.getItem("adminAccess");
+    if (storedAuth === "granted") {
       setIsAuthenticated(true);
     }
+    setHasCheckedAuth(true); // Prevents re-checking on every render
   }, []);
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
@@ -25,8 +26,10 @@ export default function AdminDashboard() {
     if (enteredPassword === correctPassword) {
       localStorage.setItem("adminAccess", "granted");
       setIsAuthenticated(true);
+      setHasCheckedAuth(true); // Ensures re-render happens instantly
     } else {
       alert("Incorrect password! Try again.");
+      setEnteredPassword(""); // Clear password input
     }
   };
 
@@ -36,6 +39,12 @@ export default function AdminDashboard() {
     setEnteredPassword("");
   };
 
+  // Ensure no blank screen - Wait until authentication check is done
+  if (!hasCheckedAuth) {
+    return <div className="h-screen flex items-center justify-center text-lg">Checking authentication...</div>;
+  }
+
+  // Show password prompt if not authenticated
   if (!isAuthenticated) {
     return (
       <div className="h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
