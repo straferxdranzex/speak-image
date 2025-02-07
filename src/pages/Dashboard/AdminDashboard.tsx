@@ -9,10 +9,11 @@ export default function AdminDashboard() {
   const [enteredPassword, setEnteredPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [hasCheckedAuth, setHasCheckedAuth] = useState(false);
+  const [, forceUpdate] = useState(0); // 🟢 Force a re-render
 
   const correctPassword = "openuse1!"; 
 
-  // Check if the user is already authenticated
+  // 🟢 Check if the user is already authenticated
   useEffect(() => {
     const storedAuth = localStorage.getItem("adminAccess");
     if (storedAuth === "granted") {
@@ -26,7 +27,7 @@ export default function AdminDashboard() {
     if (enteredPassword === correctPassword) {
       localStorage.setItem("adminAccess", "granted");
       setIsAuthenticated(true);
-      setEnteredPassword(""); // Reset input field
+      forceUpdate((prev) => prev + 1); // 🔥 Force a re-render to apply changes
     } else {
       alert("Incorrect password! Try again.");
       setEnteredPassword(""); // Reset input field
@@ -36,6 +37,7 @@ export default function AdminDashboard() {
   const handleLogout = () => {
     localStorage.removeItem("adminAccess");
     setIsAuthenticated(false);
+    forceUpdate((prev) => prev + 1); // 🔥 Force re-render
   };
 
   // 🚀 **Fix: Prevent blank screen by ensuring authentication check is complete**
