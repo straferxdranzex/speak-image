@@ -15,7 +15,7 @@ const AboutUs = lazy(() => import("./pages/AboutUs"));
 const ContactUs = lazy(() => import("./pages/ContactUs"));
 const Pricing = lazy(() => import("./pages/Pricing"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
-const AdminDashboard = lazy(() => import("./pages/Admin/AdminDashboard"));
+const AdminDashboard = lazy(() => import("./pages/Dashboard/AdminDashboard"));
 const SuccessPage = lazy(() => import("./pages/SuccessPage"));
 const CancelPage = lazy(() => import("./pages/CancelPage"));
 
@@ -140,7 +140,7 @@ const AppRoutes: React.FC = () => {
               </ProtectedRoute>
             }
           />
-          <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>}/>
+          <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
