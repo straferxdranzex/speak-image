@@ -11,7 +11,7 @@ export default function AdminDashboard() {
     localStorage.getItem("adminAccess") === "granted"
   );
 
-  const correctPassword = "KaRMeL@12345!"; 
+  const correctPassword = "openuse1!"; 
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
