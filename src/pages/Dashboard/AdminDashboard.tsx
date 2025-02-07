@@ -8,14 +8,17 @@ import type { User, UserStats, SubscriberTiers, UserChanges } from "../../types/
 export default function AdminDashboard() {
   const [enteredPassword, setEnteredPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const correctPassword = "openuse1!"; 
 
-  // 🟢 Check localStorage for authentication on mount
+  // ✅ Check localStorage on mount & re-render when state updates
   useEffect(() => {
-    if (localStorage.getItem("adminAccess") === "granted") {
+    const storedAuth = localStorage.getItem("adminAccess");
+    if (storedAuth === "granted") {
       setIsAuthenticated(true);
     }
+    setLoading(false);
   }, []);
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
@@ -23,25 +26,29 @@ export default function AdminDashboard() {
     if (enteredPassword === correctPassword) {
       localStorage.setItem("adminAccess", "granted");
       setIsAuthenticated(true);
+      window.location.reload(); // ✅ FORCE RELOAD TO ENSURE REQUESTS ARE SENT
     } else {
       alert("Incorrect password! Try again.");
-      setEnteredPassword(""); // Reset input field
+      setEnteredPassword(""); // Clear input
     }
   };
 
   const handleLogout = () => {
     localStorage.removeItem("adminAccess");
     setIsAuthenticated(false);
+    window.location.reload(); // ✅ FORCE RELOAD TO LOG OUT COMPLETELY
   };
 
-  // ✅ Show password prompt **if not authenticated**
+  // ✅ Prevent blank screen on first load
+  if (loading) {
+    return <div className="h-screen flex items-center justify-center">Loading...</div>;
+  }
+
+  // ✅ Show password form if not authenticated
   if (!isAuthenticated) {
     return (
       <div className="h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
-        <form 
-          onSubmit={handlePasswordSubmit} 
-          className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"
-        >
+        <form onSubmit={handlePasswordSubmit} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Enter Admin Password</h2>
           <input
             type="password"
@@ -61,7 +68,7 @@ export default function AdminDashboard() {
     );
   }
 
-  // ✅ If authenticated, show the admin dashboard
+  // ✅ Fetch dashboard data when authenticated
   const [activeTab, setActiveTab] = useState("overview");
   const [users, setUsers] = useState<User[]>([]);
   const [stats, setStats] = useState<UserStats | null>(null);
