@@ -11,15 +11,17 @@ export default function AdminDashboard() {
     localStorage.getItem("adminAccess") === "granted"
   );
 
-  const correctPassword = "openuse1!"; 
+  const correctPassword = "openuse1!";
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (enteredPassword === correctPassword) {
       localStorage.setItem("adminAccess", "granted");
       setIsAuthenticated(true);
+      window.location.reload(); // 🔹 Immediately refresh to avoid blank screen
     } else {
       alert("Incorrect password! Try again.");
+      setEnteredPassword(""); // Reset input field
     }
   };
 
@@ -27,12 +29,12 @@ export default function AdminDashboard() {
     return (
       <div className="h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
         <form onSubmit={handlePasswordSubmit} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-bold mb-4">Enter Admin Password</h2>
+          <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Enter Admin Password</h2>
           <input
             type="password"
             value={enteredPassword}
             onChange={(e) => setEnteredPassword(e.target.value)}
-            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md mb-4"
+            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md mb-4 text-gray-900 dark:text-white bg-white dark:bg-gray-700"
             placeholder="Enter password"
           />
           <button
@@ -62,7 +64,7 @@ export default function AdminDashboard() {
           fetchSubscriberTiers(),
           fetchUserChanges(),
         ]);
-        
+
         setUsers(usersData);
         setStats(statsData);
         setTiers(tiersData);
