@@ -8,18 +8,14 @@ import type { User, UserStats, SubscriberTiers, UserChanges } from "../../types/
 export default function AdminDashboard() {
   const [enteredPassword, setEnteredPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [hasCheckedAuth, setHasCheckedAuth] = useState(false);
-  const [, forceUpdate] = useState(0); // 🟢 Force a re-render
 
   const correctPassword = "openuse1!"; 
 
-  // 🟢 Check if the user is already authenticated
+  // 🟢 Check localStorage for authentication on mount
   useEffect(() => {
-    const storedAuth = localStorage.getItem("adminAccess");
-    if (storedAuth === "granted") {
+    if (localStorage.getItem("adminAccess") === "granted") {
       setIsAuthenticated(true);
     }
-    setHasCheckedAuth(true); // Prevents blank screen issue
   }, []);
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
@@ -27,7 +23,6 @@ export default function AdminDashboard() {
     if (enteredPassword === correctPassword) {
       localStorage.setItem("adminAccess", "granted");
       setIsAuthenticated(true);
-      forceUpdate((prev) => prev + 1); // 🔥 Force a re-render to apply changes
     } else {
       alert("Incorrect password! Try again.");
       setEnteredPassword(""); // Reset input field
@@ -37,15 +32,9 @@ export default function AdminDashboard() {
   const handleLogout = () => {
     localStorage.removeItem("adminAccess");
     setIsAuthenticated(false);
-    forceUpdate((prev) => prev + 1); // 🔥 Force re-render
   };
 
-  // 🚀 **Fix: Prevent blank screen by ensuring authentication check is complete**
-  if (!hasCheckedAuth) {
-    return <div className="h-screen flex items-center justify-center text-lg">Loading...</div>;
-  }
-
-  // 🚀 **Fix: Ensure re-render after authentication**
+  // ✅ Show password prompt **if not authenticated**
   if (!isAuthenticated) {
     return (
       <div className="h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
@@ -72,7 +61,7 @@ export default function AdminDashboard() {
     );
   }
 
-  // ✅ **Authenticated! Render the dashboard**
+  // ✅ If authenticated, show the admin dashboard
   const [activeTab, setActiveTab] = useState("overview");
   const [users, setUsers] = useState<User[]>([]);
   const [stats, setStats] = useState<UserStats | null>(null);
