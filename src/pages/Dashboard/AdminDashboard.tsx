@@ -74,11 +74,12 @@ export default function AdminDashboard() {
     const loadData = async () => {
       try {
         const [usersData, statsData, tiersData, changesData] = await Promise.all([
-          fetchUsers(`?_=${Date.now()}`),
-          fetchUserStats(`?_=${Date.now()}`),
-          fetchSubscriberTiers(`?_=${Date.now()}`),
-          fetchUserChanges(`?_=${Date.now()}`),
+          fetchUsers(),
+          fetchUserStats(),
+          fetchSubscriberTiers(),
+          fetchUserChanges(),
         ]);
+
 
         setUsers(usersData);
         setStats(statsData);
