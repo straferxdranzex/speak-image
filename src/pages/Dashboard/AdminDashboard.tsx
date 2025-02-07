@@ -12,13 +12,13 @@ export default function AdminDashboard() {
 
   const correctPassword = "openuse1!"; 
 
-  // Check if the user is already authenticated (without causing blank screen)
+  // Check if the user is already authenticated
   useEffect(() => {
     const storedAuth = localStorage.getItem("adminAccess");
     if (storedAuth === "granted") {
       setIsAuthenticated(true);
     }
-    setHasCheckedAuth(true); // Ensure component knows it has checked auth
+    setHasCheckedAuth(true); // Prevents blank screen issue
   }, []);
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
@@ -26,6 +26,7 @@ export default function AdminDashboard() {
     if (enteredPassword === correctPassword) {
       localStorage.setItem("adminAccess", "granted");
       setIsAuthenticated(true);
+      setEnteredPassword(""); // Reset input field
     } else {
       alert("Incorrect password! Try again.");
       setEnteredPassword(""); // Reset input field
@@ -37,16 +38,19 @@ export default function AdminDashboard() {
     setIsAuthenticated(false);
   };
 
-  // Prevent blank screen by ensuring auth check finishes
+  // 🚀 **Fix: Prevent blank screen by ensuring authentication check is complete**
   if (!hasCheckedAuth) {
-    return <div className="h-screen flex items-center justify-center">Loading...</div>;
+    return <div className="h-screen flex items-center justify-center text-lg">Loading...</div>;
   }
 
-  // Show password form if not authenticated
+  // 🚀 **Fix: Ensure re-render after authentication**
   if (!isAuthenticated) {
     return (
       <div className="h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
-        <form onSubmit={handlePasswordSubmit} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+        <form 
+          onSubmit={handlePasswordSubmit} 
+          className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"
+        >
           <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Enter Admin Password</h2>
           <input
             type="password"
@@ -66,7 +70,7 @@ export default function AdminDashboard() {
     );
   }
 
-  // Continue with dashboard rendering if authenticated
+  // ✅ **Authenticated! Render the dashboard**
   const [activeTab, setActiveTab] = useState("overview");
   const [users, setUsers] = useState<User[]>([]);
   const [stats, setStats] = useState<UserStats | null>(null);
