@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Users, BarChart3, Users2, UserPlus } from "lucide-react";
+import { Users, BarChart3, Users2, UserPlus, LogOut } from "lucide-react";
 import { StatsCard } from "./Components/StatsCard";
 import { UsersTable } from "./Components/UsersTable";
 import { fetchUsers, fetchUserStats, fetchSubscriberTiers, fetchUserChanges } from "../../lib/api";
@@ -11,7 +11,14 @@ export default function AdminDashboard() {
     localStorage.getItem("adminAccess") === "granted"
   );
 
-  const correctPassword = "openuse1!"; 
+  const correctPassword = "openuse1!"; // Change this to your actual password
+
+  useEffect(() => {
+    // Check if user is authenticated on mount
+    if (localStorage.getItem("adminAccess") === "granted") {
+      setIsAuthenticated(true);
+    }
+  }, []);
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,16 +30,27 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("adminAccess");
+    setIsAuthenticated(false);
+    setEnteredPassword("");
+  };
+
   if (!isAuthenticated) {
     return (
       <div className="h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
-        <form onSubmit={handlePasswordSubmit} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-bold mb-4">Enter Admin Password</h2>
+        <form
+          onSubmit={handlePasswordSubmit}
+          className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-96"
+        >
+          <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
+            Enter Admin Password
+          </h2>
           <input
             type="password"
             value={enteredPassword}
             onChange={(e) => setEnteredPassword(e.target.value)}
-            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md mb-4"
+            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md mb-4 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white"
             placeholder="Enter password"
           />
           <button
@@ -62,7 +80,7 @@ export default function AdminDashboard() {
           fetchSubscriberTiers(),
           fetchUserChanges(),
         ]);
-        
+
         setUsers(usersData);
         setStats(statsData);
         setTiers(tiersData);
@@ -86,6 +104,13 @@ export default function AdminDashboard() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+          <button
+            onClick={handleLogout}
+            className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md flex items-center gap-2"
+          >
+            <LogOut className="w-5 h-5" />
+            Logout
+          </button>
         </div>
 
         {/* Tabs */}
@@ -97,9 +122,10 @@ export default function AdminDashboard() {
                 onClick={() => setActiveTab(id)}
                 className={`
                   py-4 px-1 border-b-2 font-medium text-sm flex items-center space-x-2
-                  ${activeTab === id
-                    ? "border-blue-500 text-blue-600 dark:text-blue-400"
-                    : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 hover:border-gray-300"
+                  ${
+                    activeTab === id
+                      ? "border-blue-500 text-blue-600 dark:text-blue-400"
+                      : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 hover:border-gray-300"
                   }
                 `}
               >
@@ -117,22 +143,22 @@ export default function AdminDashboard() {
               <StatsCard
                 title="Daily Users"
                 value={stats.daily_users}
-                icon={<Users className="w-6 h-6" />}
+                icon={<Users className="w-6 h-6 text-gray-900 dark:text-white" />}
               />
               <StatsCard
                 title="Weekly Users"
                 value={stats.weekly_users}
-                icon={<Users className="w-6 h-6" />}
+                icon={<Users className="w-6 h-6 text-gray-900 dark:text-white" />}
               />
               <StatsCard
                 title="Monthly Users"
                 value={stats.monthly_users}
-                icon={<Users className="w-6 h-6" />}
+                icon={<Users className="w-6 h-6 text-gray-900 dark:text-white" />}
               />
               <StatsCard
                 title="New Users (Last Week)"
                 value={changes.new_users}
-                icon={<UserPlus className="w-6 h-6" />}
+                icon={<UserPlus className="w-6 h-6 text-gray-900 dark:text-white" />}
                 trend={{
                   value: ((changes.new_users - changes.cancelled_users) / changes.new_users) * 100,
                   isPositive: changes.new_users > changes.cancelled_users,
@@ -157,7 +183,7 @@ export default function AdminDashboard() {
                   key={tier}
                   title={`${tier.charAt(0).toUpperCase() + tier.slice(1)} Plan`}
                   value={count}
-                  icon={<Users2 className="w-6 h-6" />}
+                  icon={<Users2 className="w-6 h-6 text-gray-900 dark:text-white" />}
                 />
               ))}
             </div>
