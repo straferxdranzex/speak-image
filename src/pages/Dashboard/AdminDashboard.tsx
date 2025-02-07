@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
-import { Users, BarChart3, Users2, UserPlus } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie"; // Import for handling cookies
+import { Users, BarChart3, Users2, UserPlus, LogOut } from "lucide-react";
 import { StatsCard } from "./Components/StatsCard";
 import { UsersTable } from "./Components/UsersTable";
 import { fetchUsers, fetchUserStats, fetchSubscriberTiers, fetchUserChanges } from "../../lib/api";
 import type { User, UserStats, SubscriberTiers, UserChanges } from "../../types/api";
 
 export default function AdminDashboard() {
+  const navigate = useNavigate();
   const [enteredPassword, setEnteredPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(
     localStorage.getItem("adminAccess") === "granted"
@@ -23,6 +26,16 @@ export default function AdminDashboard() {
       alert("Incorrect password! Try again.");
       setEnteredPassword(""); // Reset input field
     }
+  };
+
+  const handleLogout = () => {
+    // 🔹 Remove admin access & clear authentication cookies
+    localStorage.removeItem("adminAccess");
+    Cookies.remove("userToken"); // Remove JWT session token
+
+    // 🔹 Redirect to login page
+    navigate("/get-started");
+    window.location.reload();
   };
 
   if (!isAuthenticated) {
@@ -88,6 +101,12 @@ export default function AdminDashboard() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+          <button 
+            onClick={handleLogout} 
+            className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md flex items-center"
+          >
+            <LogOut className="w-5 h-5 mr-2" /> Logout
+          </button>
         </div>
 
         {/* Tabs */}
