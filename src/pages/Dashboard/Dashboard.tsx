@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Users, BarChart3, Users2, UserPlus } from 'lucide-react';
-import { StatsCard } from './components/StatsCard';
-import { UsersTable } from './components/UsersTable';
+import { StatsCard } from './Components/StatsCard';
+import { UsersTable } from './Components/UsersTable';
 import { fetchUsers, fetchUserStats, fetchSubscriberTiers, fetchUserChanges } from '../../lib/api';
 import type { User, UserStats, SubscriberTiers, UserChanges } from '../../types/api';
 
