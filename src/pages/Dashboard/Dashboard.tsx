@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Users, BarChart3, Users2, UserPlus } from 'lucide-react';
-import { StatsCard } from './Dashboard/components/StatsCard';
-import { UsersTable } from './Dashboard/components/UsersTable';
-import { fetchUsers, fetchUserStats, fetchSubscriberTiers, fetchUserChanges } from '../lib/api';
-import type { User, UserStats, SubscriberTiers, UserChanges } from '../types/api';
+import { StatsCard } from './components/StatsCard';
+import { UsersTable } from './components/UsersTable';
+import { fetchUsers, fetchUserStats, fetchSubscriberTiers, fetchUserChanges } from '../../lib/api';
+import type { User, UserStats, SubscriberTiers, UserChanges } from '../../types/api';
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('overview');
