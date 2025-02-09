@@ -17,7 +17,6 @@ import { useTheme } from "../../lib/ThemeProvider";
 import Sidebar from "./Sidebar";
 
 import { Avatar, AvatarFallback } from "../../components/ui/Avatar";
-
 import { LogOut, User } from "lucide-react";
 
 import {
@@ -30,6 +29,8 @@ import {
 
 import ImageModal from "./ImageModal";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+import Popup from "../../components/ui/Popup";
 
 const getCookie = (name: string) => {
   const value = `; ${document.cookie}`;
@@ -93,6 +94,7 @@ const HomeLayout = () => {
   const [extended, setExtended] = useState(false);
   const [modalImage, setModalImage] = useState<string | null>(null);
   const [isAtBottom, setIsAtBottom] = useState(true);
+  const [isLimitFull, setIsLimitFull] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState(
     "Generating response..."
   );
@@ -236,9 +238,58 @@ const HomeLayout = () => {
   }, [urlThreadId]);
 
   useEffect(() => {
+    if (!selectedPlan) return;
+    switch (selectedPlan?.plan?.toLowerCase()) {
+      case "basic":
+        if (40 - selectedPlan?.prompt_credits >= 40) {
+          setIsLimitFull(true);
+        }
+        break;
+      case "premium":
+      case "pro":
+        setIsLimitFull(false);
+        break;
+      default:
+        if (5 - selectedPlan?.prompt_credits >= 5) {
+          setIsLimitFull(true);
+        }
+    }
+  }, [selectedPlan]);
+
+  useEffect(() => {
     if (allChats.length > 0 && threadId) {
       const chatIdToLoad = urlThreadId || threadId;
       const selectedChat = allChats.find((chat) => chat._id === chatIdToLoad);
+
+      const token = Cookies.get("userToken");
+      const id = Cookies.get("userId");
+
+      if (!token || !id) {
+        alert("You must log in to subscribe to a plan.");
+        return;
+      }
+
+      axios
+        .get(`https://api.speakimage.ai/api/user-credits/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+          },
+          withCredentials: true,
+        })
+        .then((response) => {
+          console.log(response.data);
+          setSelectedPlan(
+            response.data || {
+              user_id: "",
+              plan: "free",
+              prompt_credits: 0,
+              credit_refresh_period: "",
+            }
+          );
+        })
+        .catch((error) => {
+          console.error("Error fetching user plan:", error);
+        });
 
       if (selectedChat) {
         loadChatHistory(chatIdToLoad);
@@ -381,6 +432,49 @@ const HomeLayout = () => {
       }
 
       clearTimeout(timer);
+
+      if (allChats.length > 0 && threadId) {
+        const chatIdToLoad = urlThreadId || threadId;
+        const selectedChat = allChats.find((chat) => chat._id === chatIdToLoad);
+
+        const token = Cookies.get("userToken");
+        const id = Cookies.get("userId");
+
+        if (!token || !id) {
+          alert("You must log in to subscribe to a plan.");
+          return;
+        }
+
+        axios
+          .get(`https://api.speakimage.ai/api/user-credits/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+            },
+            withCredentials: true,
+          })
+          .then((response) => {
+            console.log(response.data);
+            setSelectedPlan(
+              response.data || {
+                user_id: "",
+                plan: "free",
+                prompt_credits: 0,
+                credit_refresh_period: "",
+              }
+            );
+          })
+          .catch((error) => {
+            console.error("Error fetching user plan:", error);
+          });
+
+        if (selectedChat) {
+          loadChatHistory(chatIdToLoad);
+        } else if (chatIdToLoad === "new") {
+          // console.log("new chat");
+        } else {
+          console.error("Chat not found for ID:", chatIdToLoad);
+        }
+      }
 
       // Update the chat history
       setChatHistory((prevHistory) =>
@@ -579,7 +673,7 @@ const HomeLayout = () => {
                             switch (selectedPlan?.plan?.toLowerCase()) {
                               case "basic":
                                 return `Credits: ${
-                                  selectedPlan?.prompt_credits || 0
+                                  40 - selectedPlan?.prompt_credits || 0
                                 }/40`;
                               case "premium":
                                 return `Credits: Unlimited`;
@@ -587,7 +681,7 @@ const HomeLayout = () => {
                                 return `Credits: Unlimited`;
                               default:
                                 return `Credits: ${
-                                  selectedPlan?.prompt_credits || 0
+                                  5 - selectedPlan?.prompt_credits || 0
                                 }/5`;
                             }
                           })()}
@@ -761,19 +855,23 @@ const HomeLayout = () => {
         </div>
 
         <div className="pt-2 bg-card bottom-0 w-full px-5 flex flex-col items-center">
-          <div className="flex max-sm:flex-wrap items-center sm:gap-5 bg-card-2 rounded-full py-1 sm:py-2.5 px-2 sm:px-5 mb-1 w-full sm:w-[80%] xl:w-1/2">
+          <div
+            className={`${
+              isLimitFull ? "pointer-events-none" : ""
+            } flex max-sm:flex-wrap items-center sm:gap-5 bg-card-2 rounded-full py-1 sm:py-2.5 px-2 sm:px-5 mb-1 w-full sm:w-[80%] xl:w-1/2`}
+          >
             <input
               className="disabled:opacity-50 flex-shrink-0 flex-1 bg-transparent border-0 outline-none p-2 text-base sm:text-lg text-foreground placeholder-text-light min-w-24"
               onChange={handleInputChange}
               onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
               value={prompt}
               placeholder={
-                chatHistory.some((chat) => chat.loading)
+                chatHistory.some((chat) => chat.loading) || isLimitFull
                   ? "Please wait"
                   : "Enter the Prompt Here"
               }
               aria-label="Chat input"
-              disabled={chatHistory.some((chat) => chat.loading)}
+              disabled={chatHistory.some((chat) => chat.loading) || isLimitFull}
             />
             {chatHistory.some((chat) => chat.loading) ? (
               <div
@@ -793,6 +891,7 @@ const HomeLayout = () => {
                         aria-label="Stop Loading"
                         role="button"
                         tabIndex={0}
+                        disabled={isLimitFull}
                       >
                         <FaRegCircleStop className="text-text sm:text-lg" />
                       </button>
@@ -805,7 +904,7 @@ const HomeLayout = () => {
                 aria-label="Send Message"
                 role="button"
                 tabIndex={0}
-                className="cursor-pointer px-2 relative"
+                className={`cursor-pointer px-2 relative`}
               >
                 <GradientSendIcon />
               </div>
@@ -817,6 +916,8 @@ const HomeLayout = () => {
           </p>
         </div>
       </main>
+
+      <AnimatePresence>{isLimitFull && <Popup />}</AnimatePresence>
     </section>
   );
 };

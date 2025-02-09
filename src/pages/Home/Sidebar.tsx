@@ -7,7 +7,6 @@ import { PiMoon } from "react-icons/pi";
 import { Option, ToggleClose } from "./SidebarOptions";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaDollarSign } from "react-icons/fa6";
-
 import { useTheme } from "../../lib/ThemeProvider";
 
 const sidebarVariants = {
@@ -97,7 +96,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     switch (selectedPlan?.plan?.toLowerCase()) {
                       case "basic":
                         return `Credits: ${
-                          selectedPlan?.prompt_credits || 0
+                          40 - selectedPlan?.prompt_credits || 0
                         }/40`;
                       case "premium":
                         return `Credits: Unlimited`;
@@ -105,7 +104,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         return `Credits: Unlimited`;
                       default:
                         return `Credits: ${
-                          selectedPlan?.prompt_credits || 0
+                          5 - selectedPlan?.prompt_credits || 0
                         }/5`;
                     }
                   })()}
@@ -123,8 +122,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 style={{
                   width: `${
                     selectedPlan?.plan?.toLowerCase() === "basic"
-                      ? ((selectedPlan?.prompt_credits || 0) / 40) * 100
-                      : ((selectedPlan?.prompt_credits || 0) / 5) * 100
+                      ? ((40 - selectedPlan?.prompt_credits || 0) / 40) * 100
+                      : ((5 - selectedPlan?.prompt_credits || 0) / 5) * 100
                   }%`,
                 }}
                 className="dark:bg-white/80 bg-black rounded-sm"
