@@ -103,7 +103,7 @@ const HomeLayout = () => {
   const [selectedPlan, setSelectedPlan] = useState({
     user_id: "",
     plan: "free",
-    prompt_credits: 0,
+    prompt_credits: 5,
     credit_refresh_period: "",
   }); // Default plan is "free"
 
@@ -150,7 +150,7 @@ const HomeLayout = () => {
             response.data || {
               user_id: "",
               plan: "free",
-              prompt_credits: 0,
+              prompt_credits: 5,
               credit_refresh_period: "",
             }
           );
@@ -243,6 +243,8 @@ const HomeLayout = () => {
       case "basic":
         if (40 - selectedPlan?.prompt_credits >= 40) {
           setIsLimitFull(true);
+        } else {
+          setIsLimitFull(false);
         }
         break;
       case "premium":
@@ -252,6 +254,8 @@ const HomeLayout = () => {
       default:
         if (5 - selectedPlan?.prompt_credits >= 5) {
           setIsLimitFull(true);
+        } else {
+          setIsLimitFull(false);
         }
     }
   }, [selectedPlan]);
@@ -282,7 +286,7 @@ const HomeLayout = () => {
             response.data || {
               user_id: "",
               plan: "free",
-              prompt_credits: 0,
+              prompt_credits: 5,
               credit_refresh_period: "",
             }
           );
