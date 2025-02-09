@@ -438,9 +438,6 @@ const HomeLayout = () => {
       clearTimeout(timer);
 
       if (allChats.length > 0 && threadId) {
-        const chatIdToLoad = urlThreadId || threadId;
-        const selectedChat = allChats.find((chat) => chat._id === chatIdToLoad);
-
         const token = Cookies.get("userToken");
         const id = Cookies.get("userId");
 
@@ -457,7 +454,6 @@ const HomeLayout = () => {
             withCredentials: true,
           })
           .then((response) => {
-            console.log(response.data);
             setSelectedPlan(
               response.data || {
                 user_id: "",
@@ -470,14 +466,6 @@ const HomeLayout = () => {
           .catch((error) => {
             console.error("Error fetching user plan:", error);
           });
-
-        if (selectedChat) {
-          loadChatHistory(chatIdToLoad);
-        } else if (chatIdToLoad === "new") {
-          // console.log("new chat");
-        } else {
-          console.error("Chat not found for ID:", chatIdToLoad);
-        }
       }
 
       // Update the chat history
